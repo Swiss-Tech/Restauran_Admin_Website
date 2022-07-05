@@ -99,36 +99,6 @@ export const login = (user) => (dispatch) => {
     }
   );
 };
-// export const login = (user) => (dispatch) => {
-//   return login_function(user).then(
-//     (response) => {
-//       console.log("Whatus up in login");
-//       console.log(response);
-//       console.log("where is the data");
-//       // dispatch({
-//       //   type: response.type,
-//       //   payload: { token: response.payload },
-//       // });
-//       // return Promise.resolve();
-//     },
-//     (error) => {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString();
-//       dispatch({
-//         type: LOGIN_FAIL,
-//       });
-//       dispatch({
-//         type: SET_MESSAGE,
-//         payload: message,
-//       });
-//       return Promise.reject();
-//     }
-//   );
-// };
 
 export const logout = () => (dispatch) => {
   logout_function();

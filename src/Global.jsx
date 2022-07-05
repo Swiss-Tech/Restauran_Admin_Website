@@ -22,7 +22,20 @@ button {
 
        
     }
+    textarea{
+        border:none ;
+        border-radius:15px ;
+        background-color: #f8f8f8;
+    }
+
     input:focus{
+        border:2px solid ${({theme})=>theme.colors.border} ;
+        border-radius:15px ;
+        background-color: #f8f8f8;
+        outline:none ;
+        box-shadow:none ;
+    }
+    textarea:focus{
         border:2px solid ${({theme})=>theme.colors.border} ;
         border-radius:15px ;
         background-color: #f8f8f8;

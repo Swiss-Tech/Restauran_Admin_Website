@@ -22,8 +22,13 @@ export default function Signup() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const [showModal, setModal] = useState("");
+  const [showModal, setModal] = useState(false);
+  const [loading, setLoading] = useState("");
+  function toggleModal(value) {
+    setLoading(value);
+  }
 
+  console.log("in starting" + showModal);
   return (
     <StyledSignup>
       <div className="container-fluid vh-100 ">
@@ -33,6 +38,7 @@ export default function Signup() {
             Please Enter Your Credentials To Register
           </h6>
         </div>
+
         <div className="row justify-content-center align-items-center my-5 py-2">
           <div className="col-lg-4 col-12  col-sm-5 col-xl-3   pl-lg-5 ">
             <div className="form-group">
@@ -114,15 +120,18 @@ export default function Signup() {
         <div className="row d-flex flex-row justify-content-center align-items-center ">
           <div className=" justify-content-center d-flex ">
             <button
-              onClick={() =>
+              onClick={() => {
+                toggleModal(true);
                 ActionController.register({
                   firstName: firstName,
                   lastName: lastName,
                   email: email,
                   phoneNumber: phoneNumber,
                   password: password,
-                })
-              }
+                });
+                setModal(true);
+                toggleModal(false);
+              }}
               type="button"
               className="btn font-weight-normal h6 shadow-lg px-5 py-3 rounded-lg mb-4"
             >

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux/es/exports";
 import { bindActionCreators } from "redux";
 import { authactionCreators } from "./actions";
 import authHeader from "./services/auth-header";
+import RestaurantInformation from "./pages/restaurant-information/Restaurant_Information";
 
 const theme = {
   colors: {
@@ -36,12 +37,7 @@ export default function App() {
                 controller ? (
                   <Landing />
                 ) : authController.isLoggedIn ? (
-                  <div>
-                    Hello
-                    <button onClick={() => console.log(authHeader())}>
-                      Logout
-                    </button>
-                  </div>
+                  <RestaurantInformation />
                 ) : (
                   <Login />
                 )
