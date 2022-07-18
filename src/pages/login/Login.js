@@ -45,7 +45,7 @@ export default function Login() {
                   <div className="modal-footer flex-column border-top-0">
                     <button
                       type="button"
-                      className="btn btn-lg btn-light w-100 mx-0"
+                      className="btn btn-lg btn-light w-100 mx-0 "
                       data-bs-dismiss="modal"
                       onClick={() => {
                         window.location.reload(false);
@@ -74,6 +74,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+      
       <div className="container-fluid vh-100">
         <div className="row  h-100 justify-content-center align-items-center">
           <div className="col-lg-6 col-12 col-md-10 col-xl-4  justify-content-center align-items-center d-flex flex-column">
@@ -96,6 +97,18 @@ export default function Login() {
                     autoFocus
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                  <div className="form-control-feedback text-danger" style={ email ?{
+
+display:'none'
+                    }:{
+                    }}>
+        Please Enter email.
+      </div>
+                  <div className="form-control-feedback text-success" style={(email)?{
+                    
+                  }:{display:'none'}}>
+      Looks good!
+    </div>
                 </div>
 
                 <div className="form-group">
@@ -109,34 +122,50 @@ export default function Login() {
                     placeholder=""
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                   <div className="form-control-feedback text-danger" style={ password ?{
+
+display:'none'
+                    }:{
+                    }}>
+        Please Enter password.
+      </div>
+                  <div className="form-control-feedback text-success" style={password?{
+                    
+                  }:{display:'none'}}>
+      Looks good!
+    </div>
                 </div>
+               
               </form>
             </div>
 
             <button
               onClick={async () => {
-                toggleModal(true);
+                if(password && email){
+                  toggleModal(true);
 
-                //
-                //  ActionController.login({ email: email, password: password });
+//
+//  ActionController.login({ email: email, password: password });
 
-                await ActionController.login({
-                  email: email,
-                  password: password,
-                })
-                  .then(() => {
-                    console.log("login sucess");
-                    console.log(controller.message.message);
-                    //  window.location.reload();
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
-                setModal(true);
-                toggleModal(false);
+await ActionController.login({
+  email: email,
+  password: password,
+})
+  .then(() => {
+    console.log("login sucess");
+    console.log(controller.message.message);
+    //  window.location.reload();
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+setModal(true);
+toggleModal(false);
+                }
+               
               }}
               type="button"
-              className="btn font-weight-normal h6 shadow-lg px-5 col-xl-4 col-8 py-3 rounded-lg mb-4"
+              className="customButton shadow-lg px-5  rounded-lg mb-4"
             >
               login
             </button>

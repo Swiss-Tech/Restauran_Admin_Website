@@ -63,6 +63,7 @@ export async function register_function(user) {
       .then((result) => {
         // if and else statement to store the token
         if (result.success) {
+          
           localStorage.setItem("token", JSON.stringify(result.data));
           return result;
         }

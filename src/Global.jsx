@@ -1,11 +1,15 @@
 import styled from "styled-components";
   const GlobalStyle = styled.section`
-button {
+.customButton {
     
     background-color:${({theme})=>theme.colors.primary} ;
         color:black ;     
         border:none ;
         font-weight :700;
+        height:50px;
+        width:25%;
+        border-radius:10px;
+       
         
         &:hover{
             background-color:white ;
@@ -13,6 +17,38 @@ button {
         }
 
     }
+
+    .finshButton{
+        background-color:${({theme})=>theme.colors.primary} ;
+        color:black ;     
+        border:none ;
+        font-weight :700;
+        width:80%;
+        height:50px;
+        border-radius:10px;
+        
+        &:hover{
+            background-color:white ;
+        color:orange ;
+        }
+    }
+
+   #dropdown-basic{
+    background-color:${({theme})=>theme.colors.primary} ;
+        color:black ;     
+        border:none ;
+        font-weight :700;
+        height:50px;
+        border:none;
+        background-color:white ;
+        width:80%;
+        border-radius:10px;
+        
+        &:hover{
+            
+        color:orange ;
+        }
+   } 
 
     input {
         height:60px ;

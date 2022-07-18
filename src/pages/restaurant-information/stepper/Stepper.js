@@ -1,10 +1,6 @@
-import React, { Component, useState, useEffect, useRef } from "react";
+import React, {  useState, useEffect} from "react";
 import StepperHeader from "./stepper-header/StepperHeader";
 import { StyledStepper } from "./styled/StyledStepper";
-import { IoImageOutline } from "react-icons/io5";
-import styled from "styled-components";
-
-import VerticalLinearStepper from "./stepperexample";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -13,27 +9,27 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { StyledEngineProvider } from "@mui/material/styles";
-import { ImagePicker } from "./Image_Picker";
-import { StepperComponent } from "./stepperexample";
-export default function StepperPage() {
-  const [activeStep, setActiveStep] = useState(0);
+import { ImagePicker ,RestaurantImage} from "./Image_Picker";
+import StepperLableIcon from "./stepper-header/StepperLableIcon";
 
+
+
+export default function StepperPage() {
+  
+  const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
-
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
   const handleReset = () => {
     setActiveStep(0);
+  };
+  const isStepFailed = (step) => {
+    return step === 1;
   };
   // step1 form
   const [restaurantName, setRestaurantName] = useState();
@@ -41,6 +37,7 @@ export default function StepperPage() {
   const [restaurantEmail, setRestaurantEmail] = useState();
   const [restaurantLocation, setRestaurantLocation] = useState();
   const [restaurantDescription, setRestaurantDescription] = useState();
+  // step 2
   const [openAt, setOpetAtTime] = useState("10:00");
   const [closeAt, setColseAtTime] = useState("10:00");
 
@@ -56,7 +53,8 @@ export default function StepperPage() {
   const [restaurantImage2, setRestarantImage2] = useState();
   const [restaurantImage3, setRestarantImage3] = useState();
   const [restaurantImage4, setRestarantImage4] = useState();
-
+  
+  
   const days = [
     "Sunday",
     "Monday",
@@ -67,249 +65,350 @@ export default function StepperPage() {
     "Saturday",
   ];
 
+ const  stepOneValidation=()=>{
+  if( !restaurantEmail || !logoUrl || !restaurantName  || !restaurantNumber  || !restaurantLocation  ){
+    return false;
+    
+  }
+  else{
+    return true;
+  }
+ }
+  
+ const [workingDays, setWorkingDays] = useState({
+  days :[]
+});
+
+const handleWorkingDaysChange = (e) => {
+  // Destructuring
+  const { value, checked } = e.target;
+  const { days } = workingDays;
+  // Case 1 : The user checks the box
+  if (checked) {
+    setWorkingDays({
+      days: [...days, value],
+    
+    });
+  }
+  // Case 2  : The user unchecks the box
+  else {
+    setWorkingDays({
+      days: days.filter((e) => e !== value),
+    });
+  }
+ 
+};
+
+ const [sharedCosts, setSharedCosts] = useState({
+      costByPercent :[],
+      costByValue:[]
+
+ });
+const handleSharedCost =( isPercent,item)=>{
+  
+  const {name , price} = item;
+ const { costByPercent } = sharedCosts;
+
+
+  if(isPercent){
+        setSharedCosts({
+          costByPercent: [...costByPercent, {name,price}],
+        
+        })
+  }
+  else{
+console.log("by value");
+  }
+}
+
+const [itemName , setItemName] = useState();
+const [itemPrice, setItemPrice] = useState();
+
   return (
     <StyledStepper>
-      <StepperComponent />
-      <div className="row pl-2 ">
-        <div className="pl-2  p-0">
-          <div class="d-flex flex-column h-100 w-50 align-items-center">
-            <div className="progressNumberIndicator circle d-flex justify-content-center align-items-center font-weight-bold ">
-              1
-            </div>
-            <div className="progress-bar"></div>
-          </div>
-        </div>
-        <input className="d-none" type="file" />
-        <div class="col-xl-11 col-10">
-          <StepperHeader stepNumber={1} stepTitle={"Basic Infromation"} />
+    <StyledEngineProvider injectFirst>
+  <Stepper
+activeStep={activeStep}
+    orientation="vertical"
+    className="stepper container">
+  {/* step 1 */}
+  <Step>
 
-          {/* colapse */}
-          <div id="step_1">
-            <form className="needs-validation" id="step1FormGroup">
-              <div className="row bg-white py-4">
-                {/* image picker */}
-
-                <ImagePicker
-                  handleClick={setLogoUrl}
-                  imageUrl={logoUrl}
-                  id={"logo"}
-                />
-
-                {/* Restaurant Name and Phone Number */}
-                <div class="col-lg-4  justify-content-between d-flex flex-column">
-                  <div class="form-group">
-                    <label class="font-weight-normal h6 " for="restaurant-name">
+   <StepLabel icon={<StepperLableIcon activeStep={activeStep} step={1}/>}><StepperHeader stepNumber={1} stepTitle={"Basic Infromation"} /></StepLabel>
+   <StepContent>           
+  <form>
+  <div className="row bg-white py-4">
+    <div className="col-lg-4">
+    <ImagePicker handleClick={setLogoUrl} imageUrl={logoUrl}  id={"logo"} />
+    <div className="form-control-feedback text-danger" style={(logoUrl)?{
+                    display:'none'
+                  }:{}}>
+                    Restaurant Logo is required
+                  </div>
+    </div>
+     <div className="col-lg-4  justify-content-between d-flex flex-column">
+     {/* restaurant name */}
+    <div className="form-group">
+    <label className="font-weight-normal h6 " htmlFor="restaurant-name">
                       Resturant Name
                     </label>
                     <input
+                    
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       name="restaurantName"
                       id="restaurant-name"
+                      value={restaurantName}
+                      required
                       onChange={(e) => setRestaurantName(e.target.value)}
-                    />
-                  </div>
-
-                  {/* display error here */}
-                  {/* <!-- feedback message --> */}
-                  <div class="form-control-feedback text-danger">
+                    />    
+                    <div className="form-control-feedback text-danger" style={(restaurantName)?{
+                    display:'none'
+                  }:{}}>
                     Restaurant Name is required
                   </div>
                   {/* <!-- feedback message valid--> */}
-                  <div class="form-control-feedback text-success">
+                  <div className="form-control-feedback text-success" style={(restaurantName)?{
+                    
+                  }:{display:'none'}}>
                     Looks Good
                   </div>
+                   </div>
 
-                  <div class="form-group">
-                    <label class="font-weight-normal h6 " for="phone-number">
+                   {/* restaurant phone number */}
+                   <div className="form-group">
+                    <label className="font-weight-normal h6 " htmlFor="phone-number">
                       Phone number
                     </label>
                     <input
                       type="text"
-                      class="form-control"
-                      formControlName="phoneNumber"
+                      required
+                      className="form-control"
+                      formcontrolname="phoneNumber"
                       name="phoneNumber"
                       id="phone-number"
+                      value={restaurantNumber}
                       onChange={(e) => setRestaurantNumber(e.target.value)}
                     />
-                    {/* <!-- feedback message --> */}
-                    <div class="form-control-feedback text-danger">
-                      Phone Number is required
-                    </div>
-                    {/* <!-- feedback message valid--> */}
-                    <div class="form-control-feedback text-success">
-                      Looks Good
-                    </div>
+                    <div className="form-control-feedback text-danger" style={(restaurantNumber)?{
+                    display:'none'
+                  }:{}}>
+                    Restaurant Phone Number is required
                   </div>
-                </div>
-                <div class="col-lg-4  d-flex flex-column">
-                  {/* <!-- Location --> */}
-                  <div class="form-group">
-                    <label class="font-weight-normal h6 " for="location">
+                  {/* <!-- feedback message valid--> */}
+                  <div className="form-control-feedback text-success" style={(restaurantNumber)?{
+                    
+                  }:{display:'none'}}>
+                    Looks Good
+                  </div>
+                  </div>
+    </div>
+    <div className="col-lg-4  justify-content-between d-flex flex-column">
+
+    {/* location */}
+    <div className="form-group">
+    <label className="font-weight-normal h6 " htmlFor="phone-number">
                       Location
                     </label>
-                    <input
-                      required
-                      type="text"
-                      class="form-control"
-                      name=""
-                      formControlName="location"
-                      id="location"
-                      placeholder=""
-                      onChange={(e) => setRestaurantLocation(e.target.value)}
-                    />
-                    <div class="form-control-feedback text-danger">
-                      Location is required
-                    </div>
+    <input required type="text" class="form-control" name="" 
+                                id="location" value={ restaurantLocation } onChange={(e) => setRestaurantLocation(e.target.value)}  />
 
-                    <div class="form-control-feedback text-success">
-                      Looks Good
-                    </div>
-                    <div style={{ height: 26 }}></div>
+
+<div className="form-control-feedback text-danger" style={(restaurantLocation)?{
+                    display:'none'
+                  }:{}}>
+               Restaurant Location is required
+                  </div>
+                  {/* <!-- feedback message valid--> */}
+                  <div className="form-control-feedback text-success" style={(restaurantLocation)?{
+                    
+                  }:{display:'none'}}>
+                    Looks Good
                   </div>
 
-                  <div class="form-group">
-                    <label class="font-weight-normal h6 " for="email">
+                   
+                 
+                  
+                  
+                  </div>
+
+                  {/* email */}
+                  <div className="form-group">
+                    <label className="font-weight-normal h6 " htmlFor="email">
                       Email
                     </label>
                     <input
                       required
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       name=""
-                      formControlName="email"
+                      formcontrolname="email"
                       id="email"
                       placeholder=""
+                      value={restaurantEmail}
                       onChange={(e) => setRestaurantEmail(e.target.value)}
                     />
-                    <div class="form-control-feedback text-danger">
-                      Location is required
-                    </div>
-
-                    <div class="form-control-feedback text-success">
-                      Looks Good
-                    </div>
+                    <div className="form-control-feedback text-danger" style={(restaurantEmail )?{
+                    display:'none'
+                       }:{}}>
+                    Restaurant Email is required
                   </div>
-                </div>
-                <div class="col-lg-8 mt-3">
-                  <div class="form-group">
-                    <label class="font-weight-normal h6 " for="description">
+                  {/* <!-- feedback message valid--> */}
+                  <div className="form-control-feedback text-success" style={(restaurantEmail)?{
+                    
+                  }:{display:'none'}}>
+                    Looks Good
+                  </div>
+                  </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8 mt-3">
+                <div className="form-group">
+                    <label className="font-weight-normal h6 " htmlFor="description">
                       Short Description
                     </label>
                     <textarea
                       required
                       type="text"
                       rows="3"
-                      class="form-control"
+                      className="form-control"
                       name=""
-                      formControlName="shortDescription"
+                      formcontrolname="shortDescription"
                       id="description"
-                      placeholder=""
+                     value={ restaurantDescription } 
                       onChange={(e) => setRestaurantDescription(e.target.value)}
                     ></textarea>
                   </div>
                 </div>
-              </div>
-              <div>
+ 
+
+  
+  
+  </form>
+  <div>
                 <button
                   onClick={() => {
-                    //  moveToStep2()
-                    // !step1Collapsed
-                    console.log(restaurantName);
+                    handleNext();
+                    // if(stepOneValidation()){
+                    //   handleNext();
+                    // }
+                    
+                    
+                    
                   }}
-                  type="submit"
+                 
                   className="stepperContinueButton btn"
                 >
                   Continue
                 </button>
               </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      
 
-      {/* step 2 */}
-      <div class="row pl-2 ">
-        <div class="col-xl-11 col-10">
-          <StepperHeader stepNumber={2} stepTitle={"Working Days and Hours"} />
-          <div id="step_2">
-            <div class="dropdown-divider"></div>
-            <div class="row bg-white py-4">
-              <div class="col-lg-6 bg-">
+           
+        </StepContent>
+  </Step>
+
+  <Step>
+  <StepLabel icon={
+ <StepperLableIcon activeStep={activeStep} step={2}/>} >
+    <StepperHeader stepNumber={1} stepTitle={"Basic Infromation"} /></StepLabel>
+    
+    <StepContent>
+    <div id="step_2">
+            <div className="dropdown-divider"></div>
+            <div className="row bg-white py-4">
+              <div className="col-lg-6 bg-">
                 <form>
                   <h6>Dates</h6>
+             
                   <form>
-                    <div class="row" style={{ display: "flex" }}>
+                    <div className="row" style={{ display: "flex" }}>
                       <ul>
                         {days.map((element) => (
+                          
                           <li>
+
+                         
                             <input
                               type="checkbox"
                               id={element}
-                              name={element}
+                              name="workingDay"
                               value={element}
+                              onChange={handleWorkingDaysChange}
+                            
+                      
                             />
-                            <label for={element}>{element[0]}</label>
+                            <label for={element} onClick={()=>{
+
+                            
+                             
+                              // setWorkingDays.push(element);
+                              // console.log(workingDays.length);
+                            }}>{element[0]}</label>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div class="form-control-feedback text-danger">
+                    <div className="form-control-feedback text-danger" style={( workingDays.days.length > 0)?{
+
+display:'none'
+                    }:{
+                    }}>
                       Please Pick Work Days
                     </div>
-                    <div class="form-control-feedback text-success">
+                    <div className="form-control-feedback text-success" style={(workingDays.days.length > 0 )?{
+                     
+                    }:{
+                      display:'none'
+                    }}>
                       Looks Good
                     </div>
                   </form>
-                  <div class="dropdown-divider my-4"></div>
-                  <div class="row">
-                    <div class="col-lg-6 col-12">
-                      <h6 class="mb-3">Open at</h6>
+                  <div className="dropdown-divider my-4"></div>
+                  <div className="row">
+                    <div className="col-lg-6 col-12">
+                      <h6 className="mb-3">Open at</h6>
 
-                      <StyledEngineProvider injectFirst>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <TimePicker
-                            showToolbar={false}
-                            value={openAt}
-                            onChange={setOpetAtTime}
-                            renderInput={(params) => <TextField {...params} />}
-                            ampmInClock={false}
-                          />
-                        </LocalizationProvider>
-                      </StyledEngineProvider>
+                      <div>
+                      
+                        <input type="time"   onChange={setOpetAtTime}/>
+                      </div>
 
-                      <div class="form-control-feedback text-danger">
+                     
+
+                      <div className="form-control-feedback text-danger" style={( openAt) ? {
+                        display:'none'
+                      }:{}}>
                         Please Add time
                       </div>
 
-                      <div class="form-control-feedback text-success">
+                      <div className="form-control-feedback text-success" style={( openAt ) ?{}:{
+                        display:'none'
+                      }}>
                         Looks Good
                       </div>
                     </div>
 
-                    <div class="col-lg-6 mt-lg-0 mt-4">
-                      <h6 class="mb-3">Closes At</h6>
-                      <StyledEngineProvider injectFirst>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <TimePicker
-                            showToolbar={false}
-                            label=""
-                            value={closeAt}
-                            onChange={setColseAtTime}
-                            renderInput={(params) => <TextField {...params} />}
-                            ampmInClock={false}
-                          />
-                        </LocalizationProvider>
-                      </StyledEngineProvider>
-
-                      <timepicker formControlName="mTimeCloseCtrl"></timepicker>
-
-                      <div class="form-control-feedback text-danger">
+                    <div className="col-lg-6 mt-lg-0 mt-4">
+                      <h6 className="mb-3">Closes At</h6>
+                      <div>
+                        <input type="time" onChange={setColseAtTime} />
+                      </div>
+                     
+                      
+                      <div className="form-control-feedback text-danger" style={(closeAt) ?{
+                        display:'none'
+                      }:{}}>
                         Please Add time
                       </div>
 
-                      <div class="form-control-feedback text-success">
+                      <div className="form-control-feedback text-success" style={(closeAt) ?{
+
+                      }:{
+                        display:'none'
+                      }}>
                         Looks Good
                       </div>
                     </div>
@@ -317,8 +416,12 @@ export default function StepperPage() {
                 </form>
               </div>
             </div>
-            <div class="d-flex mt-4 twoButton">
-              <button type="button" class="previous_btn btn">
+            <div className="d-flex mt-4 twoButton">
+              <button type="button" className="previous_btn btn" onClick={()=>{
+              
+                handleBack();
+               
+              }}>
                 Previous
               </button>
 
@@ -326,6 +429,7 @@ export default function StepperPage() {
                 onClick={() => {
                   //  moveToStep2()
                   // !step1Collapsed
+                  handleNext();
                   console.log(restaurantName);
                 }}
                 type="submit"
@@ -335,136 +439,148 @@ export default function StepperPage() {
               </button>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Step 3 */}
-
-      <div className="row pl-2 ">
-        {/* header */}
-        <div className="pl-2  p-0">
-          <div class="d-flex flex-column h-100 w-50 align-items-center">
-            <div className="progressNumberIndicator circle d-flex justify-content-center align-items-center font-weight-bold ">
-              3
-            </div>
-            <div className="progress-bar"></div>
-          </div>
-        </div>
-        <StepperHeader stepNumber={3} stepTitle={"Restaurant Images"} />
-        <div id="step_4">
-          <div className="multipleImages">
-            <ImagePicker
+    </StepContent>
+  </Step>
+  <Step>
+    <StepLabel icon={<StepperLableIcon activeStep={activeStep} step={3}/>}>
+    
+    <StepperHeader stepNumber={3} stepTitle={"Restaurant Images"} />
+    </StepLabel>
+    <StepContent>
+<div id="step_4">
+<div class="row" >
+  <div class="col-sm" style={{
+    padding:0,
+    margin:0
+  }}><RestaurantImage
               handleClick={setRestarantImage1}
               imageUrl={restaurantImage1}
               id={"restaurantImage1"}
-            />
-            <ImagePicker
+            /></div>
+  <div class="col-sm" style={{
+    padding:0,
+    margin:0
+  }}> <RestaurantImage
               handleClick={setRestarantImage2}
               imageUrl={restaurantImage2}
               id={"restaurantImage2"}
-            />
-            <ImagePicker
+            /></div>
+  <div class="col-sm" style={{
+    padding:0,
+    margin:0
+  }}><RestaurantImage
               handleClick={setRestarantImage3}
               imageUrl={restaurantImage3}
               id={"restaurantImage3"}
-            />
-            <ImagePicker
+            /></div>
+  <div class="col-sm" style={{
+    padding:0,
+    margin:0
+  }}><RestaurantImage
               handleClick={setRestarantImage4}
               imageUrl={restaurantImage4}
               id={"restaurantImage4"}
-            />
-          </div>
-          <div class="d-flex mt-4 twoButton">
-            <button type="button" class="previous_btn btn ">
+            /></div>
+</div>
+<div className="d-flex mt-4 twoButton">
+            <button type="button" className="previous_btn btn " onClick={()=>{
+             
+            handleBack();
+            }}>
               Previous
             </button>
 
-            <button type="button" class="stepperContinueButton">
+            <button type="button" className="stepperContinueButton" onClick={()=>{
+               // validation
+              handleNext();
+            }}>
               Next
             </button>
           </div>
-        </div>
-      </div>
-
-      {/* step 4 */}
-      <div class="row pl-2 ">
-        <div class="pl-2  p-0">
-          <div class="d-flex flex-column h-100 w-50 align-items-center">
-            <div class="progressNumberIndicator  rounded-circle circle d-flex justify-content-center align-items-center font-weight-bold text-white">
-              4
-            </div>
-
-            <div class="progress-bar bg-primary"></div>
-          </div>
-        </div>
-        <div class="col-xl-11 col-10">
-          <StepperHeader stepNumber={4} stepTitle={"Shared Costs"} />
-          <div id="step4">
-            <div class="dropdown-divider"></div>
-            <div class="row bg-white py-4">
-              <div class="col-lg-6 col-12">
-                <h6 class=" text-muted  font-weight-light mb-3">
+</div>
+    
+    
+    </StepContent>
+  </Step>
+  <Step>
+    <StepLabel icon={<StepperLableIcon activeStep={activeStep} step={4}/>}>
+    <StepperHeader stepNumber={4} stepTitle={"Shared Costs"} />
+    </StepLabel>
+    <StepContent>
+    <div id="step4">
+            <div className="dropdown-divider"></div>
+            <div className="row bg-white py-4">
+              <div className="col-lg-6 col-12">
+                <h6 className=" text-muted  font-weight-light mb-3">
                   This information is needed so that your users can <br /> know
                   more about you
                 </h6>
                 <form>
-                  <div class="row">
-                    <div class="col-lg-6 col-12">
-                      <div class="form-group">
-                        <label class="font-weight-normal h6 " for="item-name">
+                  <div className="row">
+                    <div className="col-lg-6 col-12">
+                      <div className="form-group">
+                        <label className="font-weight-normal h6 " htmlFor="item-name">
                           Item name
                         </label>
                         <input
-                          formControlName="itemControlValue"
+                          formcontrolname="itemControlValue"
                           required
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           name=""
-                          id="item-name"
+                          id="itemName"
                           placeholder=""
                           autofocus
+                          onChange={(e)=> setItemName(e.target.value) } 
+
                         />
 
-                        <div class="form-control-feedback text-danger">
+                        <div className="form-control-feedback text-danger">
                           Please Add Name
                         </div>
 
-                        <div class="form-control-feedback text-success">
+                        <div className="form-control-feedback text-success">
                           Looks Good
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-6 col-12">
-                      <div class="form-group">
-                        <label class="font-weight-normal h6 " for="cost">
+                    <div className="col-lg-6 col-12">
+                      <div className="form-group">
+                        <label className="font-weight-normal h6 " htmlFor="cost">
                           Price
                         </label>
                         <input
-                          formControlName="priceControlValue"
+                          formcontrolname="priceControlValue"
                           required
                           type="number"
-                          class="form-control"
+                          className="form-control"
                           name=""
-                          id="cost"
+                          id="itemCost"
                           placeholder=""
+                          onChange={(e)=> setItemPrice(e.target.value) } 
                         />
 
-                        <div class="form-control-feedback text-danger">
+                        <div className="form-control-feedback text-danger">
                           Please Add Price
                         </div>
 
-                        <div class="form-control-feedback text-success">
+                        <div className="form-control-feedback text-success">
                           Looks Good
                         </div>
                       </div>
                     </div>
                   </div>
                 </form>
-                <button type="button" class="addButton btn">
+                <button type="button" className="addButton btn" onClick={()=>{
+     
+                 handleSharedCost(true,{name:itemName,"price":itemPrice});
+                }}>
                   Add
                 </button>
-                <div class="dropdown-divider"></div>
-                <table class="table table-borderless table-sm">
+                <h2>{sharedCosts.costByPercent}</h2>
+                <div className="dropdown-divider"></div>
+                
+                <table className="table table-borderless table-sm">
                   <thead>
                     <tr>
                       <th scope="col">Item name</th>
@@ -473,78 +589,81 @@ export default function StepperPage() {
                   </thead>
 
                   <tbody>
+                  
                     <tr>
                       <td>Food here</td>
                       <td>50</td>
                     </tr>
                   </tbody>
                 </table>
-                <div class="dropdown-divider"></div>
+                <div className="dropdown-divider"></div>
               </div>
               {/* shared costs table */}
-              <div class="col-lg-6 col-12">
-                <h6 class=" text-muted  font-weight-light mb-3">
+              <div className="col-lg-6 col-12">
+                <h6 className=" text-muted  font-weight-light mb-3">
                   This information is needed so that your users can <br /> know
                   more about you
                 </h6>
                 <form>
-                  <div class="row">
-                    <div class="col-lg-6 col-12">
-                      <div class="form-group">
-                        <label class="font-weight-normal h6 " for="item-name">
+                  <div className="row">
+                    <div className="col-lg-6 col-12">
+                      <div className="form-group">
+                        <label className="font-weight-normal h6 " htmlFor="item-name">
                           Item name
                         </label>
                         <input
-                          formControlName="itemControlValue"
+                          formcontrolname="itemControlValue"
                           required
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           name=""
                           id="item-name"
                           placeholder=""
                           autofocus
                         />
 
-                        <div class="form-control-feedback text-danger">
+                        <div className="form-control-feedback text-danger">
                           Please Add Name
                         </div>
 
-                        <div class="form-control-feedback text-success">
+                        <div className="form-control-feedback text-success">
                           Looks Good
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-6 col-12">
-                      <div class="form-group">
-                        <label class="font-weight-normal h6 " for="cost">
+                    <div className="col-lg-6 col-12">
+                      <div className="form-group">
+                        <label className="font-weight-normal h6 " htmlFor="cost">
                           Price
                         </label>
                         <input
-                          formControlName="priceControlValue"
+                          formcontrolname="priceControlValue"
                           required
                           type="number"
-                          class="form-control"
+                          className="form-control"
                           name=""
                           id="cost"
                           placeholder=""
                         />
 
-                        <div class="form-control-feedback text-danger">
+                        <div className="form-control-feedback text-danger">
                           Please Add Price
                         </div>
 
-                        <div class="form-control-feedback text-success">
+                        <div className="form-control-feedback text-success">
                           Looks Good
                         </div>
                       </div>
                     </div>
                   </div>
                 </form>
-                <button type="button" class="addButton btn">
+                <button onClick={()=>{
+                  handleSharedCost(true,{name:document.getElementById('item-name').value,"price":document.getElementById('cost').value});
+                }} type="button" className="addButton btn">
                   Add
                 </button>
-                <div class="dropdown-divider"></div>
-                <table class="table table-borderless table-sm">
+                <div className="dropdown-divider"></div>
+                <table className="table table-borderless table-sm">
                   <thead>
                     <tr>
                       <th scope="col">Item name</th>
@@ -559,15 +678,19 @@ export default function StepperPage() {
                     </tr>
                   </tbody>
                 </table>
-                <div class="dropdown-divider"></div>
+                <div className="dropdown-divider"></div>
               </div>
-              <div class="d-flex mt-4 twoButton">
-                <button type="button" class="previous_btn btn">
+              <div className="d-flex mt-4 twoButton">
+                <button type="button" className="previous_btn btn" onClick={()=>{
+                  handleBack();
+                }}>
                   Previous
                 </button>
 
                 <button
-                  onClick={() => {}}
+                  onClick={() => {
+                    handleNext();
+                  }}
                   type="submit"
                   className="stepperContinueButton btn"
                 >
@@ -576,8 +699,25 @@ export default function StepperPage() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+    </StepContent>
+  </Step>
+
+  
+  </Stepper>
+  </StyledEngineProvider>
+  {/* {activeStep === steps.length && ( */}
+    <Paper square elevation={0} sx={{ p: 3 }}>
+      <Typography>All steps completed - you&apos;re finished</Typography>
+      <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+        Finish
+      </Button>
+    </Paper>
+{/*   
+</Box> */}
+
+      
+      
+
     </StyledStepper>
   );
 }

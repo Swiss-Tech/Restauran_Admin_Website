@@ -9,9 +9,11 @@ import GlobalStyle from "./Global";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { bindActionCreators } from "redux";
 import { authactionCreators } from "./actions";
-import authHeader from "./services/auth-header";
 import RestaurantInformation from "./pages/restaurant-information/Restaurant_Information";
+import Home from "./pages/home/Home";
+import OrderDetail from "./pages/home/order/orderDetail/OrderDetail";
 
+import Dashboard from "./pages/home/dashboard/Dashboard";
 const theme = {
   colors: {
     primary: "#FECB16",
@@ -25,7 +27,7 @@ export default function App() {
   const authController = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const ActionController = bindActionCreators(authactionCreators, dispatch);
-
+console.log(controller);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle>
@@ -34,18 +36,30 @@ export default function App() {
             <Route
               path="/"
               element={
-                controller ? (
+                controller === null ? (
                   <Landing />
-                ) : authController.isLoggedIn ? (
-                  <RestaurantInformation />
+                ) :  authController.isLoggedIn ? (
+                  //  <RestaurantInformation />
+                  <Home/>
+
+                  
                 ) : (
                   <Login />
                 )
               }
             ></Route>
-
+            <Route path="/restaurantinformation" element={<RestaurantInformation />} ></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/signup" element={<Signup />}></Route>
+            <Route path = "/orderdetail" element={<OrderDetail/>}></Route>
+        
+            <Route path = "/dashboard" element={<Dashboard/>}></Route>
+            <Route path = "/home" element={<Home/>}></Route>
+
+            
+            
+
+
           </Routes>
         </BrowserRouter>
       </GlobalStyle>

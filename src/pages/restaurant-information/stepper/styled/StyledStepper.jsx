@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const StyledStepper = styled.section`
+
+width:100%;
+height:100%;
 .progressNumberIndicator{
     background-color:${({theme})=>theme.colors.primary} ;
     border-radius:50% ;
@@ -10,16 +13,29 @@ export const StyledStepper = styled.section`
 }
 .imagePicker{
     width:350px;
-    height:300px;    
+    height:200px;    
     position: relative;
     background-color:#FFF0D4;
     border-radius:20px ;
-    padding:0;
+    margin:10px;
    
     
      
   
 }
+.restaurantImagePicker{
+    width:250px;
+    height:200px;    
+    position: relative;
+    background-color:#FFF0D4;
+    border-radius:20px ;
+    margin-right:10px;
+   
+    
+     
+  
+}
+
 img{
     position:absolute;
 height:100%;
@@ -33,7 +49,7 @@ border:none;
         border:none ;
         font-weight :700;
         height:45px;
-        width:10%;
+        margin:10px;
         border-radius:15px;
 
         
@@ -109,7 +125,7 @@ input[type="checkbox"]:checked + label {
         border:none ;
         font-weight :700;
         height:45px;
-        width:10%;
+       margin:10px;
         border-radius:15px;
 
         
