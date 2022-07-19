@@ -8,16 +8,14 @@ import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-
 import { StyledEngineProvider } from "@mui/material/styles";
 import { ImagePicker ,RestaurantImage} from "./Image_Picker";
 import StepperLableIcon from "./stepper-header/StepperLableIcon";
-
-
-
+import RestaurantInformationModel from "../../../models/RestaurantInformation_Model";
+import SharedCost from "../../../models/SharedCost";
 export default function StepperPage() {
   
+ 
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -41,19 +39,15 @@ export default function StepperPage() {
   const [openAt, setOpetAtTime] = useState("10:00");
   const [closeAt, setColseAtTime] = useState("10:00");
 
-  // handle validation
-  const handleValidation = () => {
-    if (!restaurantName) {
-      console.log("this field can not be empty");
-    }
-  };
+ 
 
   const [logoUrl, setLogoUrl] = useState();
   const [restaurantImage1, setRestarantImage1] = useState();
   const [restaurantImage2, setRestarantImage2] = useState();
   const [restaurantImage3, setRestarantImage3] = useState();
   const [restaurantImage4, setRestarantImage4] = useState();
-  
+
+ 
   
   const days = [
     "Sunday",
@@ -64,16 +58,9 @@ export default function StepperPage() {
     "Friday",
     "Saturday",
   ];
+ 
 
- const  stepOneValidation=()=>{
-  if( !restaurantEmail || !logoUrl || !restaurantName  || !restaurantNumber  || !restaurantLocation  ){
-    return false;
-    
-  }
-  else{
-    return true;
-  }
- }
+ 
   
  const [workingDays, setWorkingDays] = useState({
   days :[]
@@ -99,30 +86,58 @@ const handleWorkingDaysChange = (e) => {
  
 };
 
- const [sharedCosts, setSharedCosts] = useState({
-      costByPercent :[],
-      costByValue:[]
 
- });
-const handleSharedCost =( isPercent,item)=>{
+
+
+
+ const [sharedCosts, setSharedCosts] = useState([]);
+const handleSharedCost =( sharedCost)=>{
   
-  const {name , price} = item;
- const { costByPercent } = sharedCosts;
+  
 
-
-  if(isPercent){
-        setSharedCosts({
-          costByPercent: [...costByPercent, {name,price}],
-        
-        })
+  if(sharedCost.isPercent){
+       setSharedCosts([...sharedCosts , new SharedCost(sharedCost.itemName, sharedCost.isPercent, sharedCost.value)]);
   }
   else{
-console.log("by value");
+      setSharedCosts([...sharedCosts , new SharedCost(sharedCost.itemName, sharedCost.isPercent, sharedCost.value)]);
   }
 }
 
 const [itemName , setItemName] = useState();
-const [itemPrice, setItemPrice] = useState();
+const [itemValue, setItemValue] = useState();
+const [itemNameByPercent , setItemNameByPercent] = useState();
+const [itemValueByPercent, setItemValueByPercent] = useState();
+
+const  stepOneValidation=()=>{
+  if( !restaurantEmail || !logoUrl || !restaurantName  || !restaurantNumber  || !restaurantLocation || !restaurantDescription ){
+    return false;
+    
+  }
+  else{
+    return true;
+  }
+ }
+const stepTwoValidation =()=>{
+  if(workingDays.days.length > 0 && openAt && closeAt){
+    return true;
+
+  }
+  else{
+    return false;
+  }
+}
+
+const stepThreeValidation =()=>{
+  if(restaurantImage1 && restaurantImage2 && restaurantImage3 && restaurantImage4){
+
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+
 
   return (
     <StyledStepper>
@@ -130,7 +145,8 @@ const [itemPrice, setItemPrice] = useState();
   <Stepper
 activeStep={activeStep}
     orientation="vertical"
-    className="stepper container">
+    className="stepper container"
+    >
   {/* step 1 */}
   <Step>
 
@@ -210,7 +226,7 @@ activeStep={activeStep}
     <label className="font-weight-normal h6 " htmlFor="phone-number">
                       Location
                     </label>
-    <input required type="text" class="form-control" name="" 
+    <input required type="text" className="form-control" name="" 
                                 id="location" value={ restaurantLocation } onChange={(e) => setRestaurantLocation(e.target.value)}  />
 
 
@@ -263,15 +279,19 @@ activeStep={activeStep}
     </div>
   </div>
 
-  <div class="col-lg-8 mt-3">
+  <div className="col-lg-8 mt-3" style={{
+    marginBottom:'20px'
+  }}>
                 <div className="form-group">
-                    <label className="font-weight-normal h6 " htmlFor="description">
+                    <label className="font-weight-normal h6 " htmlFor="description" style={{
+                        marginBottom:'20px'
+                    }}>
                       Short Description
                     </label>
                     <textarea
                       required
                       type="text"
-                      rows="3"
+                      rows="4"
                       className="form-control"
                       name=""
                       formcontrolname="shortDescription"
@@ -289,16 +309,16 @@ activeStep={activeStep}
   <div>
                 <button
                   onClick={() => {
-                    handleNext();
-                    // if(stepOneValidation()){
-                    //   handleNext();
-                    // }
+                    
+                    if(stepOneValidation()){
+                      handleNext();
+                    }
                     
                     
                     
                   }}
                  
-                  className="stepperContinueButton btn"
+                  className="stepperContinueButton"
                 >
                   Continue
                 </button>
@@ -309,25 +329,30 @@ activeStep={activeStep}
         </StepContent>
   </Step>
 
+{/* step 2 */}
   <Step>
   <StepLabel icon={
  <StepperLableIcon activeStep={activeStep} step={2}/>} >
-    <StepperHeader stepNumber={1} stepTitle={"Basic Infromation"} /></StepLabel>
+    <StepperHeader stepNumber={2} stepTitle={"Working Days and Hours"} /></StepLabel>
     
     <StepContent>
+    <div className="dropdown-divider "></div>
+    
     <div id="step_2">
-            <div className="dropdown-divider"></div>
+    
+            
             <div className="row bg-white py-4">
-              <div className="col-lg-6 bg-">
-                <form>
+            
+              <div className="col-lg-6 ">
+          
                   <h6>Dates</h6>
              
-                  <form>
-                    <div className="row" style={{ display: "flex" }}>
+                  <form> 
+                    <div className="row" style={{ display: "flex" , marginBottom:'5px'}}>
                       <ul>
                         {days.map((element) => (
                           
-                          <li>
+                          <li key={element}>
 
                          
                             <input
@@ -339,12 +364,10 @@ activeStep={activeStep}
                             
                       
                             />
-                            <label for={element} onClick={()=>{
+                            <label htmlFor={element} onClick={()=>{
 
                             
-                             
-                              // setWorkingDays.push(element);
-                              // console.log(workingDays.length);
+                        
                             }}>{element[0]}</label>
                           </li>
                         ))}
@@ -365,15 +388,18 @@ display:'none'
                     }}>
                       Looks Good
                     </div>
-                  </form>
-                  <div className="dropdown-divider my-4"></div>
-                  <div className="row">
+               
+                
+                  <div className="row" style={{
+                    marginBottom:'5px',
+                    marginTop:'10px'
+                  }}>
                     <div className="col-lg-6 col-12">
                       <h6 className="mb-3">Open at</h6>
 
                       <div>
                       
-                        <input type="time"   onChange={setOpetAtTime}/>
+                        <input type="time" defaultValue={openAt} onChange={setOpetAtTime}/>
                       </div>
 
                      
@@ -394,7 +420,7 @@ display:'none'
                     <div className="col-lg-6 mt-lg-0 mt-4">
                       <h6 className="mb-3">Closes At</h6>
                       <div>
-                        <input type="time" onChange={setColseAtTime} />
+                        <input type="time" defaultValue={closeAt} onChange={setColseAtTime} />
                       </div>
                      
                       
@@ -427,13 +453,14 @@ display:'none'
 
               <button
                 onClick={() => {
-                  //  moveToStep2()
-                  // !step1Collapsed
+                if(stepTwoValidation()){
                   handleNext();
-                  console.log(restaurantName);
+                }
+                 
+                  
                 }}
-                type="submit"
-                className="stepperContinueButton btn"
+               
+                className="stepperContinueButton"
               >
                 Next
               </button>
@@ -441,6 +468,7 @@ display:'none'
           </div>
     </StepContent>
   </Step>
+  {/* step 3 */}
   <Step>
     <StepLabel icon={<StepperLableIcon activeStep={activeStep} step={3}/>}>
     
@@ -448,51 +476,47 @@ display:'none'
     </StepLabel>
     <StepContent>
 <div id="step_4">
-<div class="row" >
-  <div class="col-sm" style={{
-    padding:0,
-    margin:0
-  }}><RestaurantImage
+<div className="dropdown-divider"></div>
+<div className="row" style={{
+  justifyContent:'space-evenly'
+}}>
+<RestaurantImage
               handleClick={setRestarantImage1}
               imageUrl={restaurantImage1}
               id={"restaurantImage1"}
-            /></div>
-  <div class="col-sm" style={{
-    padding:0,
-    margin:0
-  }}> <RestaurantImage
+            />
+           <RestaurantImage
               handleClick={setRestarantImage2}
               imageUrl={restaurantImage2}
               id={"restaurantImage2"}
-            /></div>
-  <div class="col-sm" style={{
-    padding:0,
-    margin:0
-  }}><RestaurantImage
+            />
+            <RestaurantImage
               handleClick={setRestarantImage3}
               imageUrl={restaurantImage3}
               id={"restaurantImage3"}
-            /></div>
-  <div class="col-sm" style={{
-    padding:0,
-    margin:0
-  }}><RestaurantImage
+            />
+            <RestaurantImage
               handleClick={setRestarantImage4}
               imageUrl={restaurantImage4}
               id={"restaurantImage4"}
-            /></div>
+            />
+
+
 </div>
 <div className="d-flex mt-4 twoButton">
-            <button type="button" className="previous_btn btn " onClick={()=>{
+            <button  className="previous_btn  " onClick={()=>{
              
             handleBack();
             }}>
               Previous
             </button>
 
-            <button type="button" className="stepperContinueButton" onClick={()=>{
+            <button  className="stepperContinueButton" onClick={()=>{
                // validation
-              handleNext();
+               if(stepThreeValidation()){
+                handleNext();
+               }
+              
             }}>
               Next
             </button>
@@ -513,10 +537,14 @@ display:'none'
               <div className="col-lg-6 col-12">
                 <h6 className=" text-muted  font-weight-light mb-3">
                   This information is needed so that your users can <br /> know
-                  more about you
+                  more about you   Ex. Delivery Fee 50 Birr
                 </h6>
                 <form>
-                  <div className="row">
+
+                  <div className="row" style={{
+                    marginTop:'10px',
+                    marginBottom:'10px'
+                  }}>
                     <div className="col-lg-6 col-12">
                       <div className="form-group">
                         <label className="font-weight-normal h6 " htmlFor="item-name">
@@ -530,18 +558,13 @@ display:'none'
                           name=""
                           id="itemName"
                           placeholder=""
-                          autofocus
+                          autoFocus
+                       
                           onChange={(e)=> setItemName(e.target.value) } 
 
                         />
 
-                        <div className="form-control-feedback text-danger">
-                          Please Add Name
-                        </div>
-
-                        <div className="form-control-feedback text-success">
-                          Looks Good
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="col-lg-6 col-12">
@@ -556,56 +579,76 @@ display:'none'
                           className="form-control"
                           name=""
                           id="itemCost"
-                          placeholder=""
-                          onChange={(e)=> setItemPrice(e.target.value) } 
+                          
+                          onChange={(e)=> setItemValue(e.target.value) } 
                         />
 
-                        <div className="form-control-feedback text-danger">
-                          Please Add Price
-                        </div>
+                        
 
-                        <div className="form-control-feedback text-success">
-                          Looks Good
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
                 </form>
-                <button type="button" className="addButton btn" onClick={()=>{
+                <button className="addButton " onClick={ async ()=>{
+                  
      
-                 handleSharedCost(true,{name:itemName,"price":itemPrice});
+                 if(itemName && itemValue ){
+                  handleSharedCost({isPercent:true ,itemName:itemName , value:itemValue});
+                 
+            
+                 }
+                 setItemName();
+                  setItemValue();
+                 
+
                 }}>
                   Add
                 </button>
-                <h2>{sharedCosts.costByPercent}</h2>
+               
                 <div className="dropdown-divider"></div>
                 
                 <table className="table table-borderless table-sm">
                   <thead>
-                    <tr>
-                      <th scope="col">Item name</th>
-                      <th scope="col">Price</th>
+                    <tr style={{
+                        margin:'10px'
+                      }}>
+                      <th scope="col" style={{
+                        color:'gray'
+                      }}>Item name</th>
+                      <th scope="col" style={{
+                        color:'gray'
+                      }}>Price</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                  
-                    <tr>
-                      <td>Food here</td>
-                      <td>50</td>
-                    </tr>
+                  {
+                      sharedCosts.map((item, index)=> item.isPercent ? <tr key={item}>
+                          <th scope="col">{item.itemName}</th>
+                      <th scope="col">{item.value}</th>
+                          </tr> :<div></div>
+                       
+                          
+                        
+                      )
+                    }
                   </tbody>
                 </table>
-                <div className="dropdown-divider"></div>
+             
               </div>
               {/* shared costs table */}
               <div className="col-lg-6 col-12">
                 <h6 className=" text-muted  font-weight-light mb-3">
                   This information is needed so that your users can <br /> know
-                  more about you
+                  more about your services . Example Vat 20 %
+
                 </h6>
                 <form>
-                  <div className="row">
+                  <div className="row" style={{
+                    marginTop:'10px',
+                    marginBottom:'10px'
+                  }}>
                     <div className="col-lg-6 col-12">
                       <div className="form-group">
                         <label className="font-weight-normal h6 " htmlFor="item-name">
@@ -619,22 +662,17 @@ display:'none'
                           name=""
                           id="item-name"
                           placeholder=""
-                          autofocus
+                          autoFocus 
+                          onChange={(e)=>setItemNameByPercent(e.target.value)}
                         />
 
-                        <div className="form-control-feedback text-danger">
-                          Please Add Name
-                        </div>
-
-                        <div className="form-control-feedback text-success">
-                          Looks Good
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="col-lg-6 col-12">
                       <div className="form-group">
                         <label className="font-weight-normal h6 " htmlFor="cost">
-                          Price
+                          Value
                         </label>
                         <input
                           formcontrolname="priceControlValue"
@@ -642,24 +680,22 @@ display:'none'
                           type="number"
                           className="form-control"
                           name=""
-                          id="cost"
-                          placeholder=""
+                          id="cost" 
+                          onChange={(e)=>setItemValueByPercent(e.target.value)}
                         />
 
-                        <div className="form-control-feedback text-danger">
-                          Please Add Price
-                        </div>
-
-                        <div className="form-control-feedback text-success">
-                          Looks Good
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
                 </form>
                 <button onClick={()=>{
-                  handleSharedCost(true,{name:document.getElementById('item-name').value,"price":document.getElementById('cost').value});
-                }} type="button" className="addButton btn">
+                 if( itemNameByPercent && itemValueByPercent ){
+                  handleSharedCost({isPercent:false, itemName:itemNameByPercent, value:itemValueByPercent});
+                 }
+                 setItemValueByPercent();
+                 setItemNameByPercent();
+                }} type="button" className="addButton ">
                   Add
                 </button>
                 <div className="dropdown-divider"></div>
@@ -667,21 +703,29 @@ display:'none'
                   <thead>
                     <tr>
                       <th scope="col">Item name</th>
-                      <th scope="col">Price</th>
+                      <th scope="col">Value</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    <tr>
-                      <td>Food here</td>
-                      <td>50</td>
-                    </tr>
+
+                    {
+                      sharedCosts.map((item, index)=> item.isPercent ? <div></div> : <tr key={item}>
+                          <th scope="col">{item.itemName}</th>
+                      <th scope="col">{item.value}</th>
+                          </tr>
+                       
+                          
+                        
+                      )
+                    }
+                    
                   </tbody>
                 </table>
-                <div className="dropdown-divider"></div>
+               
               </div>
               <div className="d-flex mt-4 twoButton">
-                <button type="button" className="previous_btn btn" onClick={()=>{
+                <button className="previous_btn" onClick={()=>{
                   handleBack();
                 }}>
                   Previous
@@ -689,10 +733,13 @@ display:'none'
 
                 <button
                   onClick={() => {
-                    handleNext();
+                    if(sharedCosts.length > 0){
+                      handleNext();
+                    }
+                  
                   }}
-                  type="submit"
-                  className="stepperContinueButton btn"
+                 
+                  className="stepperContinueButton "
                 >
                   Finish
                 </button>
@@ -705,13 +752,13 @@ display:'none'
   
   </Stepper>
   </StyledEngineProvider>
-  {/* {activeStep === steps.length && ( */}
-    <Paper square elevation={0} sx={{ p: 3 }}>
+  <Paper square elevation={0} sx={{ p: 3 }}>
       <Typography>All steps completed - you&apos;re finished</Typography>
-      <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+      <button  sx={{ mt: 1, mr: 1 }}  className="stepperContinueButton ">
         Finish
-      </Button>
+      </button>
     </Paper>
+  
 {/*   
 </Box> */}
 

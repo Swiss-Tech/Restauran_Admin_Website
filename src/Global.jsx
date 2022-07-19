@@ -55,6 +55,7 @@ import styled from "styled-components";
         border:none ;
         border-radius:15px ;
         background-color: #f8f8f8;
+        padding:15px;
 
        
     }

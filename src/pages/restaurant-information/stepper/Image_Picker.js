@@ -30,10 +30,17 @@ export function ImagePicker(props) {
   };
 
   return (
-    <div className="imagePicker col-12">
+    <div className="imagePicker" style={(preview) ?{
+      
+      width:'400px',
+      backgroundColor:'transparent'
+     
+      
+    
+    }:{width:'400px',}}>
       {preview && <img className="img-fluid" src={props.imageUrl} alt="" />}
       <div className="centbutton btn  bg-dark px-2 py-2 rounded-circle  d-flex align-items-center justify-content-center">
-        <span class="material-icons-outlined text-light">
+        <span className="material-icons-outlined text-light">
           <div>
             <label
               className="btn text-light"
@@ -81,10 +88,19 @@ export function RestaurantImage (props) {
   };
 
   return (
-    <div className="restaurantImagePicker col-12">
+    <div className="restaurantImagePicker" style={(preview)?{
+      width:'300px',
+      height:'200px',
+      margin:'10px',
+      backgroundColor:'transparent'
+    }:{
+      width:'300px',
+      height:'200px',
+      margin:'10px'
+    }}>
       {preview && <img className="img-fluid" src={props.imageUrl} alt="" />}
       <div className="centbutton btn  bg-dark px-2 py-2 rounded-circle  d-flex align-items-center justify-content-center">
-        <span class="material-icons-outlined text-light">
+        <span className="material-icons-outlined text-light">
           <div>
             <label
               className="btn text-light"

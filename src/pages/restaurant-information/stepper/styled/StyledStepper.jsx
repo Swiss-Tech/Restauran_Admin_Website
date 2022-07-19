@@ -4,6 +4,17 @@ export const StyledStepper = styled.section`
 
 width:100%;
 height:100%;
+.MuiStepper-root {
+
+  ${'' /* margin-left:10%; */}
+  margin:0;
+  padding:0;
+  width:100%;
+
+}
+
+
+
 .progressNumberIndicator{
     background-color:${({theme})=>theme.colors.primary} ;
     border-radius:50% ;
@@ -12,7 +23,7 @@ height:100%;
     height:40px;
 }
 .imagePicker{
-    width:350px;
+    width:400px;
     height:200px;    
     position: relative;
     background-color:#FFF0D4;
@@ -48,14 +59,17 @@ border:none;
         color:white ;     
         border:none ;
         font-weight :700;
-        height:45px;
+        height:50px;
         margin:10px;
         border-radius:15px;
+        border:none;
+        width:10%;
 
         
         &:hover{
-            background-color:#f8f8f8 ;
+        background-color:#f8f8f8 ;
         color:black ;
+        border:none;
         }
 
 }
@@ -124,9 +138,12 @@ input[type="checkbox"]:checked + label {
         color:black ;     
         border:none ;
         font-weight :700;
-        height:45px;
+        height:50px;
        margin:10px;
         border-radius:15px;
+       
+        border:none;
+        width:10%;
 
         
         &:hover{
