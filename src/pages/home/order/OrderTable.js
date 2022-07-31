@@ -99,8 +99,10 @@ export default function OrderTable() {
             </thead>
             <tbody>
                 { currentOrders.map((order,index)=>{return(
+
+    
                         <tr onClick={()=>{
-                          
+                          // to={`orderDetail/${order.id}`}
                          ActionController.setMessage(order);
                         }}>
                         <td scope="col">{index+1}</td>

@@ -1,4 +1,10 @@
-export const API_BASE_URL = "http://165.232.80.134/test/admin/Auth";
-export const API_ADMIN_REGISTER_URL = "/reg/restaurantadmin";
-export const API_ADMIN_LOGIN = "/login";
-export const API_ADMIN_CHECKSTATUS = "/checkstatus";
+export const API_BASE_URL = "http://165.232.80.134/test/admin";
+export const API_ADMIN_REGISTER_URL = "/Auth/reg/restaurantadmin";
+export const API_ADMIN_LOGIN = "/Auth/login";
+export const API_ADMIN_CHECKSTATUS = "/Auth/checkstatus";
+export const API_ADMIN_RESTAURANTINFORMATION ="/Auth/reg/restaurantinfo";
+export const API_RESTAURANT_INFO_STATUS ="/Auth/checkstatus";
+export const API_ADMIN_MENUS ="/Menu/getall";
+export const API_ADMIN_MENU_DELATE = "/Menu/delete/";
+export const API_ADMIN_MENU_UPDATE="/Menu/update/";
+export const API_ADMIN_MENU_ADD="/Menu/add";

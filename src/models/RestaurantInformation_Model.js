@@ -3,7 +3,7 @@ class RestaurantInformationModel {
 constructor(name , phoneNumber , email, location , description , openAt , closeAt,logo, iamge1 , image2, image3 , image4 ,workingdays,sharedCost ){
     this.name =name;
     this.phoneNumber =phoneNumber;
-    this.email =email; 
+    this.email = email; 
     this.location =location; 
     this.description =description; 
     this.openAt =openAt;
@@ -14,7 +14,7 @@ constructor(name , phoneNumber , email, location , description , openAt , closeA
     this.image3 =image3;
     this.image4 =image4;
     this.workingdays =workingdays;
-    this.sharedCost =sharedCost;
+    this.sharedCost = sharedCost;
 }
 }
 export default RestaurantInformationModel;

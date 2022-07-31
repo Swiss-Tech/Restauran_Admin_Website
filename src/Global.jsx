@@ -33,6 +33,13 @@ import styled from "styled-components";
         }
     }
 
+    .buttonHover{
+        &:hover{
+            background-color:gray ;
+        color:orange ;
+        }
+    }
+
    #dropdown-basic{
     background-color:${({theme})=>theme.colors.primary} ;
         color:black ;     
@@ -50,7 +57,7 @@ import styled from "styled-components";
         }
    } 
 
-    input {
+    input , .customInput{
         height:60px ;
         border:none ;
         border-radius:15px ;

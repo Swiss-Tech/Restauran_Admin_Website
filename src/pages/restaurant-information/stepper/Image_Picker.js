@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { IoImageOutline } from "react-icons/io5";
+
 export function ImagePicker(props) {
+
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
   useEffect(() => {
     if (preview) {
-      props.handleClick(preview);
+      props.handleClick(selectedFile);
     }
   });
 
@@ -14,9 +16,12 @@ export function ImagePicker(props) {
       setPreview(undefined);
       return;
     }
+    
 
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
+
+
 
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
@@ -27,8 +32,9 @@ export function ImagePicker(props) {
     }
 
     setSelectedFile(e.target.files[0]);
+    
   };
-
+  
   return (
     <div className="imagePicker" style={(preview) ?{
       
@@ -38,7 +44,7 @@ export function ImagePicker(props) {
       
     
     }:{width:'400px',}}>
-      {preview && <img className="img-fluid" src={props.imageUrl} alt="" />}
+      {(preview  ) && <img className="img-fluid" src={preview} alt="" />}
       <div className="centbutton btn  bg-dark px-2 py-2 rounded-circle  d-flex align-items-center justify-content-center">
         <span className="material-icons-outlined text-light">
           <div>
@@ -63,7 +69,7 @@ export function RestaurantImage (props) {
   const [preview, setPreview] = useState();
   useEffect(() => {
     if (preview) {
-      props.handleClick(preview);
+      props.handleClick(selectedFile);
     }
   });
 
@@ -98,7 +104,7 @@ export function RestaurantImage (props) {
       height:'200px',
       margin:'10px'
     }}>
-      {preview && <img className="img-fluid" src={props.imageUrl} alt="" />}
+      {preview && <img className="img-fluid" src={preview} alt="" />}
       <div className="centbutton btn  bg-dark px-2 py-2 rounded-circle  d-flex align-items-center justify-content-center">
         <span className="material-icons-outlined text-light">
           <div>

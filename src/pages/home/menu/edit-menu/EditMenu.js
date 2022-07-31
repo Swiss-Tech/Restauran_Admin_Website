@@ -1,257 +1,488 @@
-import React from 'react'
-import CatagoryImagePicker from '../newMenu/CatagoryImagePicker'
-export default function EditMenu() {
-  return (
-    <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
+import React , {useState , useEffect} from 'react'
+import CatagoryImagePicker ,{MenuImagePicker} from '../newMenu/CatagoryImagePicker';
+import { useDispatch, useSelector } from 'react-redux'
+import Combobox from "react-widgets/Combobox";
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Switch from '@mui/material/Switch';
+import { Link , useNavigate } from 'react-router-dom';
+import { categoryActionCreators } from '../../../../actions';
+import { menuActionCreators } from '../../../../actions';
+import { bindActionCreators } from 'redux';
+import { useParams } from 'react-router';
+import {API_BASE_URL } from "../../../../services/api-config"
+import { TbAdjustmentsHorizontal } from 'react-icons/tb';
+export default function EditMenu() { const categoryController = useSelector((state)=>state.category);
+    const [image1, setImage1]=useState()
 
-<div class="row">
-        <div class="col-lg-8">
-           
-            <h3 class="font-weight-bolder">Edit Menu</h3>
-            <p>12-12-12</p>
+ 
+      
+
+    const [itemDetail ,setItemDetail] = useState();
+    const menuController = useSelector((state)=>state.menu.menus);
+    let {menuId} = useParams();
+    const navigate = useNavigate();
+    useEffect(()=>{
+  
+        if(menuId){
+            menuController.map((item)=>{
+             
+               if(item.id === menuId){
+             
+                 setItemDetail(item);
+   
+               }{
+                  
+               }
+         })
+  
+        }
+   
+    },)
+
+
+    
+
+    const [itemName , setItemName] = useState();
+    const [price , setPrice] = useState();
+    const [calories, setCalories] = useState();
+    const [weight , setWeight] = useState();
+    const [description , setDescription] = useState();
+    const [enough_for , setEnoughFor] = useState();
+    const [estimated_preparation_time, setEstimatedTime] = useState();
+    const [removable_ingredients , setRemovableIngredients] = useState([]);
+    const [ingredients , setIngredients] = useState();
+    const [ categories , setCategories] = useState([]);
+    const [status , setStatus] = useState(true);
+    const [foodImage1, setFoodImage1] = useState();
+    const [foodImage2, setFoodImage2] = useState();
+    const [foodImage3, setFoodImage3] = useState();
+    const [foodImage4, setFoodImage4] = useState();
+
+
+    const [checked, setChecked] = React.useState(true);
+
+    const handleChange = (event) => {
+        setStatus(event.target.checked);
+    };
+  
+
+console.log(categoryController.categories);
+
+const [dateState, setDateState] = useState(new Date());
+const [firstTime , setFirstTime] = useState(true);
+useEffect(() => {
+    setInterval(() => setDateState(new Date()), 30000);
+  }, []);
+
+
+  
+useEffect(  ()=>{
+    
+    if(itemDetail){
+        if (firstTime)  {
+        setIntialValue()
+        setFirstTime(false);
+       }
+    }
+},)
+
+
+function setIntialValue (){
+    setItemName(itemDetail['itemName'])
+    setPrice(itemDetail['price'])
+    setCalories(itemDetail['calories'])
+    setWeight(itemDetail['weight'])
+    setDescription(itemDetail['description'])
+    setEnoughFor(itemDetail['enoughFor'])
+    setEstimatedTime(itemDetail['estimatedTime'])
+  
+   
+     
+   
+    if(itemDetail['removableIngredient'].length===0){
+ 
+    }
+    else{
+          console.log(itemDetail['removableIngredient'].length)
+        itemDetail['removableIngredient'].map((value)=>{
+           // setRemovableIngredients([...removable_ingredients , value]);
+           removable_ingredients.push(value);
+        })
+       
+    }
+    if(itemDetail['category'].length === 0){
+
+    } 
+    else{
+        itemDetail['category'].map((value)=>{
+           // setCategories([...categories , value]);
+            categories.push(value);
+        })
+    }
+
+    
+
+  
+}
+
+
+  return (
+    
+    <div>
+    
+   {
+    itemDetail ?  <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
+
+<div className="row">
+        <div className="col-lg-8">
+
+          
+            <h3 className="font-weight-bolder">Edit Menu</h3>
+            
+            <p> {dateState.toLocaleDateString('en-US', {
+                 weekday:'long',
+                 day: 'numeric',
+                 month: 'short',
+                 year: 'numeric',
+              })}</p>
+
+        
         </div>
-        <div class="col-lg-4 d-flex justify-content-lg-end">
-            <div> <button 
-                    class="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
-                        class="material-icons-outlined medium mr-2">
-                        tune
-                    </span>Manage Catagories</button></div>
+        <div className="col-lg-4 d-flex justify-content-lg-end">
+            <div> <button  onClick={()=>{
+                navigate('/catagories')
+            }}
+                    className="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
+                        className="material-icons-outlined medium mr-2">
+                        <TbAdjustmentsHorizontal size={25} style={{
+                        padding:'2px'
+                      }}/>
+                    </span>Manage Catagory</button></div>
+                   
+
 
         </div>
     </div>
-     <div class="dropdown-divider"></div>
-     <div class="row pt-3">
+    <div className="dropdown-divider"></div>
 
-     <div class="col-lg-7 bg-white px-lg-5 px-4 py-5 mx-lg-0 mx-2 rounded">
-      <form class="needs-validation" novalidate>
-      <div class="row">
-      <div class="col-lg-6">
-                    
-                        <div class="form-group">
-                            <label class="font-weight-normal h6 " for="item-name">item name</label>
-                            <input formControlName="itemName" type="text" class="form-control" name="" id="item-name"
-                                placeholder=""/>
-             
-                            <div class="form-control-feedback text-danger"
+    <div className="row pt-3">
+
+        <div className="col-lg-7 bg-white px-lg-5 px-4 py-5 mx-lg-0 mx-2 rounded">
+           
+                <div className='row'>
+                <div className="col-lg-6">
+                      
+                        <div className="form-group">
+                            <label className="font-weight-normal h6 " htmlFor="item-name">Item Name</label>
+                            <input type="text" className="form-control"  id="item-name"
+                                placeholder="" defaultValue={itemName} onChange={(e)=>setItemName(e.target.value)}/>
+                            
+                            <div className="text-danger" style={(itemName) ? {
+                                display:'none'
+                            }:{}}
+                               
                                 >
-                                Item name is required
+                                Item name is required {itemName}
                             </div>
                           
-                            <div class="form-control-feedback text-success" >
+                            <div className="form-control-feedback text-success" style={(itemName) ? {
+                               
+                            }:{ display:'none'}} >
                                 Looks Good
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="font-weight-normal h6 " for="calories">Calories</label>
-                            <input formControlName="calories" type="number" class="form-control" name="" id="calories"
-                                placeholder=""/>
+                        <div className="form-group">
+                            <label className="font-weight-normal h6 " htmlFor="calories">Calories</label>
+                            <input min={0}  type="number" className="form-control" name="calories" id="calories"
+                                placeholder=""  defaultValue={calories} onChange={(e)=>setCalories(e.target.value)} />
+                                  <div className="text-danger" style={(calories) ? {
+                                display:'none'
+                            }:{}}
+                               
+                                >
+                                Calories is required
+                            </div>
+                          
+                            <div className="form-control-feedback text-success" style={(calories) ? {
+                               
+                            }:{ display:'none'}} >
+                                Looks Good
+                            </div>
                         </div>
 
                     </div>
-
-                    <div class="col-lg-6">
-                      
-                        <div class="form-group">
-                            <label class="font-weight-normal h6 " for="price">price</label>
-                            <input min="0" formControlName="price" type="number" class="form-control" name="" id="price"
-                                placeholder=""/>
+                    <div className="col-lg-6">
                         
-                            <div class="form-control-feedback text-danger"
-                                >
+                        <div className="form-group">
+                            <label className="font-weight-normal h6 " htmlFor="price">Price</label>
+                            <input min={1} type="number" className="form-control" name="price" id="price"
+                                placeholder="" defaultValue={price} onChange={(e)=> setPrice(e.target.value)}/>
+                    
+                            <div className="form-control-feedback text-danger" style={(price) ? {
+                                display:'none'
+                            }:{}}
+                               >
                                 Item price is required
                             </div>
-                           
-                            <div class="form-control-feedback text-success" >
+           
+                            <div className="form-control-feedback text-success" style={(price) ? {
+                            
+                            }:{    display:'none'}} >
                                 Looks Good
                             </div>
                         </div>
 
-                      
-                        <div class="form-group">
-                            <label class="font-weight-normal h6 " for="weight">weight <span
-                                    class="text-muted small">(gram)</span> </label>
-                            <input min="1" formControlName="weight" type="number" class="form-control" name=""
-                                id="weight" placeholder=""/>
+                        
+                        <div className="form-group">
+                            <label className="font-weight-normal h6 " htmlFor="weight">Weight <span
+                                    className="text-muted small">(gram)</span> </label>
+                            <input   type="number" className="form-control" name="weight"
+                                id="weight" placeholder="" defaultValue={weight} onChange={(e) => setWeight(e.target.value)}/>
+                                <div className="text-danger" style={(weight) ? {
+                                display:'none'
+                            }:{}}
+                               
+                                >
+                                Weight is required 
+                            </div>
+                          
+                            <div className="form-control-feedback text-success" style={(weight) ? {
+                               
+                            }:{ display:'none'}} >
+                                Looks Good
+                            </div>
                         </div>
 
                     </div>
 
-                    <div class="col-12">
-                
-                        <div class="form-group">
-                            <label class="font-weight-normal h6 " for="description">description
-                                </label>
-                            <textarea type="text" rows="3" class="form-control" name="" formControlName="description"
-                                id="description" placeholder="description"></textarea>
-                          
-                            <div class="form-control-feedback text-danger"
-                              >
+                    <div className="col-12">
+                      
+                        <div className="form-group">
+                            <label className="font-weight-normal h6 " htmlFor="description">Description</label>
+                            <textarea type="text" rows="3" className="form-control" name="description" defaultValue={description}
+                                id="description" placeholder="description" onChange={(e)=>setDescription(e.target.value)}></textarea>
+                         
+                            <div className="form-control-feedback text-danger" style={(description) ?{
+                                display:'none'
+                            }:{}}
+                               >
                                 description is required
                             </div>
-                            
-                            <div class="form-control-feedback text-success" >
+                         
+                            <div className="form-control-feedback text-success" style={(description) ?{
+                               
+                            }:{ display:'none'}}>
                                 Looks Good
                             </div>
 
                         </div>
                     </div>
 
-                    <div class="col-lg-6">
-                      
-                        <div class="form-group">
-                            <label class="font-weight-normal h6 " for="enough_for">'enough_for'</label>
-                            <input min="1" formControlName="enoughFor" type="number" class="form-control" name=""
-                                id="enough_for" placeholder=""/>
+
+                    <div className="col-lg-6">
+                    <div className="form-group">
+                            <label className="font-weight-normal h6 " htmlFor="weight">Enough for</label>
+                            <input min="1"  type="number" className="form-control" name="enough_for" defaultValue={enough_for }
+                                id="enough_for" placeholder="" onChange={(e) => setEnoughFor(e.target.value)}/>
+                                   <div className="text-danger" style={(enough_for) ? {
+                                display:'none'
+                            }:{}}
+                               
+                                >
+                                Enough for is required 
+                            </div>
+                          
+                            <div className="form-control-feedback text-success" style={(enough_for) ? {
+                               
+                            }:{ display:'none'}} >
+                                Looks Good
+                            </div>
                         </div>
                        
-                        <div class="form-group">
-                            <label class="font-weight-normal h6 " for="discount">'discount'(%)</label>
-                            <input min="0" max="100" formControlName="discount" type="number" class="form-control"
-                                name="" id="discount" placeholder=""/>
-                        </div>
-                       
-                        <div class="form-control-feedback text-danger"
-                          >
-                            Allowed values are between 0 and 100
-                        </div>
                       
-                        <div class="form-group">
-                            <label class="font-weight-normal h6 " for="removable_ingredients">'removable_ingredients'
-                                </label>
-                            <div class="d-flex">
-                         
-                                <input formControlName="removableIngredient" type="text" class="form-control" name=""
-                                    id="removable_ingredients" placeholder=""/>
-                            
-                                <button class="btn  btn-outline-dark  ml-2 px-4 d-flex align-items-center"
-                                    click="addIngerdient()"><span class="material-icons-outlined medium m-0 p-0">
-                                        add_circle
+                        
+                       
+                       
+                        <div className="form-group">
+                            <label className="font-weight-normal h6 " htmlFor="removable_ingredients">Removable Ingredients
+                                 </label>
+                            <div className="d-flex">
+                        
+                                <input type="text" name="removableIngredient"
+                                    placeholder="" onChange={(e)=>setIngredients(e.target.value)} />
+                       
+                                <button  onClick={()=>{
+                                    
+                                  
+                                }}
+                                    ><span className="material-icons-outlined medium m-0 p-0" onClick={()=>{
+                                        setRemovableIngredients([...removable_ingredients , ingredients]);
+                                    }}>
+                                        Add
                                     </span></button>
                             </div>
                         </div>
-               
-                        <div class="dropdown-divider mt-2 mb-3"></div>
                   
-                        <div class="d-flex flex-wrap">
-                            <div 
-                                class="rounded-pill bg-placeholder text-black font-weight-normal d-inline-flex justify-content-center align-items-center pl-3 pr-2 py-1 mr-2 mb-2">
-                                ingredient<span click="removeIngredient(ingredient)"
-                                    class="material-icons medium ml-2 btn p-0 m-0">
-                                    cancel
-                                </span></div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 mt-lg-0 mt-5">
-                       
-                        <div class="form-group">
-                            <label class="font-weight-normal h6 "
-                                for="estimated_preparation_time">'estimated_preparation_time' </label>
-                            <input min="0" formControlName="estimatedTime" type="number" class="form-control" name=""
-                                id="estimated_preparation_time" placeholder=""/>
-                        </div>
-                       
-
-                        <div class="form-group d-flex flex-column">
-                            <label class="font-weight-normal h6   " for="categories">'categories'
-                               </label>
-                            <div class="btn-group" dropdown id="categories">
-                                <button id="button-animated" dropdownToggle type="button"
-                                    class="btn btn-primary dropdown-toggle py-2 d-flex justify-content-between align-items-center px-4 bg-inputBg border-inputBg mybtn"
-                                    aria-controls="dropdown-animated">
-                                    <span>
-                                        Uncategorized
-                                    </span>
-                                    <ng-template >
-catagory name
-
-                                    </ng-template>
-
-
-                                    <span class="caret"></span>
-                                </button>
-                                <ul id="dropdown-animated" role="menu"
-                                    aria-labelledby="button-animated">
-                                    <li  role="menuitem"><a
-                                            click="setSelectedCategory(item.id , item.name)"
-                                            class="dropdown-item">piza</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="form-group form-check mt-3 ml-2">
-                            <input type="checkbox" formControlName="featured" class="form-check-input" id="featured"/>
-                            <label class="form-check-label" for="featured">Set as featured item</label>
-                        </div>
-                      <div class="form-group">
-                            <label class="font-weight-normal h6 " for="categories">'categories'</label>
-                            <input formControlName="categories" type="text" class="form-control" name="" id="categories"
-                                placeholder=""/> 
+                        <div className="dropdown-divider mt-2 mb-3"></div>
                      
-                       <div class="form-control-feedback text-danger">
-                                Item category is required
-                            </div>
+                        <div className="d-flex flex-wrap">
+                            {
+                                removable_ingredients.map((ingredient , index)=><div 
+                                className="rounded-pill bg-placeholder text-black font-weight-normal d-inline-flex justify-content-center align-items-center pl-3 pr-2 py-1 mr-2 mb-2">
+                                {ingredient}<span 
+                                    className="material-icons medium ml-2 btn p-0 m-0">
+                                    <button onClick={()=>{
+                                        setRemovableIngredients((removable_ingredients) => removable_ingredients.filter((_, i) => i !== index))
+                                        // removable_ingredients.pop(ingredient);
+                                    }}>x</button>
+                                </span></div>)
+                            }
 
-                        </div> 
-
+                        </div>
                     </div>
-      </div>
 
-      </form>
-     </div>
-
-     <div class="col-lg-5 px-lg-5 px-3 mt-lg-0 mt-2">
-     <div class="dropdown-divider d-lg-none d-block mb-3"></div>
-     <div class="row px-lg-5 px-3 mb-3">
-            
-                <div class="col-6 d-flex flex-column  justify-content-center ">
-                    <h6 class="font-weight-bold">Add images</h6>
-                </div>
-
-                <div class="col-12">
-                   
-                    <div class="form-control-feedback text-danger" >
-                        Please provide atleast one image
-                    </div>
-                
-                    <div class="form-control-feedback text-success" >
-                        Looks Good
-                    </div>
-                </div>
-            </div>
-            <div class="row px-lg-5 px-2 mt-lg-0 mt-5">
-            <div class="row">            
-<CatagoryImagePicker  />
-<CatagoryImagePicker  />
-<CatagoryImagePicker  />
-</div>
-            </div>
-            <div class="row px-5 py-3  justify-content-center align-items-center">
-                <div class="col-10 dropdown-divider  "></div>
-                <div class="col-12 d-flex justify-content-between align-items-center px-4">
-                  
-                    <h6 class="pt-2 mt-1 mr-2">'status_available' </h6>
+                    <div className="col-lg-6 mt-lg-0 mt-5">
                     
-                    <ui-switch  size="small" color="#fecb16"></ui-switch>
+                        <div className="form-group">
+                            <label className="font-weight-normal h6 "
+                                htmlFor="estimated_preparation_time">Estmated Pereparation </label>
+                            <input  type="text" className="form-control" name="estimatedTime" defaultValue={ estimated_preparation_time }
+                                id="estimated_preparation_time" placeholder="" onChange={(e)=> setEstimatedTime(e.target.value) }/>
+                                <div className="text-danger" style={(estimated_preparation_time) ? {
+                                display:'none'
+                            }:{}}
+                               
+                                >
+                                Estmated Pereparation Time is required 
+                            </div>
+                          
+                            <div className="form-control-feedback text-success" style={(estimated_preparation_time) ? {
+                               
+                            }:{ display:'none'}} >
+                                Looks Good
+                            </div>
+                        </div>
+
+  
+
+                       
+                        
+                         <div className="form-group">
+                            <label className="font-weight-normal h6 " htmlFor="categories">Categories</label>
+                            <input  type="text" className="form-control" name="categories" id="categories"
+                                placeholder=""/> 
+                                 <div className="dropdown-divider mt-2 mb-3"></div>
+
+                                 <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <Select native defaultValue="" id="grouped-native-select" onChange={(e)=>{
+             setCategories([...categories , e.target.value]);
+        }}>
+    
+        {
+            categoryController.categories.map((category)=> <option  value={category}>{category.categoryName}</option>)
+        }
+        </Select>
+      </FormControl>
+      <div className="d-flex flex-wrap">
+                            {
+                                categories.map((category , index)=><div 
+                                className="rounded-pill bg-placeholder text-black font-weight-normal d-inline-flex justify-content-center align-items-center pl-3 pr-2 py-1 mr-2 mb-2">
+                                {category.categoryName}<span 
+                                    className="material-icons medium ml-2 btn p-0 m-0">
+                                    <button onClick={()=>{
+                                        setCategories((categories) => categories.filter((_, i) => i !== index))
+                                        // removable_ingredients.pop(ingredient);
+                                    }}>x</button>
+                                </span></div>)
+                            }
+
+                        </div>
+                        
+
+                         
+
+                        </div>
+
+                    </div>
+                </div>
+            
+        </div>
+
+        <div className="col-lg-5 px-lg-5 px-3 mt-lg-0 mt-2">
+        <div className="dropdown-divider d-lg-none d-block mb-3"></div>
+        <div className="row px-lg-5 px-3 mb-3">
+               
+                <div className="col-6 d-flex flex-column  justify-content-center ">
+                    <h6 className="font-weight-bold">Add images</h6>
+                </div>
+             
+            <div className="row">
+          
+                
+                <CatagoryImagePicker   handleClick={setFoodImage1}
+              imageUrl={foodImage1}
+              id={"restaurantImage1"} apiImage ={ itemDetail['foodImage1']}/>
+
+              <CatagoryImagePicker   handleClick={setFoodImage2}
+              imageUrl={foodImage2}
+              id={"restaurantImage2"}  apiImage ={ itemDetail['foodImage2']}/>
+              <CatagoryImagePicker   handleClick={setFoodImage3}
+              imageUrl={foodImage3}
+              id={"restaurantImage3"} apiImage ={ itemDetail['foodImage3']}/>
+              <CatagoryImagePicker   handleClick={setFoodImage4}
+              imageUrl={foodImage4}
+              id={"restaurantImage4"} apiImage ={ itemDetail['foodImage4']} />
+                
+                
+                </div>
+
+
+                <div className="row px-5 py-3  justify-content-center align-items-center">
+                <div className="col-10 dropdown-divider  "></div>
+                <div className="col-12 d-flex justify-content-between align-items-center px-4">
+                 
+                    <h6 className="pt-2 mt-1 mr-2">Status Avialable</h6>
+                   
+                    <Switch   checked={status}
+      onChange={handleChange} />
 
                 </div>
-                <div class="col-10 dropdown-divider"></div>
+                <div className="col-10 dropdown-divider"></div>
             </div>
 
-            <div class="row px-lg-4 py-3 justify-content-center align-items-center mb-lg-0 mb-5">
-
-
-                <button  type="button" 
-                    class="btn btn-primary col-lg-4 col-5 py-2 font-weight-bold ml-2 d-inline">
-                    <span >'save'|
-                       </span>
+            <div className="row  py-3 justify-content-center align-items-center mb-lg-0 mb-5">
+                <button  type="button" className="btn btn-black " style={{
+                    backgroundColor:'black',
+                    color:'white',
+                    width:'40%',
+                    
+                }}>
+                    <span  >Save and Update</span>
+                  
+                        {/* <div className="spinner-border text-white" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div> */}
                    
 
                 </button>
+
+               
             </div>
-     </div>
-     </div>
+
+   
+   
+   
+   
+                
+            </div>
+        </div>
     </div>
+    </div> :<div></div>
+   }
+        
+        </div>
   )
 }

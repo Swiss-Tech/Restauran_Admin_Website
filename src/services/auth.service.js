@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { REGISTER_SUCCESS, REGISTER_FAIL } from "../actions/auth";
 import {
   API_BASE_URL,

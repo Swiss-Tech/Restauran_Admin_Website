@@ -1,4 +1,4 @@
-class SharedCost{
+export default class SharedCost{
     constructor( itemName,isPercent,value){
        this.itemName = itemName;
        this.isPercent=isPercent;
@@ -6,4 +6,3 @@ class SharedCost{
     }
 }
 
-module.exports = SharedCost;

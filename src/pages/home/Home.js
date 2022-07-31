@@ -91,6 +91,7 @@ export default function Home() {
              <div className='titleSection'> <div className='titleIcon' style={(route === routePath) ?{
                 color:'orange'
              }:{}}>{route.icon}</div>
+             
               <div className='title'>  {route.name}</div></div>
               {route.additionalRoutes.length === 0 ? <div></div> : <div>
                 {

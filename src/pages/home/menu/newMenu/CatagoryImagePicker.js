@@ -1,8 +1,11 @@
 import { display } from '@mui/system';
 import React ,{useState , useEffect}from 'react'
 import { IoImageOutline } from "react-icons/io5";
+import { API_BASE_URL } from '../../../../services/api-config';
+import Image from 'react-bootstrap/Image'
 export default function CatagoryImagePicker(props) {
     const [selectedFile, setSelectedFile] = useState();
+   
     const [preview, setPreview] = useState();
     useEffect(() => {
       if (preview) {
@@ -29,25 +32,36 @@ export default function CatagoryImagePicker(props) {
   
       setSelectedFile(e.target.files[0]);
     };
-  
+  console.log(props.apiImage)
     return (
       <div className="restaurantImagePicker col-12" style={{
        
     height:'150px',    
     position: 'relative',
-    backgroundColor:'#FFF0D4',
+   
+    
     borderRadius:'20px' ,
     marginRight:'10px',
     justifyContent:'center',
     marginTop:'15px'
    
       }}>
-        {preview && <img className="img-fluid" src={props.imageUrl} alt="" />}
+       
+  
+        {preview ? <img className="img-fluid" src={props.imageUrl} style={{
+           height:'150px', 
+           width:"100%",
+           borderRadius:'10px'
+        }} alt="" />:<img className="img-fluid" src={`${API_BASE_URL}/Menu/Photos/${props.apiImage}`} style={{
+           height:'150px', 
+           width:"100%",
+           borderRadius:'10px'
+        }} alt="" />}
         
                <div style={{
                     position:'absolute',
-           bottom:'10px',
-           right:'10px',
+           bottom:'5px',
+           right:'20px',
            width:'100px',
            height:'30px',
            width:'40px',
@@ -75,3 +89,70 @@ export default function CatagoryImagePicker(props) {
       </div>
     );
   }
+
+  export  function MenuImagePicker(props) {
+   
+   
+  
+
+    return (
+      <div className="restaurantImagePicker col-12" style={(props.imageUrl)?{
+       
+        height:'150px',    
+        position: 'relative',
+       
+   
+        borderRadius:'20px' ,
+        marginRight:'10px',
+        justifyContent:'center',
+        marginTop:'15px'
+       
+          }:{
+       
+       height:'150px',    
+       position: 'relative',
+      
+       backgroundColor:'#fff7d9',
+       borderRadius:'20px' ,
+       marginRight:'10px',
+       justifyContent:'center',
+       marginTop:'15px'
+      
+         }}>
+       
+  
+        {props.imageUrl && <img className="img-fluid" src={props.imageUrl} style={{
+           height:'150px', 
+           width:"100%",
+           borderRadius:'10px'
+        }} alt="" />}
+        
+               <div style={{
+                    position:'absolute',
+           top:'5px',
+           right:'20px',
+           width:'100px',
+           height:'30px',
+           width:'40px',
+           backgroundColor:'black',
+           height:'40px',
+           borderRadius:'50%',
+
+           display:'flex',
+           justifyContent:'center'
+
+           
+               }}>
+               <label onClick={()=>{
+                
+                props.handleClick(null);
+                props.imgController();
+               }}> <IoImageOutline size={18} color="white" /></label>
+              
+            </div>
+       
+        
+      </div>
+    );
+  }
+
