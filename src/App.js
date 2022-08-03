@@ -28,7 +28,6 @@ import Catagories from './pages/home/menu/catagories/Catagories';
 import Customers from './pages/home/customers/Customers';
 import Employees from './pages/home/employees/Employees';
 
-
 const theme = {
   colors: {
     primary: "#FECB16",
@@ -39,7 +38,7 @@ const theme = {
 };
 
 export default  function App()  {
-  
+
   const controller = useSelector((state) => state.first_time);
   const firstTimecontroller = useSelector((state) => state.first_time);
   
@@ -73,6 +72,8 @@ useEffect(()=>{
 },[]);
 
 
+const pathName= window.location.pathname
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -98,7 +99,9 @@ useEffect(()=>{
 </div> */}
 <div style={(firstTimecontroller) ?{
  display:'none'
-}:authController.isLoggedIn ? hasData ?{
+}:authController.isLoggedIn ? hasData ? pathName ==='/login' || pathName ==='/restaurantinformation' || pathName ==='/signup'  ?{
+  display:'none'
+}:{
   flex:'1'
 }:{
   display:'none'
@@ -111,7 +114,7 @@ useEffect(()=>{
        
 
        <div style={{
-        flex:'7'
+        flex:'6'
        }}>
        <Routes>
             {/* <Route
@@ -135,7 +138,16 @@ useEffect(()=>{
             <Route path="/signup" element={<Signup />}></Route> */
             }
 
-      <Route path="/" element={ firstTimecontroller === false ? authController.isLoggedIn ? hasData ? <Navigate to="dashboard" /> : hasData === false ?<Navigate to="restaurantinformation"/> : <div> hy{ hasData}</div> : <Navigate to="login"/>:<Navigate to="landing" />} />
+      <Route path="/" element={ firstTimecontroller === false ? authController.isLoggedIn ? hasData ? <Navigate to="dashboard" /> : hasData === false ?<Navigate to="restaurantinformation"/> : <div
+          className="container-fluid vh-100"
+ 
+        >
+          <div className="row d-flex flex-column justify-content-center align-items-center h-100">
+            <div className="spinner-border text-warning" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div> : <Navigate to="login"/>:<Navigate to="landing" />} />
       <Route path = "dashboard" element={ <Dashboard/>}/>
    {/* order */}
    <Route path='order' > 

@@ -3,6 +3,8 @@ import React ,{useState , useEffect}from 'react'
 import { IoImageOutline } from "react-icons/io5";
 import { API_BASE_URL } from '../../../../services/api-config';
 import Image from 'react-bootstrap/Image'
+
+import { RiDeleteBin5Line } from "react-icons/ri";
 export default function CatagoryImagePicker(props) {
     const [selectedFile, setSelectedFile] = useState();
    
@@ -21,10 +23,13 @@ export default function CatagoryImagePicker(props) {
   
       const objectUrl = URL.createObjectURL(selectedFile);
       setPreview(objectUrl);
+      props.handleSetFIle(selectedFile);
+      
   
       return () => URL.revokeObjectURL(objectUrl);
     }, [selectedFile]);
     const onSelectFile = (e) => {
+      
       if (!e.target.files || e.target.files.length === 0) {
         setSelectedFile(undefined);
         return;
@@ -32,7 +37,7 @@ export default function CatagoryImagePicker(props) {
   
       setSelectedFile(e.target.files[0]);
     };
-  console.log(props.apiImage)
+
     return (
       <div className="restaurantImagePicker col-12" style={{
        
@@ -81,7 +86,7 @@ export default function CatagoryImagePicker(props) {
               >
               
                 <input name="" type="file" id={props.id} hidden />
-                <IoImageOutline size={18} />
+                <RiDeleteBin5Line size={18} />
               </label>
             </div>
        

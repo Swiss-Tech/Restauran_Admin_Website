@@ -25,16 +25,21 @@ export function getAllCategory(){
 
 }
 
-export function addCategory(){
-  
+export function addCategory(category){
+ 
+ 
+
 var token = authHeader();
 var myHeaders = new Headers();
 myHeaders.append("Authorization", `Bearer ${token}`);
 myHeaders.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
-  "categoryName": "Piza"
+  "categoryName": category['categoryName'],
+  "isParentCategory": category['isParentCategory'],
+  "parentCategory": category['parentCategory']
 });
+
 
 var requestOptions = {
   method: 'POST',
@@ -44,21 +49,34 @@ var requestOptions = {
 };
 
 
-fetch("http://165.232.80.134/test/admin/Menu/category/add", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
+return fetch("http://165.232.80.134/test/admin/Menu/category/add", requestOptions)
+  .then(response => response.json())
+  .then(result => {
+   console.log(result)
+    return result;
+  })
   .catch(error => console.log('error', error));
 
 }
 
 
-export function updateCategory(){
+
+
+
+
+
+
+export function updateCategory(category){
+  console.log(category)
+  var categoryId = category['id'];
   var token = authHeader();
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
 var raw = JSON.stringify({
-  "categoryName": "Whats up"
+  "categoryName": category['categoryName'],
+  "isParentCategory": category['isParentCategory'],
+  "parentCategory": category['parentCategory']
 });
 
 var requestOptions = {
@@ -68,31 +86,35 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("http://165.232.80.134/test/admin/Menu/category/edit/88e05722-70f1-489e-b0c6-f352aa7c92fe", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
+return fetch(`http://165.232.80.134/test/admin/Menu/category/edit/${categoryId}`, requestOptions)
+  .then(response => response.json())
+  .then(result => {
+    console.log(result)
+    return result
+  })
   .catch(error => console.log('error', error));
 }
 
-export function deleteCategory(){
+
+
+export function deleteCategory(id){
   var token = authHeader();
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);
   myHeaders.append("Content-Type", "application/json");
 
-var raw = JSON.stringify({
-  "categoryName": "Whats up"
-});
 
 var requestOptions = {
   method: 'DELETE',
   headers: myHeaders,
-  body: raw,
   redirect: 'follow'
 };
 
-fetch("http://165.232.80.134/test/admin/Menu/category/delete/88e05722-70f1-489e-b0c6-f352aa7c92fe", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
+ return fetch(`http://165.232.80.134/test/admin/Menu/category/delete/${id}`, requestOptions)
+  .then(response => response.json())
+  .then(result => {
+    console.log(result)
+    return result;
+  })
   .catch(error => console.log('error', error));
 }

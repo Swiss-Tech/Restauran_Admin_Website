@@ -7,7 +7,7 @@ import styled from "styled-components";
         border:none ;
         font-weight :700;
         height:50px;
-        width:25%;
+        width:35%;
         border-radius:10px;
        
         
@@ -85,6 +85,30 @@ import styled from "styled-components";
         background-color: #f8f8f8;
         outline:none ;
         box-shadow:none ;
+    }
+    .customInput{
+        height:60px ;
+        border:1px solid black ;
+        border-radius:15px ;
+        background-color: white;
+        padding:15px;
+       display:flex;
+        gap:10px;
+        flex-direction:row;
+        justify-content:start;
+    }
+
+    .blackButton{
+        background-color:${({theme})=>theme.colors.border} ;
+        color:white;
+        padding-left:30px;
+        padding-right:30px;
+        padding-top:5px;
+        padding-bottom:5px;
+        border-radius:10px
+    
+      
+
     }
 
  `;

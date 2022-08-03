@@ -70,7 +70,9 @@ export default function MenuDetail() {
           
                 </span>Item - {menuId}</h3>
            
-                <p> {dateState.toLocaleDateString('en-US', {
+                <p style={{
+                  color:'gray'
+                }}>  {dateState.toLocaleDateString('en-US', {
                  weekday:'long',
                  day: 'numeric',
                  month: 'short',
@@ -79,9 +81,9 @@ export default function MenuDetail() {
         </div>
         <div class="col   ">
           
-            <div class=" d-flex w-auto align-items-center px-4   justify-content-end">
+            <div class=" d-flex w-auto align-items-start px-4   justify-content-end">
                  
-                <div className="col-12 d-flex justify-content-end align-items-center px-4">
+                <div className="col-6 d-flex justify-content-end align-items-center px-4">
                  
                     <h6 className="pt-2 mt-1  ">Status Avialable</h6>
                    
@@ -89,15 +91,14 @@ export default function MenuDetail() {
       onChange={handleChange} />
 
                 </div>
-                <div style={{
-                    display:"flex"
-                }}> <button onClick={()=>{
+
+   
+                 <button onClick={()=>{
                       navigate(`/menu/editmenu/${menuId}`);
-                }} class="btn btn-black px-4 ml-5 d-flex gap-3"> <span
-                            class="material-icons-outlined small mr-2">
-                            <GrEdit/>
+                }} class="blackButton"> 
+                            <GrEdit />
                         
-                        </span>Edit </button></div>
+                      Edit </button>
             
             </div>
         </div>

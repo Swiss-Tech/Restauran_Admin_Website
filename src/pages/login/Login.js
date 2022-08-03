@@ -5,9 +5,12 @@ import { authactionCreators } from "../../actions";
 import authHeader from "../../services/auth-header";
 import { StyledLogin } from "./styled/StyledLogin";
 import { logout } from "../../actions/auth";
+import { useNavigate } from "react-router";
 import Modal from "react-modal";
+
 Modal.setAppElement("#root");
 export default function Login() {
+  const navigate = useNavigate();
   const controller = useSelector((state) => state);
   const dispatch = useDispatch();
   const ActionController = bindActionCreators(authactionCreators, dispatch);
@@ -17,6 +20,7 @@ export default function Login() {
 
   const [loading, setLoading] = useState("");
   const [showModal, setModal] = useState("");
+  
   function toggleModal(value) {
     setLoading(value);
   }
@@ -48,7 +52,12 @@ export default function Login() {
                       className="btn btn-lg btn-light w-100 mx-0 "
                       data-bs-dismiss="modal"
                       onClick={() => {
+                        if(controller.auth.isLoggedIn){
+                          navigate('/')
+                          setModal(false);
+                        }
                         window.location.reload(false);
+                       
                         setModal(false);
                       }}
                     >

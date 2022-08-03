@@ -4,17 +4,19 @@ import { StyledSignup } from "./styled/SignupStyled";
 import { useSelector, useDispatch } from "react-redux";
 import { authactionCreators } from "../../actions";
 import { bindActionCreators } from "redux";
-
+import { useNavigate } from "react-router";
+import Modal from "react-modal";
 var Link = require("react-router-dom").Link;
-
+Modal.setAppElement("#root");
 export default function Signup() {
+  const navigate = useNavigate();
   const controller = useSelector((state) => state.auth);
   const messagecontroller = useSelector((state) => state.message);
 
   const dispatch = useDispatch();
   const ActionController = bindActionCreators(authactionCreators, dispatch);
-  console.log(controller);
-  console.log(ActionController);
+  
+  
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -22,8 +24,11 @@ export default function Signup() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+
   const [showModal, setModal] = useState(false);
-  const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState(false);
+
+
   function toggleModal(value) {
     setLoading(value);
   }
@@ -64,7 +69,9 @@ export default function Signup() {
                       className="btn btn-lg btn-light w-100 mx-0"
                       data-bs-dismiss="modal"
                       onClick={() => {
-                        window.location.reload();
+                        
+                    
+                        navigate('/')
                         setModal(false);
                       }}
                     >
@@ -262,7 +269,9 @@ display:'none'
             <button
               onClick={ async() => {
 
-                 toggleModal(true);
+                //  toggleModal(true);
+                setLoading(true);
+
                await ActionController.register({
                   firstName: firstName,
                   lastName: lastName,
@@ -270,8 +279,9 @@ display:'none'
                   phoneNumber: phoneNumber,
                   password: password,
                 });
+                setLoading(false);
                 setModal(true);
-                toggleModal(false);
+                
 
                         
               }}

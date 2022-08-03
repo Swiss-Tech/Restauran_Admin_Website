@@ -1,7 +1,6 @@
 import React , {useState , useEffect} from 'react'
 import {MenuImagePicker} from './CatagoryImagePicker'
 import { useSelector } from 'react-redux'
-import Combobox from "react-widgets/Combobox";
 
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -9,11 +8,33 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Switch from '@mui/material/Switch';
 import { IoImageOutline } from "react-icons/io5";
-import Form from 'react-bootstrap/Form';
-import { style } from '@mui/system';
+import { menuActionCreators } from '../../../../actions';
+import { bindActionCreators } from 'redux';
+import { useDispatch } from 'react-redux';
+
+import PostMenuItem from '../../../../models/PostMenuItem';
 import { MdKeyboardArrowDown } from 'react-icons/md';
+import { useNavigate } from 'react-router';
+
+import Loader from '../../../reusable-components/Loader';
+
+
+
+
+
 export default function AddNewMenu() {
+
+
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const [img , setImage] = useState();
+    const MenuActionController = bindActionCreators(menuActionCreators, dispatch);
     const categoryController = useSelector((state)=>state.category);
+    const menuController = useSelector((state)=>state.menu.responseMessage);
+    const menuMessageController = useSelector((state)=>state.menu.responseMessage);
+    const menuStatusController = useSelector((state)=>state.menu.sucess);
+  
     const [image1, setImage1]=useState()
     const [itemName , setItemName] = useState();
     const [price , setPrice] = useState();
@@ -26,11 +47,16 @@ export default function AddNewMenu() {
     const [ingredients , setIngredients] = useState();
     const [ categories , setCategories] = useState([]);
     const [status , setStatus] = useState();
+    const [file , setFile] = useState();
     const [foodImage1, setFoodImage1] = useState();
     const [foodImage2, setFoodImage2] = useState();
     const [foodImage3, setFoodImage3] = useState();
     const [foodImage4, setFoodImage4] = useState();
-
+    const [foodImage1File , setFoodImage1File ] = useState();
+    const [foodImage2File , setFoodImage2File ] = useState();
+    const [foodImage3File , setFoodImage3File ] = useState();
+    const [foodImage4File , setFoodImage4File ] = useState();
+   
 
     const [checked, setChecked] = React.useState(true);
 
@@ -65,30 +91,46 @@ export default function AddNewMenu() {
       }
   
       setSelectedFile(e.target.files[0]);
+    
     };
 
     useEffect(()=>{
-        if(preview){
+        if(preview && selectedFile){
            
             if(imgController===1){
                 setFoodImage1(preview);
+                setFoodImage1File(selectedFile);
                 setController(2);
                 setPreview(null)
+                setSelectedFile(null)
+             
+                
             }
             if(imgController === 2){
                 setFoodImage2(preview);
+                setFoodImage2File(selectedFile);
                 setController(3);
                 setPreview(null)
+                setSelectedFile(null)
+             
+               
             }
             if(imgController === 3){
                 setFoodImage3(preview);
+                setFoodImage3File(selectedFile);
                 setController(4);
                 setPreview(null)
+                setSelectedFile(null)
+             
             }
             if(imgController === 4){
                 setFoodImage4(preview);
+                setFoodImage4File(selectedFile);
                 setController(1);
                 setPreview(null)
+                setSelectedFile(null)
+             
+               
             }
 
         
@@ -97,15 +139,57 @@ export default function AddNewMenu() {
         }
     } ,)
     const [isDisplay, setDisplay] = useState(false);
-console.log(imgList)
+    const [dateState, setDateState] = useState(new Date());
+    useEffect(() => {
+        setInterval(() => setDateState(new Date()), 30000);
+      }, []);
+
+      const [imgURL , setImageURL] = useState();
+
+     var handleInputChange =(e)=>{
+        setImageURL(e);
+        
+      }
+
+      function handleSubmit(){
+      if(imgURL){
+       
+
+      }
+      }
+
+
+      useEffect(()=>{
+        if(menuStatusController === true){
+        navigate('/menu');
+        MenuActionController.clearMenuMessageAction()
+        }
+        if(menuStatusController === false){
+           navigate('/')
+           MenuActionController.clearMenuMessageAction()
+        }
+    
+    })
+    const [isLoading , setLoading]= useState (false);
   return (
-    <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
+  <div>
+    {
+        isLoading ? <Loader/> : <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
 
 <div className="row">
         <div className="col-lg-8">
           
+
+
             <h3 className="font-weight-bolder">Add Menu</h3>
-            <p>12-12-2112</p>
+            <p style={{
+                  color:'gray'
+                }}>  {dateState.toLocaleDateString('en-US', {
+                 weekday:'long',
+                 day: 'numeric',
+                 month: 'short',
+                 year: 'numeric',
+              })}</p>
 
         
         </div>
@@ -351,7 +435,7 @@ console.log(imgList)
        }:{
         display:'none'
        }}>
-       {categoryController.categories.map((category)=> category.id==1 ?<div></div> : <button className='buttonHover' style={{
+       {categoryController.categories.map((category)=> category.id===1 ?<div></div> : <button className='buttonHover' style={{
             border:'none',
             backgroundColor:'transparent'
         }} onClick={()=>{
@@ -406,15 +490,21 @@ console.log(imgList)
         <div className="dropdown-divider d-lg-none d-block mb-3"></div>
         <div className="row px-lg-5 px-3 mb-3">
                
-                <div className="col-6 d-flex flex-row  justify-content-around ">
-                    <h6 className="font-weight-bold">Add images</h6>
+                <div className=" d-flex flex-row  justify-content-between ">
+
+                    <p>Add images</p>
                     <label
                 className="btn "
                 onChange={onSelectFile}
                 htmlFor={'id'}
+                style={{
+                    border:'1px solid black' ,
+                    paddingLeft:'10px',
+                    paddingRight:'10px'
+                }}
               >
               
-                <input name="" type="file" id='id' hidden />
+                <input   name="" type="file" hidden id='id' />
                 Add
               </label>
                 </div>
@@ -430,6 +520,7 @@ console.log(imgList)
                  {
 
                  }
+                 
                 <MenuImagePicker   handleClick={setFoodImage1}
               imageUrl={foodImage1} imgController={()=>{setController(1)}}
               id={"restaurantImage1"} />
@@ -466,8 +557,14 @@ console.log(imgList)
             </div>
 
             <div className="row px-lg-4 py-3 justify-content-center align-items-center mb-lg-0 mb-5">
-                <button  type="button" className="btn btn-black col-lg-4 col-5 py-2  mr-2 d-inline">
-                    <span  >save and add</span>
+                <button onClick={ async ()=>{
+                  setLoading(true);
+          await MenuActionController.addMenuAction(new PostMenuItem(itemName,price,calories,weight,description,enough_for,estimated_preparation_time,removable_ingredients,categories,foodImage1File,foodImage2File,foodImage3File, foodImage4File, checked));
+                setLoading(false);
+            
+            
+                }}  type="button" className="blackButton">
+                    Save and add
                   
                         {/* <div className="spinner-border text-white" role="status">
                             <span className="sr-only">Loading...</span>
@@ -488,5 +585,7 @@ console.log(imgList)
         </div>
     </div>
     </div>
+    }
+  </div>
   )
 }

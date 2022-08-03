@@ -15,7 +15,7 @@ padding-right:10px;
 .sidebartitle,a{
     padding-left:20px;
 border-radius:10px;
-   
+   padding-top:5px;
    padding-bottom:5px;
    margin-bottom:5px;
    display:flex;

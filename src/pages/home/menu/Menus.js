@@ -38,7 +38,9 @@ const categoryController = useSelector((state)=>state.category);
         <div class="col-lg-8">
           
             <h3 class="font-weight-bolder">Menus</h3>
-            <p> {dateState.toLocaleDateString('en-US', {
+            <p style={{
+              color:'gray'
+            }}> {dateState.toLocaleDateString('en-US', {
                  weekday:'long',
                  day: 'numeric',
                  month: 'short',

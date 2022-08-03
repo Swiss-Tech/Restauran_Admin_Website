@@ -28,7 +28,7 @@ const routes = [
         name: "New Orders",
         key: "neworder",
         icon: <Icon fontSize="small">order</Icon>,
-        route: "/neworder",
+        route: "/order/neworder",
             },
         ]
       },
@@ -43,7 +43,7 @@ const routes = [
           name: "Add New Menu",
       key: "addMenu",
       icon: <IoFastFoodOutline/>,
-      route: "/addMenu",
+      route: "/menu/addMenu",
       additionalRoutes:[]
         },
      {
@@ -51,7 +51,7 @@ const routes = [
 name: "Catagories",
 key: "catagories",
 icon: <Icon fontSize="small">order</Icon>,
-route: "/catagories",
+route: "/menu/catagories",
 additionalRoutes:[]
   },
 

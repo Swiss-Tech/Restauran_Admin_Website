@@ -1,5 +1,7 @@
 import authHeader from "./auth-header";
 import { API_BASE_URL , API_ADMIN_MENUS , API_ADMIN_MENU_ADD, API_ADMIN_MENU_DELATE, API_ADMIN_MENU_UPDATE } from "./api-config";
+
+import axios,{post} from "axios";
 export async function getAllMenuItem(){
 
     var token = authHeader();
@@ -21,25 +23,33 @@ var requestOptions = {
 }
 
 
-export function addMenuItem(){
-    var token = authHeader();
+
+
+export function addMenuItem(menu){
+
+var categoryList = menu['category'].map((category)=>(category.id))
+
+var token = authHeader();
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
 var formdata = new FormData();
-formdata.append("name", "Whats up");
-formdata.append("price", "200");
-formdata.append("calories", "100");
-formdata.append("weight", "100");
-formdata.append("description", "Shiro is very very good ");
-formdata.append("enoughFor", "1");
-formdata.append("estPrepTime", "2:00");
-formdata.append("removableIngredients", "[\n\"tomato\"\n]");
-formdata.append("categories", "[\n\"1\",\n\"2\"\n]");
-formdata.append("foodImage1", "Deli_Rolls_Logo.png");
-formdata.append("foodImage2", "Deli_Rolls_Logo.png");
-formdata.append("foodImage3", "Deli_Rolls_Logo.png");
-formdata.append("foodImage4", "Deli_Rolls_Logo.png");
-formdata.append("status", "true");
+
+formdata.append("name", menu['itemName']);
+formdata.append("price", menu['price']);
+formdata.append("calories", menu['calories']);
+formdata.append("weight", menu['weight']);
+formdata.append("description",menu['description']);
+formdata.append("enoughFor", menu['enoughFor']);
+formdata.append("estPrepTime",menu['estimatedTime']);
+formdata.append("removableIngredients", menu['removableIngredient']);
+formdata.append("categories", categoryList);
+
+formdata.append("foodImage1",menu['foodImage1']);
+formdata.append("foodImage2", menu['foodImage2']);
+formdata.append("foodImage3",menu['foodImage3']);
+formdata.append("foodImage4", menu['foodImage4']);
+formdata.append("status", menu['status']);
+
 
 var requestOptions = {
   method: 'POST',
@@ -48,34 +58,85 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch(API_BASE_URL+API_ADMIN_MENU_ADD, requestOptions)
+return fetch(API_BASE_URL+API_ADMIN_MENU_ADD, requestOptions)
   .then(response => response.json())
-  .then(result => console.log(result))
+  .then(result =>{
+  
+    return result;
+  })
   .catch(error => console.log('error', error));
 }
 
 
-export function deleteMenu(){
+
+export function updateMenu (menu){
+  
     var token = authHeader();
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
+    var categoryList = menu['category'].map((category)=>(category.id))
+  
+var token = authHeader();
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+var formdata = new FormData();
+var menuId  = menu['id'];
+
+formdata.append("name", menu['itemName']);
+formdata.append("price", menu['price']);
+formdata.append("calories", menu['calories']);
+formdata.append("weight", menu['weight']);
+formdata.append("description",menu['description']);
+formdata.append("enoughFor", menu['enoughFor']);
+formdata.append("estPrepTime",menu['estimatedTime']);
+formdata.append("removableIngredients", menu['removableIngredient']);
+formdata.append("categories", categoryList);
+formdata.append("foodImage1",menu['foodImage1']);
+formdata.append("foodImage2", menu['foodImage2']);
+formdata.append("foodImage3",menu['foodImage3']);
+formdata.append("foodImage4", menu['foodImage4']);
+formdata.append("status", menu['status']);
+
 var requestOptions = {
-  method: 'DELETE',
+  method: 'PATCH',
   headers: myHeaders,
+  body: formdata,
   redirect: 'follow'
 };
 
+ 
+return fetch(`http://165.232.80.134/test/admin/Menu/update/${menuId}`, requestOptions)
+  .then(response => response.json())
+  .then(result => {
+ console.log(result)
+ return result;
+  })
+  .catch(error =>console.log(error));
+
+
+}
+
+
+
+
+
+
+
+export function deleteMenu(){
+  var token = authHeader();
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
+var requestOptions = {
+method: 'DELETE',
+headers: myHeaders,
+redirect: 'follow'
+};
+
 fetch(API_BASE_URL+API_ADMIN_MENU_DELATE +"08da6e38-914d-46f8-8601-9cf2b74281c1", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+.then(response => response.text())
+.then(result => console.log(result))
+.catch(error => console.log('error', error));
 }
 
 
-export function updateMenu (){
-    // it is not finished
-    var token = authHeader();
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
-}
 

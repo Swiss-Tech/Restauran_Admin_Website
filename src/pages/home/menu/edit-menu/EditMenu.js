@@ -2,7 +2,7 @@ import React , {useState , useEffect} from 'react'
 import CatagoryImagePicker ,{MenuImagePicker} from '../newMenu/CatagoryImagePicker';
 import { useDispatch, useSelector } from 'react-redux'
 import Combobox from "react-widgets/Combobox";
-import MenuItem from '@mui/material/MenuItem';
+// import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -14,14 +14,19 @@ import { bindActionCreators } from 'redux';
 import { useParams } from 'react-router';
 import {API_BASE_URL } from "../../../../services/api-config"
 import { TbAdjustmentsHorizontal } from 'react-icons/tb';
-export default function EditMenu() { const categoryController = useSelector((state)=>state.category);
-    const [image1, setImage1]=useState()
+import MenuItem from '../../../../models/MenuItem';
+import Loader from '../../../reusable-components/Loader';
 
- 
-      
-
+export default function EditMenu() { 
+     const dispatch = useDispatch();
+    const MenuActionController = bindActionCreators(menuActionCreators, dispatch);
+    const categoryController = useSelector((state)=>state.category);
+    
     const [itemDetail ,setItemDetail] = useState();
     const menuController = useSelector((state)=>state.menu.menus);
+    const menuMessageController = useSelector((state)=>state.menu.responseMessage);
+    const menuStatusController = useSelector((state)=>state.menu.sucess);
+  
     let {menuId} = useParams();
     const navigate = useNavigate();
     useEffect(()=>{
@@ -56,10 +61,17 @@ export default function EditMenu() { const categoryController = useSelector((sta
     const [ingredients , setIngredients] = useState();
     const [ categories , setCategories] = useState([]);
     const [status , setStatus] = useState(true);
+
     const [foodImage1, setFoodImage1] = useState();
     const [foodImage2, setFoodImage2] = useState();
     const [foodImage3, setFoodImage3] = useState();
     const [foodImage4, setFoodImage4] = useState();
+    const [foodImage1File , setFoodImage1File ] = useState();
+    const [foodImage2File , setFoodImage2File ] = useState();
+    const [foodImage3File , setFoodImage3File ] = useState();
+    const [foodImage4File , setFoodImage4File ] = useState();
+    const [isLoading , setLoading] = useState(false);
+  
 
 
     const [checked, setChecked] = React.useState(true);
@@ -69,7 +81,6 @@ export default function EditMenu() { const categoryController = useSelector((sta
     };
   
 
-console.log(categoryController.categories);
 
 const [dateState, setDateState] = useState(new Date());
 const [firstTime , setFirstTime] = useState(true);
@@ -78,7 +89,7 @@ useEffect(() => {
   }, []);
 
 
-  
+   console.log(menuMessageController);
 useEffect(  ()=>{
     
     if(itemDetail){
@@ -106,7 +117,7 @@ function setIntialValue (){
  
     }
     else{
-          console.log(itemDetail['removableIngredient'].length)
+
         itemDetail['removableIngredient'].map((value)=>{
            // setRemovableIngredients([...removable_ingredients , value]);
            removable_ingredients.push(value);
@@ -127,13 +138,28 @@ function setIntialValue (){
 
   
 }
+  
+useEffect(()=>{
+    if(menuStatusController === true){
+    navigate('/menu');
+    MenuActionController.clearMenuMessageAction()
+    }
+    if(menuStatusController === false){
+       navigate('/')
+       MenuActionController.clearMenuMessageAction()
+    }
+
+})
+
 
 
   return (
     
     <div>
-    
+     
    {
+    isLoading ? <Loader/> : 
+        
     itemDetail ?  <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
 
 <div className="row">
@@ -422,17 +448,17 @@ function setIntialValue (){
             <div className="row">
           
                 
-                <CatagoryImagePicker   handleClick={setFoodImage1}
+                <CatagoryImagePicker   handleClick={setFoodImage1} handleSetFIle={setFoodImage1File}
               imageUrl={foodImage1}
               id={"restaurantImage1"} apiImage ={ itemDetail['foodImage1']}/>
 
-              <CatagoryImagePicker   handleClick={setFoodImage2}
+              <CatagoryImagePicker   handleClick={setFoodImage2} handleSetFIle={setFoodImage2File}
               imageUrl={foodImage2}
               id={"restaurantImage2"}  apiImage ={ itemDetail['foodImage2']}/>
-              <CatagoryImagePicker   handleClick={setFoodImage3}
+              <CatagoryImagePicker   handleClick={setFoodImage3} handleSetFIle={setFoodImage3File}
               imageUrl={foodImage3}
-              id={"restaurantImage3"} apiImage ={ itemDetail['foodImage3']}/>
-              <CatagoryImagePicker   handleClick={setFoodImage4}
+              id={"restaurantImage3"} apiImage ={ itemDetail['foodImage3']} />
+              <CatagoryImagePicker   handleClick={setFoodImage4}  handleSetFIle={setFoodImage4File}
               imageUrl={foodImage4}
               id={"restaurantImage4"} apiImage ={ itemDetail['foodImage4']} />
                 
@@ -454,7 +480,12 @@ function setIntialValue (){
             </div>
 
             <div className="row  py-3 justify-content-center align-items-center mb-lg-0 mb-5">
-                <button  type="button" className="btn btn-black " style={{
+                <button  onClick={ async ()=>{
+                        
+                   setLoading(true)
+           await MenuActionController.updateMenuAction(new MenuItem(menuId , itemName, price, calories, weight,description,enough_for,estimated_preparation_time,removable_ingredients,categories,foodImage1File,foodImage2File,foodImage3File,foodImage4File,checked));
+             setLoading(false);
+                }} type="button" className="btn btn-black " style={{
                     backgroundColor:'black',
                     color:'white',
                     width:'40%',
@@ -462,9 +493,7 @@ function setIntialValue (){
                 }}>
                     <span  >Save and Update</span>
                   
-                        {/* <div className="spinner-border text-white" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div> */}
+                        
                    
 
                 </button>
@@ -481,7 +510,11 @@ function setIntialValue (){
         </div>
     </div>
     </div> :<div></div>
-   }
+   
+    }
+
+    
+   
         
         </div>
   )

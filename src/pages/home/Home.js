@@ -132,6 +132,21 @@ route === routePath
         </div>
     </div>
     </StyledSidebar>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     <div className='pages' id={routePath.route}> 
 
    

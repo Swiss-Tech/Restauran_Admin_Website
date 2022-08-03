@@ -12,15 +12,11 @@ import { TbAdjustmentsHorizontal } from 'react-icons/tb';
 
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { API_BASE_URL } from '../../../services/api-config';
+import { act } from 'react-dom/test-utils';
+import { color } from '@mui/system';
+import { BsPlus } from 'react-icons/bs';
 export default function Tabs() {
-  var myHeaders = new Headers();
-  myHeaders.append("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJSRVNUX0lEIjoiMDhkYTZlMmYtMTY3YS00NmUyLTg5ZTYtOWVjNGViMjFjMzEwIiwiX2F0XyI6IlN1cGVyX0FkbWluIiwiZXhwIjoxNjYwMDQzNzc0fQ.SjDbIsph4XJiSWhDIHvB9u31yf9gu2U7x8AOVLQvJQ5N4pjHchb7hGFqAsvLZfDI2Ngl9avKt4-7zekrTMPbfzDONPhwrWw1Z-0vdCZH4SVOB0LAhvoDy0xt-XKFAqkIerp4sIOj7avh-WPrtT_sMn_wg4JRgNL69Qni-HrJw7lXZiviYBkVDtfyRc8JsZ9pFrM2Q1elvV2tTxnTwHid1PGGDMVQYkRqxCZ4CQRN7YMR-3WQ3CINwDSr-7u4Uy3UgX8eLpIzWjw7AZsAQscOcqzGYJ9KJGdjw0R5Fd9-A3JwSa6FStFWr1jX1CEbupiVJs2orrx6TmNvee9_PH2o4w");
   
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
     const  menuController = useSelector((state)=>state.menu);
     const categoryController = useSelector((state)=>state.category);
     const [inputText, setInputText] = useState();
@@ -34,11 +30,7 @@ export default function Tabs() {
     const [filtered , setFilter] = useState(
      []
     )
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64data = reader.result;                
-      console.log(base64data);
-    }
+   
     
 
 
@@ -50,15 +42,11 @@ export default function Tabs() {
        
         filterData();
         
-        
-        
       }
     
      
-     }, [activeKey] ,[filtered]);
+     },[activeKey] );
 
-    
-     
        function filterData(){
      
   
@@ -69,24 +57,27 @@ export default function Tabs() {
         else{
           setData(null);
 
+
           fetchedItems.map((item)=>{
             
-            if(item.category.some(category => category.id === activeKey)){
             
-              
-    if(filtered.some(isExist=>isExist.id === item.id)){
-     
-    } 
+            if(item.category.some(category => category.id === activeKey))
+            
+    {   console.log(item);
+        
+       if(!filtered.some(isExist=>isExist.id === item.id)){
+        filtered.push(item);
+           } 
    
-    else{
-      filtered.push(item);
-      
-    }
-    setData(filtered);
+           setData(filtered);
+           
+    
             }
-            
+           
 
-          })
+          },
+          
+          )
 
         }
     
@@ -94,17 +85,9 @@ export default function Tabs() {
       const categories = categoryController.categories;
 
 
-      const [img, setImg] = useState();
-     
+      
 
-      const fetchImage = async () => {
-        const res = await fetch(imageUrl);
-        const imageBlob = await res.blob();
-        const imageObjectURL = URL.createObjectURL(imageBlob);
-        setImg(imageObjectURL);
-        return imageObjectURL;
-      };
-     
+    
     
 useEffect(()=>{
   if(inputText){
@@ -114,17 +97,21 @@ useEffect(()=>{
   else{
     filterData();
   }
-})
+},[inputText, serachFilter, filterData],)
 
 function serachFilter()
 {
    setFilter([]);
+
  fetchedItems.map((item)=>{
-  if(item.itemName.toLowerCase() === inputText.toLowerCase()){
+
+  if( item.itemName.toLowerCase().includes(inputText.toLowerCase())  )
+  {
 
     if(filtered.some(isExist=>isExist.id === item.id)){
      
-    } {
+    } 
+    {
       filtered.push(item);
     }
   
@@ -149,26 +136,43 @@ function serachFilter()
               marginLeft:"10px"
             }}>
 
-                    <span class="mr-2 ">{menuController.menus.length}</span>Total Items
+                    <span class=" " style={{
+                      fontWeight:'700',
+                      fontSize:'20px' ,
+                      paddingLeft:'7px',
+                      paddingRight:'7px',
+
+                    }}>{menuController.menus.length}</span> <div style={{ 
+                      marginLeft:'5px',
+                      color:'gray',
+                      fontWeight:'600',
+                      fontSize:'13px'
+                    }}>Total Items</div>
                 </div>
             </div>
             <div class="d-flex justify-content-center align-items-center" >
                 <div class="d-flex justify-content-center align-items-center 
-                     px-3 py-2 rounded mr-3" style={{
+                     px-3 py-2 rounded mr-3" 
+                     style={{
               border: "1px solid black",
               backgroundColor:"black",
-              marginLeft:"15px"
+              marginLeft:"15px",
+              color:'white'
             
             }}> 
+            <GrAdd 
+           size={10} 
+            />
             <div style={{
                border: "1.5px solid white",
                width:'20px',
                height:'20px',
                borderRadius:'20px',
-               marginRight:'5px'
-            }}><GrAdd 
-            color="white" size={10}
-            /></div>
+               marginRight:'5px',
+               display:'flex',
+               alignItems:'center'
+            }}><BsPlus size={25}/></div>
+            
 <Link to="addMenu" style={{
   textDecoration:'none',
   color:"white"
@@ -186,9 +190,18 @@ function serachFilter()
           
             
                 <div class="col-lg px-0">
-                <div className="input-group mb-3">
-  <span className="input-group-text" id="basic-addon1"><BsSearch/></span>
-  <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1"  onChange={(e)=>{setInputText(e.target.value)}}  />
+                <div className="customInput " style={{
+                  justifyContent:'start',
+                  alignContent:'center',
+                  alignItems:'center'
+                }} >
+  <BsSearch size={20} color='black'/>
+  <input style={{
+    border:'none',
+    background:'transparent',
+    padding:'0',
+    margin:'0'
+  }} type="text"  placeholder="Search"   onChange={(e)=>{setInputText(e.target.value)}}  />
         </div>
                 </div>
 
@@ -224,7 +237,8 @@ function serachFilter()
          color:'orange',
             border:'none',
             justifyContent:'end',
-            borderBottom:'1px solid orange'
+            borderBottom:'1px solid orange',
+            fontWeight:'600'
        }:{
             color:'gray',
             border:'none',
@@ -258,9 +272,7 @@ function serachFilter()
 <div class="container">
 <Link to={`menudetail/${item.id}`}> 
 
- <img onClick={()=>{
-    
-  }} src={`${API_BASE_URL}/Menu/Photos/${item.foodImage1}`} alt="" /></Link>
+ <img src={`${API_BASE_URL}/Menu/Photos/${item.foodImage1}`} alt="" /></Link>
 <Link to={`editmenu/${item.id}`}> 
 <button class="btn">Edit</button>
 </Link>
@@ -371,7 +383,7 @@ const StyeledTab = styled.section`
 .container img {
   margin-top:20px;
   width: 100%;
-  height: auto;
+height:200px;
   border-radius:5px
 }
 
