@@ -109,18 +109,20 @@ export default function MenuDetail() {
 
 
 
-            <Carousel>
+            <Carousel >
       <Carousel.Item interval={1000}>
       
-        <img
-          className="d-block w-100"
+        <img height={'400px'} 
+          className="d-block w-100" style={{
+           
+          }}
           src={`${API_BASE_URL}/Menu/Photos/${ itemDetail['foodImage1']  }`} 
           alt="First slide"
         />
        
       </Carousel.Item>
       <Carousel.Item interval={1000}>
-        <img
+        <img height={'400px'} 
           className="d-block w-100"
           src={`${API_BASE_URL}/Menu/Photos/${ itemDetail['foodImage2']  }`} 
           alt="Second slide"
@@ -129,7 +131,7 @@ export default function MenuDetail() {
         
       </Carousel.Item>
       <Carousel.Item interval={1000}>
-        <img
+        <img height={'400px'} 
           className="d-block w-100"
           src={`${API_BASE_URL}/Menu/Photos/${ itemDetail['foodImage3']  }`} 
           alt="Third slide"
@@ -138,7 +140,7 @@ export default function MenuDetail() {
         
       </Carousel.Item>
       <Carousel.Item>
-        <img
+        <img height={'400px'} 
           className="d-block w-100"
           src={`${API_BASE_URL}/Menu/Photos/${ itemDetail['foodImage4']  }`} 
           alt="Third slide"

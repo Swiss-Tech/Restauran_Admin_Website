@@ -1,7 +1,7 @@
 import Category from "../models/Category";
 import { getAllCategory , addCategory,updateCategory ,deleteCategory} from "../services/category.services";
 import { addMenuItem } from "../services/menu.services";
-import { CATEGORYS_FETCHED_FAILED, CATEGORYS_FETCHED_SUCCESS , CATEGORY_ADD_FAILD, CATEGORY_ADD_SUCCESS } from "./types";
+import { CATEGORYS_FETCHED_FAILED, CATEGORYS_FETCHED_SUCCESS , CATEGORY_ADD_FAILD, CATEGORY_ADD_SUCCESS , CLEAR_CATEGORY_MESSAGE  , CATEGORY_DELETE_SUCCESS, CATEGORY_DELETE_FAILED} from "./types";
 export const getAllCatagoryAction =()=> (dispatch)=>{
     return getAllCategory().then(
         (data)=>{
@@ -29,6 +29,7 @@ export const addCategoryAction=(category)=>(dispatch)=>{
 
     return addCategory(category).then(
         (data)=>{
+            console.log(data);
              if (data.success) {
                 dispatch({
                     type:CATEGORY_ADD_SUCCESS,
@@ -82,7 +83,25 @@ export const updateCategoryAction=(category)=>(dispatch)=>{
 export const deleteCategoryAction =(id)=>(dispatch)=>{
     return deleteCategory(id).then(
         (data)=>{
-            console.log(data);
+            if (data.success) {
+                dispatch({
+                    type:CATEGORY_DELETE_SUCCESS,
+                    payload:data.message
+                })
+             }
+             else{
+                dispatch({
+                    type:CATEGORY_DELETE_FAILED,
+                    payload:data.message
+                })
+             }
+            
+          
         }
     )
 }
+
+export const clearCategoryMessageAction = () => ({
+    type: CLEAR_CATEGORY_MESSAGE,
+  });
+  

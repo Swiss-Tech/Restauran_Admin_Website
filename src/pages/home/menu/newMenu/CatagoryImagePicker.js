@@ -86,7 +86,8 @@ export default function CatagoryImagePicker(props) {
               >
               
                 <input name="" type="file" id={props.id} hidden />
-                <RiDeleteBin5Line size={18} />
+
+                <IoImageOutline size={18} />
               </label>
             </div>
        
@@ -134,17 +135,19 @@ export default function CatagoryImagePicker(props) {
         
                <div style={{
                     position:'absolute',
-           top:'5px',
+           
            right:'20px',
-           width:'100px',
+          top:'20px',
            height:'30px',
            width:'40px',
            backgroundColor:'black',
            height:'40px',
            borderRadius:'50%',
-
+           
            display:'flex',
-           justifyContent:'center'
+           justifyContent:'center',
+           alignSelf:'center',
+           alignItems:'center'
 
            
                }}>
@@ -152,7 +155,12 @@ export default function CatagoryImagePicker(props) {
                 
                 props.handleClick(null);
                 props.imgController();
-               }}> <IoImageOutline size={18} color="white" /></label>
+
+               }}>
+               
+                <RiDeleteBin5Line size={18} color="white"  style={{
+                  marginBottom:'3px'
+                }}/></label>
               
             </div>
        

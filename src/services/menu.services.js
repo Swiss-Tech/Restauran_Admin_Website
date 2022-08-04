@@ -1,7 +1,7 @@
 import authHeader from "./auth-header";
 import { API_BASE_URL , API_ADMIN_MENUS , API_ADMIN_MENU_ADD, API_ADMIN_MENU_DELATE, API_ADMIN_MENU_UPDATE } from "./api-config";
 
-import axios,{post} from "axios";
+
 export async function getAllMenuItem(){
 
     var token = authHeader();
@@ -57,14 +57,11 @@ var requestOptions = {
   body: formdata,
   redirect: 'follow'
 };
-
-return fetch(API_BASE_URL+API_ADMIN_MENU_ADD, requestOptions)
+return fetch("http://165.232.80.134/test/admin/Menu/add", requestOptions)
   .then(response => response.json())
-  .then(result =>{
-  
-    return result;
-  })
+  .then(result => result)
   .catch(error => console.log('error', error));
+
 }
 
 
@@ -81,7 +78,7 @@ var token = authHeader();
     myHeaders.append("Authorization", `Bearer ${token}`);
 var formdata = new FormData();
 var menuId  = menu['id'];
-
+console.log(menuId)
 formdata.append("name", menu['itemName']);
 formdata.append("price", menu['price']);
 formdata.append("calories", menu['calories']);
@@ -104,21 +101,17 @@ var requestOptions = {
   redirect: 'follow'
 };
 
- 
+
 return fetch(`http://165.232.80.134/test/admin/Menu/update/${menuId}`, requestOptions)
   .then(response => response.json())
   .then(result => {
- console.log(result)
+   console.log(result)
  return result;
   })
-  .catch(error =>console.log(error));
+  .catch(error =>error);
 
 
 }
-
-
-
-
 
 
 

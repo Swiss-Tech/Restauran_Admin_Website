@@ -88,8 +88,11 @@ export default function Catagory(props) {
         
          
             }}>Edit</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onClick={()=>{
-              props.handleDelete(item.id)
+            <Dropdown.Item eventKey="2" onClick={ async ()=>{
+
+               props.handleLoading(true);
+              await props.handleDelete(item.id)
+               props.handleLoading(false);
             
             }}> Delete</Dropdown.Item>
            

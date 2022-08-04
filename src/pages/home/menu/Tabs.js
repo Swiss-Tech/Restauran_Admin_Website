@@ -15,8 +15,9 @@ import { API_BASE_URL } from '../../../services/api-config';
 import { act } from 'react-dom/test-utils';
 import { color } from '@mui/system';
 import { BsPlus } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 export default function Tabs() {
-  
+    const navigate = useNavigate()
     const  menuController = useSelector((state)=>state.menu);
     const categoryController = useSelector((state)=>state.category);
     const [inputText, setInputText] = useState();
@@ -255,7 +256,7 @@ function serachFilter()
 
    
     
-    <Row   lg={4} style={{
+    <Row   lg={data ? 4 :1} style={{
        
 
            
@@ -345,18 +346,40 @@ function serachFilter()
           </div>
            
            </Col>
-           ) :<div style={{
+           ) :
+           
+          <Col>
+          <div>
+           <div style={{
             display:'flex',
             flexDirection:'column',
             alignItems:'center',
-            justifyContent:'center'
+            justifyContent:'center',
+           
+            marginTop:'13%'
+
+           
+            
+
            }}>
- <AiOutlineExclamationCircle size={100} color="gray"/>
- <h1>No Items are found In This Category</h1>
- <button style={{
-  color:'orange'
- }}>Add</button>
+ <AiOutlineExclamationCircle size={'7%'} color="#C7C7CC" style={{
+   marginBottom:'1%'
+ }}/>
+ <h6 style={{
+  color:'#8E8E93',
+  fontWeight:'300',
+  fontSize:'20px',
+  marginBottom:'1%'
+
+ }}>No Items are found</h6>
+
+<button className='customButton'  onClick={()=>{
+ navigate('/menu/addMenu')
+}}>Add New Item</button>
+ 
            </div>
+           </div>
+          </Col>
          }
          
        

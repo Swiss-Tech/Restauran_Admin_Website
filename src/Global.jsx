@@ -7,13 +7,12 @@ import styled from "styled-components";
         border:none ;
         font-weight :700;
         height:50px;
-        width:35%;
+        width:20%;
         border-radius:10px;
        
         
         &:hover{
-            background-color:white ;
-        color:orange ;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
 
     }

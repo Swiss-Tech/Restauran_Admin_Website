@@ -14,6 +14,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import Loader from '../../../reusable-components/Loader';
 
 const StyedCategories = styled.section`
  
@@ -25,6 +26,8 @@ export default function Catagories() {
   const dispatch = useDispatch();
   const CategoryActionControllers = bindActionCreators(categoryActionCreators, dispatch)
   const categoryController = useSelector((state)=>state.category.categories);
+  const categoryMessageontroller = useSelector((state)=>state.category.responseMessage);
+  const categoryStatuseontroller = useSelector((state)=>state.category.sucess);
   
   const [categoryName , setCategoryName] = useState();
   const [parentCategory , setParentCategory] = useState();
@@ -59,17 +62,37 @@ export default function Catagories() {
     setParentCategory(editableCategory.parentCategory)
     setIsParentCategory(editableCategory.isParentCategory)
     }
-   },)
-const [loading , setLoading] = useState();
+   },[isEdit])
+
 const [dateState, setDateState] = useState(new Date());
 const [firstTime , setFirstTime] = useState(true);
 useEffect(() => {
     setInterval(() => setDateState(new Date()), 30000);
   }, []);
 
+  const [isLoading , setLoading] = useState(false);
+
+
+   useEffect(  ()=>{
+     if(categoryStatuseontroller) {
+   
+      CategoryActionControllers.getAllCatagoryAction();
+  
+        CategoryActionControllers.clearCategoryMessageAction()
+        navigate(0)
+    } 
+    if(categoryStatuseontroller === false){
+      
+      CategoryActionControllers.getAllCatagoryAction();
+  
+      CategoryActionControllers.clearCategoryMessageAction()
+      navigate(0)
+    }
+   })
+  console.log(categoryStatuseontroller);
   return (
     <StyedCategories>
-    <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
+   { isLoading ? <Loader/> : <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
 
 <div class="row">
         <div class="col">
@@ -90,7 +113,7 @@ useEffect(() => {
     <div class="row pt-3">
     <div class="col-lg-7 bg-white px-5 py-5 mx-lg-0 mx-3 rounded-lg">
          
-      <Catagory setEditable ={setEditable} setIsEdit={setIsEdit} handleDelete={CategoryActionControllers.deleteCategoryAction}/>
+      <Catagory setEditable ={setEditable} setIsEdit={setIsEdit} handleDelete={CategoryActionControllers.deleteCategoryAction} handleLoading ={ setLoading }/>
 
 
      </div>
@@ -107,7 +130,7 @@ useEffect(() => {
                             }} for="category-name">Category Name 
                            </label>
                            <input  type="text" class="form-control" formControlName="categoryName"
-                            name="" onChange={(e)=>setCategoryName(e.target.value)} defaultValue={categoryName} />
+                            name="" defaultValue={categoryName} onChange={(e)=>setCategoryName(e.target.value)}  />
                            
                            
 
@@ -187,23 +210,36 @@ useEffect(() => {
                         <div>Is Parent Category</div>   <Switch    checked={isParentCategory} 
       onChange={handleChange} />
                     </div>
-                    <p  onClick={()=>{
+                    <div   onClick={ async ()=>{
+
+                    
                       if(isEdit){
-                     CategoryActionControllers.updateCategoryAction(new Category(id, categoryName, isParentCategory, parentCategory ))
+                        setLoading(true)
+                    await CategoryActionControllers.updateCategoryAction(new Category(id, categoryName, isParentCategory, parentCategory ))
+                     setLoading(false)
                      
                       }
                       else{
-                        CategoryActionControllers.addCategoryAction(new POSTCATEGORY(categoryName,isParentCategory, parentCategory))
+                        setLoading(true)
+                      await  CategoryActionControllers.addCategoryAction(new POSTCATEGORY(categoryName,isParentCategory, parentCategory))
+                        setLoading(false)
                       }
     
-                    }} className='customButton'>{ isEdit ?'Update Category' :'Add Category'  }</p>
+                    }} className='customButton btn' style={{
+                      width:'200px',
+                      fontSize:'15px',
+                       display:'flex',
+                       justifyContent:'center',
+                       alignContent:'center',
+                       alignItems:'center'
+                    }}>{ isEdit ?'Update Category' :'Add Category'  }</div>
 
                     
                     </div>
      </form>
      </div>
     </div>
-    </div>
+    </div> }
     </StyedCategories>
   )
 }

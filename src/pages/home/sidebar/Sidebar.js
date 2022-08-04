@@ -73,7 +73,7 @@ console.log(showChild)
               </div>
               {route.additionalRoutes.length === 0 ? <div></div> : <div>
                 {
-                    <div> { route.route === location.pathname ? <MdKeyboardArrowUp size={20} color='gray' style={{
+                    <div> { route.route === location.pathname && showChild?  <MdKeyboardArrowUp size={20} color='gray' style={{
                       marginTop:'5px',
                       marginRight:'15px'
                     }}/>: <MdKeyboardArrowRight size={20} color='gray' style={{

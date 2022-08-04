@@ -73,6 +73,7 @@ export const getallmenues = ()=> (dispatch)=> {
   export const addMenuAction =(menu)=>(dispatch)=>{
      return  addMenuItem(menu).then(
         (data)=>{
+         console.log(data);
            if(data.success){
             dispatch({
                 type: MENUITEM_CREATE_SUCCESS,
@@ -81,7 +82,7 @@ export const getallmenues = ()=> (dispatch)=> {
            }
            else{
             dispatch({
-                type: SET_MESSAGE,
+                type: MENUITEM_CREATE_FAILED,
                 payload: data.message,
               });
            }
@@ -94,7 +95,7 @@ export const getallmenues = ()=> (dispatch)=> {
         error.message ||
         error.toString();
       dispatch({
-            type: SET_MESSAGE,
+            type: MENUITEM_CREATE_FAILED,
             payload: message,
           });
         
@@ -111,7 +112,7 @@ export const getallmenues = ()=> (dispatch)=> {
          
           if(data.success){
            dispatch({
-               type: SET_MESSAGE,
+               type: MENUITEM_UPDATE_SUCCESS,
                payload: data.message,
              });
           }

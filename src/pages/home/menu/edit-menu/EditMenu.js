@@ -141,7 +141,7 @@ function setIntialValue (){
   
 useEffect(()=>{
     if(menuStatusController === true){
-    navigate('/menu');
+    console.log(menuStatusController)
     MenuActionController.clearMenuMessageAction()
     }
     if(menuStatusController === false){
@@ -149,7 +149,7 @@ useEffect(()=>{
        MenuActionController.clearMenuMessageAction()
     }
 
-})
+},[menuStatusController])
 
 
 
@@ -481,10 +481,10 @@ useEffect(()=>{
 
             <div className="row  py-3 justify-content-center align-items-center mb-lg-0 mb-5">
                 <button  onClick={ async ()=>{
-                        
-                   setLoading(true)
-           await MenuActionController.updateMenuAction(new MenuItem(menuId , itemName, price, calories, weight,description,enough_for,estimated_preparation_time,removable_ingredients,categories,foodImage1File,foodImage2File,foodImage3File,foodImage4File,checked));
-             setLoading(false);
+                        console.log(itemName)
+        //            setLoading(true)
+        //    await MenuActionController.updateMenuAction(new MenuItem(menuId , itemName, price, calories, weight,description,enough_for,estimated_preparation_time,removable_ingredients,categories,foodImage1File,foodImage2File,foodImage3File,foodImage4File,checked));
+        //      setLoading(false);
                 }} type="button" className="btn btn-black " style={{
                     backgroundColor:'black',
                     color:'white',

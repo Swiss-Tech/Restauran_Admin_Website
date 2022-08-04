@@ -17,7 +17,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { useNavigate } from 'react-router';
 
 import Loader from '../../../reusable-components/Loader';
-
+import { addMenuItem } from '../../../../services/menu.services';
 
 
 
@@ -102,7 +102,7 @@ export default function AddNewMenu() {
                 setFoodImage1File(selectedFile);
                 setController(2);
                 setPreview(null)
-                setSelectedFile(null)
+              
              
                 
             }
@@ -111,7 +111,7 @@ export default function AddNewMenu() {
                 setFoodImage2File(selectedFile);
                 setController(3);
                 setPreview(null)
-                setSelectedFile(null)
+          
              
                
             }
@@ -120,7 +120,7 @@ export default function AddNewMenu() {
                 setFoodImage3File(selectedFile);
                 setController(4);
                 setPreview(null)
-                setSelectedFile(null)
+              
              
             }
             if(imgController === 4){
@@ -128,7 +128,7 @@ export default function AddNewMenu() {
                 setFoodImage4File(selectedFile);
                 setController(1);
                 setPreview(null)
-                setSelectedFile(null)
+                
              
                
             }
@@ -161,13 +161,33 @@ export default function AddNewMenu() {
 
       useEffect(()=>{
         if(menuStatusController === true){
-        navigate('/menu');
+            
+           if(menuMessageController){
+            alert(menuMessageController);
+           }
+
+           setItemName();
+           setPrice()
+           setWeight()
+           setCalories()
+           setDescription()
+           setEnoughFor()
+           setRemovableIngredients([])
+           setStatus(false)
+           setCategories([])
+           setFoodImage1()
+           setFoodImage2()
+           setFoodImage3()
+           setFoodImage4()
+
+      
         MenuActionController.clearMenuMessageAction()
         }
         if(menuStatusController === false){
            navigate('/')
            MenuActionController.clearMenuMessageAction()
         }
+
     
     })
     const [isLoading , setLoading]= useState (false);

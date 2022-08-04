@@ -12,7 +12,7 @@ import { authactionCreators, menuActionCreators , categoryActionCreators } from 
 import RestaurantInformation from "./pages/restaurant-information/Restaurant_Information";
 
 import { restaurantInfoStatus } from "./services/account.service"; 
-import authHeader from "./services/auth-header";
+
 import { logout_function } from "./services/auth.service";
 
 import Sidebar from './pages/home/sidebar/Sidebar';

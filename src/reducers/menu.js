@@ -1,4 +1,4 @@
-import { StaticDatePicker } from "@mui/x-date-pickers";
+
 import { MENUITEMS_FETCHED_SUCCESS,  MENUITEMS_FETCHED_FAILED,
     MENUITEM_CREATE_SUCCESS,
     MENUITEM_CREATE_FAILED,
