@@ -55,7 +55,23 @@ import styled from "styled-components";
         color:orange ;
         }
    } 
+  .customSearch{
+    height:60px ;
+        border:none ;
+        border-radius:15px ;
+        background-color: white;
+        padding:15px;
+       display:flex;
+        gap:10px;
+        flex-direction:row;
+        justify-content:start;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.08);
+  }
 
+   .customShadow{
+  
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 5px 0 rgba(0, 0, 0, 0.06);
+   }
     input , .customInput{
         height:60px ;
         border:none ;

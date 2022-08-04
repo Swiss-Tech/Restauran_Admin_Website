@@ -1,5 +1,5 @@
 import React , {  useState}from 'react'
-import { Dropdown } from 'react-bootstrap';
+//import { Dropdown } from 'react-bootstrap';
 
 import Pagination from './TablePagination';
 import OrderDetail from './orderDetail/OrderDetail';
@@ -7,8 +7,12 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { messageActionCreators } from '../../../actions';
-
-
+import { BsSearch } from 'react-icons/bs';
+import { TbAdjustmentsHorizontal } from 'react-icons/tb';
+import Table from 'react-bootstrap/Table';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import styled from 'styled-components';
 var Link = require("react-router-dom").Link;
 
 export default function OrderTable() {
@@ -42,6 +46,7 @@ export default function OrderTable() {
         createData(13,'tirore',['pixa'], 305, '12:00', 'null', 'preparing'),
         createData(13,'mimi',['pixa'], 305, '12:00', 'null', 'preparing'),
         createData(14,'eyu',['pixa'], 305, '12:00', 'null', 'preparing'),
+        
       ];
 
 
@@ -77,16 +82,62 @@ export default function OrderTable() {
         setCurrentPage(pageNumber);
       }
   return (
-    <div>
-<div className="input-group mb-3">
-  <span className="input-group-text" id="basic-addon1">@</span>
-  <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" value={inputText} onChange={filterData} />
-</div>
-<table class="table  table-borderless  table-hover mt-lg-4">
+    <StyledOrder>
+    <div
+            class="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-between align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
           
-            <thead>
-                <tr class="border-top-0 text-muted text-center ">
-                    <th scope="col">#</th>
+            
+                <div class="col-lg-4 px-0 ">
+                <div className="customSearch " style={{
+                  justifyContent:'start',
+                  alignContent:'center',
+                  alignItems:'center',
+                  marginBottom:'30px'
+
+                  
+                }} >
+  <BsSearch size={20} color='black'/>
+  <input style={{
+    border:'none',
+    background:'transparent',
+    padding:'0',
+    margin:'0'
+  }}  type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" value={inputText} onChange={filterData} />
+
+        </div>
+                </div>
+
+                <div class="col-lg-4 d-flex justify-content-lg-end">
+            <div>
+                 
+                <button 
+                    class="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
+                        class="material-icons-outlined medium mr-2">
+                      <TbAdjustmentsHorizontal size={25} style={{
+                        padding:'2px'
+                      }}/>  
+                    </span> Filter Order</button>
+            </div>
+
+        </div>
+           
+
+        </div>
+
+
+        <Table borderless responsive hover >
+      <thead style={{
+       
+      }}>
+      <tr   style={{
+        color:'#8E8E93',
+       
+
+        borderBottom:'1px solid #8E8E93',
+        
+      
+      }}>
+                    <th scope="col" >#</th>
                     <th scope="col">Order ID</th>
                     <th scope="col">Customer</th>
                     <th scope="col">Menu</th>
@@ -96,27 +147,59 @@ export default function OrderTable() {
                     <th scope="col">Status</th>
                     <th scope="col">Actions</th>
                 </tr>
-            </thead>
-            <tbody>
+      </thead>
+      <tbody >
                 { currentOrders.map((order,index)=>{return(
 
     
-                        <tr onClick={()=>{
-                          // to={`orderDetail/${order.id}`}
-                         ActionController.setMessage(order);
+                        <tr className='customShadow'  height="80px" >
+                        <td scope="col" onClick={()=>{
+                          navigate(`/order/orderDetail/${order.id}`)
+                        }} style={{
+                          
+                        }}>{index+1}</td>
+                        <td scope="col" onClick={()=>{
+                          navigate(`/order/orderDetail/${order.id}`)
+                        }} style={{
+                          
+                        }}> {order.id}</td>
+                        <td onClick={()=>{
+                          navigate(`/order/orderDetail/${order.id}`)
+                        }} style={{
+                          
                         }}>
-                        <td scope="col">{index+1}</td>
-                        <td > {order.id}</td>
-                        <td>{order.customer}</td>
-                        <td>{order.menu}</td>
-                        <td>{order.total}</td>
-                        <td>{order.orderType}</td>
-                        <td>{order.orderTime}</td>
-                        <td>
+                              {order.customer}</td>
+                        <td onClick={()=>{
+                          navigate(`/order/orderDetail/${order.id}`)
+                        }} style={{
+                          
+                        }}>{order.menu}</td>
+                        <td onClick={()=>{
+                          navigate(`/order/orderDetail/${order.id}`)
+                        }} style={{
+                          
+                        }}>{order.total}</td>
+                        <td onClick={()=>{
+                          navigate(`/order/orderDetail/${order.id}`)
+                        }} style={{
+                          
+                        }}>{order.orderType}</td>
+                        <td onClick={()=>{
+                          navigate(`/order/orderDetail/${order.id}`)
+                        }} style={{
+                          
+                        }}>{order.orderTime}</td>
+                        <td onClick={()=>{
+                          navigate(`/order/orderDetail/${order.id}`)
+                        }} style={{
+                          
+                        }}>
 
                          
                             <div 
-                            class="px-2 bg-lightPrimary small py-1 font-weight-bold text-warning d-flex justify-content-center align-items-center rounded-pill" style={(order.status==='pending')?{}:{
+                             style={(order.status==='pending')?{
+                              color:'orange'
+                             }:{
                                 display:'none'
                             }}>
                             {order.status}</div>
@@ -133,23 +216,37 @@ export default function OrderTable() {
                             {order.status}</div> */}
 
                         </td>
-                        <Dropdown>
-       <Dropdown.Toggle variant="success" id="dropdown-basic">
-         Dropdown Button
-       </Dropdown.Toggle>
-
-       <Dropdown.Menu>
-        <Dropdown.Item href="">Action</Dropdown.Item>         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="">Something else</Dropdown.Item>
-    </Dropdown.Menu>
-   </Dropdown>
+                        <td>
+                        <DropdownButton variant='white' >
+                      
+      <Dropdown.Item >Action</Dropdown.Item>
+      <Dropdown.Item >Another action</Dropdown.Item>
+      <Dropdown.Item >Another action</Dropdown.Item>
+ 
+    </DropdownButton>
+                        </td>
+                       
+                      
                         </tr>
                     );})
                 }
             </tbody>
-           
-        </table>
+    </Table>
+
+ 
         <Pagination ordersPerPage={orderPerPage} totalOrders={rows.length} paginate ={paginate} currentPage={currentPage}/>
-    </div>
+    </StyledOrder>
   )
 }
+
+
+
+const StyledOrder = styled.section`
+td {
+  
+  vertical-align: middle;
+    display: table-cell;
+}
+
+
+`;

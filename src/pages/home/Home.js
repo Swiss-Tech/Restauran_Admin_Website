@@ -16,8 +16,6 @@ import { messageActionCreators } from '../../actions'
 import { Route,Routes,Navigate } from 'react-router'
 
 
-var Link = require("react-router-dom").Link;
- 
 
 
 export default function Home() {
