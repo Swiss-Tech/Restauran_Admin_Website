@@ -11,6 +11,12 @@ padding-right:10px;
     margin-bottom:50px;
 }
 
+.account{
+    margin :50px;
+    display:flex;
+    
+}
+
 .sidebartitle,a{
     padding-left:20px;
 border-radius:10px;

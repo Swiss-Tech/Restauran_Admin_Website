@@ -119,9 +119,17 @@ console.log(showChild)
             
             }
         </div>
-     <div className='d-flex align-items-end fixed-bottom' onClick={()=>{
+     <div className=' fixed-bottom account btn' onClick={()=>{
       navigate('/account')
-     }}>account</div>
+     }}><img class="rounded-circle mb-lg-0 mb-4 bg-primary  " style={{
+    
+}}
+    width="80px" height="80px"           src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg"  />
+     <div className=' mt-3 ml-3'>
+        <h6 className='bold' >Woynshet Bilihatu</h6>
+        <p className=' text-muted'>Admin</p>
+       </div>
+    </div>
       
     </div>
  
