@@ -19,7 +19,7 @@ import {
 
 
 export default function reducer(state = initalState , action){
-    const [type, payload] = action;
+    const {type, payload} = action;
     switch(type){
         case EMPLOYEES_FETCHED_SUCCESS:
             return {
@@ -58,27 +58,34 @@ export default function reducer(state = initalState , action){
                                 sucess:true
                 
                             }
-        case EMPLOYEE_DELETE_SUCCESS:
+        case EMPLOYEE_EDIT_FAILED:
              return {
                        ...state ,                
                    responseMessage:payload,
                     sucess:false
                     
                                 }
-        case EMPLOYEE_EDIT_SUCCESS:
+        case EMPLOYEE_DELETE_SUCCESS:
                      return {
                             ...state ,
                             responseMessage:payload,
                             sucess:true
                         
                                     }
-        case EMPLOYEE_EDIT_FAILED:
+        case EMPLOYEE_DELETE_FAILED:
                           return {
                                     ...state ,
                                     responseMessage:payload,
                                  sucess:false
                             
                                         }
+             case CLEAR_EMPLOYEE_MESSAGE :
+                                            return {
+                                           ...state,
+                                           responseMessage:null,
+                                           sucess:null
+                                           
+                                       }
             
 
         

@@ -61,39 +61,6 @@ export const options = {
     ]
     }
   };
-// export const options = { 
-//   responsive: true,
-  
-//   scales: {
-//     x: {
-//         grid: {
-//           display: false
-//         },
-       
-//       },
-    
-//     yAxes: [
-//       {
-        
-//         ticks: {
-//           suggestedMin: 0,
-//           suggestedMax: 100
-//         }
-//       }
-//     ]
-//   },
-  
-  
-//   plugins: {
-//     legend: {
-//       position: 'top' ,
-//     },
-//     title: {
-//       display: false,
-     
-//     },
-//   },
-// };
 
 
 const labels = [ 'Jan',
@@ -118,7 +85,7 @@ export const graphData ={
           {
             id: 1,
             label: '',
-            data: [100,200 , 100,250,200,350,250,450,500.450,400,200,300],
+            data: [100,200 , 100,250,200,350,250,450,500,400,200,300],
             borderColor: '#7B3EFD',
             backgroundColor: '#7B3EFD',
             lineTension: 0.4,
@@ -140,7 +107,7 @@ export const graphData ={
 }
 
 export function Graph() {
-  return <Line options={options} data={graphData} />
+  return <Line options={options} data={graphData}/>
    
   ;
 }

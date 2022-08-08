@@ -1,10 +1,8 @@
 import { ORDER_FETCHED_SUCCESS ,
     ORDER_FETCHED_FAILED,
-    ORDER_ACCEPT_SUCCESS,
-     ORDER_ACCEPT_FAILED,
-    ORDER_REJECT_SUCCESS,
-      ORDER_REJECT_FAILED ,
-      CLEAR_ORDER_MESSAGE
+      CLEAR_ORDER_MESSAGE,
+      ORDER_CHANGE_STATUS_SUCCESS,
+      ORDER_CHANGE_STATUS_FAILED
       } from "../actions/types";
 
 var initalState ={
@@ -33,30 +31,19 @@ export default function reducer (state=initalState,action){
                 sucess:false
                 
             }
-        case ORDER_ACCEPT_SUCCESS :
+        case ORDER_CHANGE_STATUS_SUCCESS :
             return {
                 ...state,
                 responseMessage:payload,
                 sucess:true
             }
-        case ORDER_ACCEPT_FAILED:
+        case ORDER_CHANGE_STATUS_FAILED:
             return {
                 ...state,
                 responseMessage:payload,
                 sucess:false
             }
-            case ORDER_REJECT_SUCCESS :
-                return {
-                    ...state,
-                    responseMessage:payload,
-                    sucess:true
-                }
-            case ORDER_REJECT_FAILED:
-                return {
-                    ...state,
-                    responseMessage:payload,
-                    sucess:false
-                }
+         
             case CLEAR_ORDER_MESSAGE :
                  return {
                 ...state,

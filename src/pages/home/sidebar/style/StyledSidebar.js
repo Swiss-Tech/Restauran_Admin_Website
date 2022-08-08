@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const StyledSidebar = styled.section`
 
-   
 align-items:center;
 padding-left:50px;
 padding-top:50px;

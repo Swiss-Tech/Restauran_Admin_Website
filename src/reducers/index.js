@@ -6,6 +6,7 @@ import menu from "./menu";
 import category from "./category";
 import order from "./order"
 import customer from "./customer";
+import employee from "./employees"
 const reducers = combineReducers({
   auth: auth,
   message: message,
@@ -13,7 +14,9 @@ const reducers = combineReducers({
   menu:menu,
   category:category,
   order:order,
-  customer:customer
+  customer:customer,
+  employee:employee
+
   
   
 });

@@ -15,6 +15,7 @@ import { restaurantInfoStatus } from "./services/account.service";
 
 import { logout_function } from "./services/auth.service";
 
+
 import Sidebar from './pages/home/sidebar/Sidebar';
 import Dashboard from './pages/home/dashboard/Dashboard';
 import Order from './pages/home/order/OrderList';
@@ -27,6 +28,7 @@ import EditMenu from './pages/home/menu/edit-menu/EditMenu';
 import Catagories from './pages/home/menu/catagories/Catagories';
 import Customers from './pages/home/customers/Customers';
 import Employees from './pages/home/employees/Employees';
+import Account from "./pages/account/Account";
 
 const theme = {
   colors: {
@@ -99,7 +101,7 @@ const pathName= window.location.pathname
 </div> */}
 <div style={(firstTimecontroller) ?{
  display:'none'
-}:authController.isLoggedIn ? hasData ? pathName ==='/login' || pathName ==='/restaurantinformation' || pathName ==='/signup'  ?{
+}:authController.isLoggedIn ? hasData ? pathName ==='/login' || pathName ==='/restaurantinformation' || pathName ==='/signup' || pathName==='/account' ?{
   display:'none'
 }:{
   flex:'1'
@@ -117,26 +119,7 @@ const pathName= window.location.pathname
         flex:'6'
        }}>
        <Routes>
-            {/* <Route
-              path="/"
-              element={
-                controller === null ? (
-                  <Landing />
-                ) :  authController.isLoggedIn ? 
-  
-                ( hasData ? <div>home</div> : hasData === false ? <RestaurantInformation /> : <h2>whtas</h2>)
-                
-                 : (
-                  <Login />
-                )
-              }
-            ></Route>
-
-
-            <Route path="/restaurantinformation" element={<RestaurantInformation />} ></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/signup" element={<Signup />}></Route> */
-            }
+            
 
       <Route path="/" element={ firstTimecontroller === false ? authController.isLoggedIn ? hasData ? <Navigate to="dashboard" /> : hasData === false ?<Navigate to="restaurantinformation"/> : <div
           className="container-fluid vh-100"
@@ -170,10 +153,11 @@ const pathName= window.location.pathname
    <Route path='addMenu' element={<AddNewMenu/>}/>
    <Route path="customers" element={<Customers/>}/>
    <Route path='employees' element ={<Employees/>}/>
-   <Route path="/restaurantinformation" element={<RestaurantInformation />} ></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/signup" element={<Signup />}></Route> 
-             <Route path="/landing" element={<Landing />}></Route> 
+   <Route path="/restaurantinformation" element={<RestaurantInformation />} />
+    <Route path="/login" element={<Login />}></Route>
+  <Route path="/signup" element={<Signup />}></Route> 
+   <Route path="/landing" element={<Landing />}></Route> 
+   <Route path ="account" element={<Account/>} />
           
         
            
@@ -193,45 +177,3 @@ const pathName= window.location.pathname
 
 }
 
-
-
-export  function Ampp() {
-  return (
-   <BrowserRouter>
-     <div style={{
-      display:'flex'
-     }}>
-   
-
-<Routes>
-   <Route path="/" element={<Navigate to="dashboard" />} />
-   <Route path = "dashboard" element={ <Dashboard/>}/>
-   {/* order */}
-   <Route path='order' > 
-     <Route index element ={<Order/>} />
-     <Route path='neworder' element = {<NewOrder/>}/> 
-     <Route path='orderDetail/:orderId' element = {<OrderDetail/>}/> 
-   </Route>
-
-   {/* menu */}
-   <Route path="menu">
-    <Route index element={<Menus/> }/>
-    <Route path='addMenu' element={<AddNewMenu/>}/>
-    <Route path ="menudetail/:menuId" element={<MenuDetail/>}/> 
-    <Route path ="editmenu/:menuId" element={<EditMenu/>}/> 
-    <Route path='catagories' element={<Catagories/>}/>
-
-   </Route>
-   <Route path='catagories' element={<Catagories/>}/>
-   <Route path='neworder' element = {<NewOrder/>}/> 
-   <Route path='addMenu' element={<AddNewMenu/>}/>
-   <Route path="customers" element={<Customers/>}/>
-   <Route path='employees' element ={<Employees/>}/>
-
-</Routes>
-     </div>
-
- 
-   </BrowserRouter>
-  );
-}

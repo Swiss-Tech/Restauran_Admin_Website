@@ -9,7 +9,8 @@ export default function Pagination({ordersPerPage, totalOrders, paginate,current
   return (
     <div style={{
         display:'flex',
-        justifyContent:'end'
+        justifyContent:'end',
+        
     }}>
     <button className='customShadow' onClick={()=>{
         if(currentPage!==1)
@@ -24,22 +25,30 @@ export default function Pagination({ordersPerPage, totalOrders, paginate,current
         width:'3%',
        
     }}><MdKeyboardArrowLeft size={20}/></button>
-        <nav >
 
-            <ul className='pagination' >
+
+
+         
                 {
-                    pageNumbers.map(number=>
-                    <li  key={number} >
-                       <a  onClick={()=>paginate(number)} ><div style={{
-                        width:'40px',
-                        height:'20px',
-                        border:'1px solid black'
-                       }}> {number}</div></a>
-                    </li>
+                    pageNumbers.map((number, index)=>
+                    
+                   
+                        <button className='customShadow' onClick={()=>paginate(number)} style={{
+        border:currentPage === number ?'2px solid orange' : '1px solid black',
+        color:currentPage === number ?' orange' : 'black',
+        backgroundColor:'transparent',
+        width:'3%',
+        marginLeft:'10px',
+        marginRight:'10px'
+
+       
+    }}>{number}</button>
+                  
                     )
                 }
-            </ul>
-        </nav>
+         
+       
+
         <button className='customShadow' onClick={()=>{
         if(currentPage !== pageNumbers.length  )
         {

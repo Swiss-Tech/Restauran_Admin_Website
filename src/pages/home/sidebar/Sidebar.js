@@ -6,6 +6,7 @@ import { BsArrowLeftSquare } from 'react-icons/bs'
 import { MdKeyboardArrowRight , MdKeyboardArrowUp } from 'react-icons/md'
 import { useNavigate , useLocation } from 'react-router-dom'
 import { color } from '@mui/system'
+import { Navigate } from 'react-router-dom'
  
 export default function Sidebar() {
   const location = useLocation();
@@ -21,7 +22,7 @@ console.log(showChild)
   return (
     <StyledSidebar>
 
-<div className='sidebar d-flex flex-column'>
+<div className='sidebar d-flex flex-column '>
        <div class=" logo d-flex justify-content-between align-items-center">
                     <span >
                         <h5 class=" text-logo pt-2 font-weight-bold ml-2">FOOD<span style={{
@@ -118,6 +119,10 @@ console.log(showChild)
             
             }
         </div>
+     <div className='d-flex align-items-end fixed-bottom' onClick={()=>{
+      navigate('/account')
+     }}>account</div>
+      
     </div>
  
     </StyledSidebar>

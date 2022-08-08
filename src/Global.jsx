@@ -7,7 +7,7 @@ import styled from "styled-components";
         border:none ;
         font-weight :700;
         height:50px;
-        width:20%;
+       
         border-radius:10px;
        
         

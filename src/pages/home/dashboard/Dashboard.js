@@ -7,7 +7,10 @@ import { BsBookmarkDash } from "react-icons/bs";
 import { AiOutlineDollar ,AiOutlineArrowDown,AiOutlineArrowUp } from "react-icons/ai";
 
 import { MdOutlinePeopleAlt } from "react-icons/md";
-
+import React , {useState, useEffect} from "react";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 export default function Dashboard() {
     const orderData =[
         {name:"Pizza",
@@ -20,11 +23,16 @@ imageUrl:""
             imageUrl:""
                     },
     ];
+
+    const [dateState, setDateState] = useState(new Date());
+    useEffect(() => {
+        setInterval(() => setDateState(new Date()), 30000);
+      }, []);
   return (  
-    <div className="container-fluid px-xl-5 px-4 pt-5 position-relative  " style={{
-       
+    <div className="container-fluid px-xl-5 px-4 pt-4 position-relative  " style={{
+        backgroundColor:'#FAFAFA'
     }}>
-<div class="row">
+<div class="row  ">
         <div className="col">
            <div style={{ 
             display:'flex',
@@ -33,21 +41,28 @@ imageUrl:""
            <h3 className="font-weight-bolder">Dashboard</h3>
            <IoMdNotificationsOutline color="gray" size={"40"}/>
            </div>
-           <p>12-11-2022</p>
+           <p style={{
+              color:'gray'
+            }}> {dateState.toLocaleDateString('en-US', {
+                 weekday:'long',
+                 day: 'numeric',
+                 month: 'short',
+                 year: 'numeric',
+              })}</p>
            
 
         </div>
 
         <div className="dropdown-divider"></div>
-        <div class="row   ">
+        <div class="row " >
         <div class="col-lg-8  px-0 my-2">
-          {/* statistics card */}
+         
           <div class="d-flex flex-wrap w-100 col-12 justify-content-between px-0 "  style={{
                     justifyContent:'space-evenly',
                     gap:'20px',
                     
                 }}>
-                {/* <!-- total revenue --> */}
+               
                 <div class="d-flex flex-column col-lg col-md-6  mb-3 mb-lg-0">
                     <div class="w-100 d-flex flex-column p-4 rounded-lg " style={{
                         backgroundColor:'#FECB16',
@@ -55,10 +70,10 @@ imageUrl:""
                         margin:'10px'
                     }}>
                         <div class="d-flex w-100 justify-content-between align-items-center " ><span
-                                class="rounded bg-light p-2 material-icons-outlined" style={{
-                                    
+                                class="rounded bg-light px-2 py-1 material-icons-outlined" style={{
+                                  
                                 }}>
-                                <AiOutlineDollar size={20}/>
+                                <AiOutlineDollar size={19}/>
                             </span>
                          
                             <span style={{
@@ -72,10 +87,10 @@ imageUrl:""
                                 </span>
                                 <span 
                                     class="material-icons-outlined small rounded-circle p-1 bg-lightSuccess ml-1" style={{
-                                        backgroundColor:'rgba(255,0,0,0.1)'
+                                        backgroundColor:'rgba(255,0,0,0.2)'
                                     }}
                                     >
-                                    <AiOutlineArrowDown color="red" />
+                                    <AiOutlineArrowDown  />
                                 </span>
                                 
                                
@@ -109,7 +124,7 @@ imageUrl:""
                           
 
                             <span style={{
-                                color:'green'
+                                color:'red'
                             }}>5%
                                 <span 
                                     class="material-icons-outlined small rounded-circle p-1 bg-lightSuccess ml-1" style={{
@@ -119,10 +134,10 @@ imageUrl:""
                                 </span>
                                 <span 
                                     class="material-icons-outlined small rounded-circle p-1 bg-lightSuccess ml-1" style={{
-                                        backgroundColor:'rgba(255,0,0,0.1)'
+                                        backgroundColor:'rgba(255,0,0,0.2)'
                                     }}
                                     >
-                                    <AiOutlineArrowDown color="red" />
+                                    <AiOutlineArrowDown  />
                                 </span>
                                 
                                
@@ -131,7 +146,7 @@ imageUrl:""
                      
                         <h2 class="font-weight-bold mt-3 text-white">12,000.00</h2>
          
-                        <h6 class="text-muted" color="gray">Total Orders</h6>
+                        <h6 class="text-muted" color="gray">Total Dish Ordered</h6>
                     </div>
                 </div>
          
@@ -142,7 +157,7 @@ imageUrl:""
                         backgroundColor:'white',
                         borderRadius:"20px",
                         margin:'10px',
-                        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.1), 0 3px 10px 0 rgba(0,0,0,0.1)'
+                       
                     }}>
                         <div class="d-flex w-100 justify-content-between align-items-center"><span
                                 class="rounded p-2 material-icons-outlined" style={{
@@ -184,28 +199,37 @@ imageUrl:""
             </div>
            
 {/* graph */}
-            <div >
+            <div style={{
+                backgroundColor:'white',
+                padding:'20px',
+                borderRadius:'10px',
+                marginTop:'10px'
+              
+            }} >
             <div style={{
                 display:'flex',
-              justifyContent:'space-between'
+              justifyContent:'space-between',
+         
 
             }}>
                 <div style={{
                     display:'flex',
                     justifyContent:'space-evenly',
-                    gap:'40px'
+                    gap:'40px',
+                    marginLeft:'10px'
                 }}>
                     <div>
-                        <h3>34K</h3>
-                        <h6>Total Orders</h6>
+                        <h5>34.4K</h5>
+                        <p className=" text-muted">Total Orders</p>
                     </div>
                     <div>
-                        <h3>34K</h3>
-                        <h6>Total Revenue</h6>
+                        <h5>34.2K</h5>
+                        <p className=" text-muted">Total Revenue</p>
                     </div>
                     <div style={{
                         display:'flex',
-                        gap:'10px'
+                        gap:'10px',
+                        marginTop:'10px'
 
                     }}>
                         <div style={{
@@ -213,13 +237,15 @@ imageUrl:""
                             height:'20px',
                             borderRadius:"50%",
                             backgroundColor: '#7B3EFD',
+                          
                             
                         }}></div>
                         <h6>Revenue</h6>
                     </div>
                     <div style={{
                         display:'flex',
-                        gap:'10px'
+                        gap:'10px',
+                        marginTop:'10px'
 
                     }}>
                         <div style={{
@@ -232,7 +258,23 @@ imageUrl:""
                         <h6>Orders</h6>
                     </div>
                 </div>
-                <div class="btn-outline-dark btn right">Monthly</div>
+                <div class="border btn right d-flex " style={{
+                    height:'40px',
+                    justifyContent:'center'
+                }}><span><DropdownButton variant='white' className=" " style={{
+                    padding:'0',
+                    margin:'0'
+                }} >
+                      
+                      <Dropdown.Item  onClick={()=>{
+                        
+                      }}>Monthly</Dropdown.Item>
+                      <Dropdown.Item onClick={()=>{
+                      
+                      }} >Weekly</Dropdown.Item>
+                   
+                      
+                      </DropdownButton></span> Monthly</div>
             </div>
           
              <Graph/>
@@ -240,7 +282,7 @@ imageUrl:""
            
 
 
-            <div class=" col-12 bg-white mt-3 align-items-start py-3 mt-2 px-4 rounded-lg">
+            <div class=" col-12 bg-white mt-3 align-items-start py-3 px-4 rounded-lg">
                
                 <h6>Daily Order Summary</h6>
                 <div class="d-flex pt-2 pb-2 flex-wrap align-items-center "style={{
@@ -308,14 +350,18 @@ imageUrl:""
             
         </div>
         <div class="col-lg-4 mt-2 my-2" style={{
-           
+         paddingLeft:'40px',
+         paddingRight:'40px',
         }}>
         
     <div style={{ padding:"20px",
-    marginLeft:'50px',
-            border:"0.5px solid gray"}}><div style={{
+     
+    backgroundColor:'white',borderRadius:'15px',
+            border:"0.5px solid gray"}}>
+            <div style={{
             display:'flex',
             justifyContent:'space-between',
+            
             
         }}>
         <h6>Customers</h6>
@@ -323,8 +369,9 @@ imageUrl:""
         </div>
      <BarGraph/>   
     </div>
-            <div class="w-100 bg-white rounded-lg px-xl-5 py-xl-5 px-4 py-4 mt-3 d-flex flex-column " style={{
-                backgroundColor:'white'
+            <div class="w-100 bg-white rounded-lg px-xl-5  px-4 py-4 mt-3 d-flex flex-column " style={{
+                backgroundColor:'white',
+               
             }}>
                 <div class="d-flex justify-content-between align-items-center">
                     <h5>Most Ordered</h5>
