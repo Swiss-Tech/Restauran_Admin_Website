@@ -17,7 +17,8 @@ import { restaurantInformation } from "../../../actions/account";
 import { accountActionCreators } from "../../../actions";
 import { bindActionCreators } from "redux";
 import { useSelector, useDispatch } from "react-redux";
-export default function StepperPage() {
+import Loader from "../../reusable-components/Loader";
+export default function StepperPage(props) {
   
  
   const [activeStep, setActiveStep] = useState(0);
@@ -50,6 +51,8 @@ export default function StepperPage() {
   const [restaurantImage2, setRestarantImage2] = useState();
   const [restaurantImage3, setRestarantImage3] = useState();
   const [restaurantImage4, setRestarantImage4] = useState();
+ 
+
 
  
   
@@ -142,12 +145,13 @@ const stepThreeValidation =()=>{
 }
 
 
+
 const dispatch = useDispatch();
 const ActionController = bindActionCreators(accountActionCreators, dispatch);
 
 
-  return (
-    <StyledStepper>
+  return ( 
+          <StyledStepper>
     <StyledEngineProvider injectFirst>
   <Stepper
 activeStep={activeStep}
@@ -162,7 +166,7 @@ activeStep={activeStep}
   <form>
   <div className="row bg-white py-4">
     <div className="col-lg-4">
-    <ImagePicker handleClick={setLogoUrl} imageUrl={logoUrl}  id={"logo"} />
+    <ImagePicker handleClick={setLogoUrl} imageUrl={logoUrl}  id={"logo"}  />
     <div className="form-control-feedback text-danger" style={(logoUrl)?{
                     display:'none'
                   }:{}}>
@@ -761,9 +765,10 @@ display:'none'
   </StyledEngineProvider>
   <Paper square elevation={0} sx={{ p: 3 }}>
       <Typography>All steps completed - you&apos;re finished</Typography>
-      <button  sx={{ mt: 1, mr: 1 }}  className="stepperContinueButton " onClick={()=>{
-        ActionController.restaurantInformation( restaurantName, restaurantLocation, restaurantNumber, restaurantEmail, restaurantDescription, logoUrl, restaurantImage1, restaurantImage2, restaurantImage3, restaurantImage4, workingDays , sharedCosts);
-        // call to the api
+      <button  sx={{ mt: 1, mr: 1 }}  className="stepperContinueButton " onClick={ async ()=>{
+        props.setLoading(true);
+       await ActionController.restaurantInformation( restaurantName, restaurantLocation, restaurantNumber, restaurantEmail, restaurantDescription, logoUrl, restaurantImage1, restaurantImage2, restaurantImage3, restaurantImage4, workingDays , sharedCosts);
+        props.setLoading(false)
       }}>
         Finish
       </button>
@@ -776,5 +781,6 @@ display:'none'
       
 
     </StyledStepper>
+    
   );
 }

@@ -7,6 +7,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import { BsTelephone } from 'react-icons/bs';
 import { AiOutlineMail ,AiOutlineCalendar} from 'react-icons/ai';
 import { IoLocation } from 'react-icons/io5';
+import { Col } from 'react-bootstrap';
 const StyledAccount = styled.section`
 
 

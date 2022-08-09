@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IoImageOutline } from "react-icons/io5";
-
+import { Col } from "react-bootstrap";
 export function ImagePicker(props) {
 
   const [selectedFile, setSelectedFile] = useState();
@@ -36,14 +36,17 @@ export function ImagePicker(props) {
   };
   
   return (
+    
     <div className="imagePicker" style={(preview) ?{
       
-      width:'400px',
+     
       backgroundColor:'transparent'
      
       
     
-    }:{width:'400px',}}>
+    }:{}}>
+  
+    
       {(preview  ) && <img className="img-fluid" src={preview} alt="" />}
       <div className="centbutton btn  bg-dark px-2 py-2 rounded-circle  d-flex align-items-center justify-content-center">
         <span className="material-icons-outlined text-light">
@@ -95,13 +98,11 @@ export function RestaurantImage (props) {
 
   return (
     <div className="restaurantImagePicker" style={(preview)?{
-      width:'300px',
-      height:'200px',
+  
       margin:'10px',
       backgroundColor:'transparent'
     }:{
-      width:'300px',
-      height:'200px',
+ 
       margin:'10px'
     }}>
       {preview && <img className="img-fluid" src={preview} alt="" />}

@@ -62,12 +62,14 @@ export default  function App()  {
     );
 
   function callingApi(){
-    if(menuController.menus.length === 0 ){
-      MenuActionController.getallmenues();
-      }
-     if(categoryController.categories.length===1){
-      CategoryActionContoller.getAllCatagoryAction();
-     }
+    if(authController.isLoggedIn){
+      if(menuController.menus.length === 0 ){
+        MenuActionController.getallmenues();
+        }
+       if(categoryController.categories.length===1){
+        CategoryActionContoller.getAllCatagoryAction();
+       }
+    }
   }
 useEffect(()=>{
   callingApi()

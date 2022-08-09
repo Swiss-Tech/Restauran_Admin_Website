@@ -1,6 +1,7 @@
 import styled from "styled-components";
-
+import { device } from "../../../../Size";
 export const StyledStepper = styled.section`
+
 
 width:100%;
 height:100%;
@@ -30,12 +31,16 @@ height:100%;
     border-radius:20px ;
     margin:10px;
    
+
+  
+   
+
     
      
   
 }
 .restaurantImagePicker{
-    width:250px;
+    width:300px;
     height:200px;    
     position: relative;
     background-color:#FFF0D4;
@@ -179,6 +184,34 @@ input[type="checkbox"]:checked + label {
           
         }
 }
+
+
+@media (max-width: 450px) {
+     
+  .imagePicker{
+   width:95%; 
+}
+
+.stepperContinueButton{
+    
+        width:40%;
+
+        
+      
+
+}
+
+.previous_btn{
+        width:40%;
+
+        
+       
+}
+.restaurantImagePicker{
+
+}
+
+  }
 
 `;
  

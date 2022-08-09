@@ -1,5 +1,5 @@
 import { restaurant_information_function } from "../services/account.service";
-import { RESTAURANT_INFORMATION_FILLED_SUCCESS , RESTAURANT_INFORMATION_FILLED_FAILED, SET_MESSAGE} from "./types";
+import { RESTAURANT_INFORMATION_FILLED_SUCCESS , RESTAURANT_INFORMATION_FILLED_FAILED, CLEAR_RESTAURANT_MESSAGE} from "./types";
 
 
 export const restaurantInformation =(restaurantName, restaurantLocation, restaurantNumber, restaurantEmail, restaurantDescription, logoUrl, restaurantImage1, restaurantImage2, restaurantImage3, restaurantImage4, workingDays , sharedCosts)=>(dispatch)=>{
@@ -9,13 +9,13 @@ export const restaurantInformation =(restaurantName, restaurantLocation, restaur
     (data)=>{
         if (data.success) {
             dispatch({
-              type: SET_MESSAGE,
+              type: RESTAURANT_INFORMATION_FILLED_SUCCESS,
               payload: data.message,
             });
           } else {
            
             dispatch({
-              type: SET_MESSAGE,
+              type: RESTAURANT_INFORMATION_FILLED_FAILED,
               payload: data.message,
             });
           }
@@ -28,9 +28,11 @@ export const restaurantInformation =(restaurantName, restaurantLocation, restaur
         error.message ||
         error.toString();
         dispatch({
-            type: SET_MESSAGE,
-            payload: message,
-          });
+          type: RESTAURANT_INFORMATION_FILLED_FAILED,
+          payload: message,
+        });
     }
   )
 }
+export const clearRestaurantMessageAction = () => ({ type: CLEAR_RESTAURANT_MESSAGE });
+
