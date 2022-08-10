@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "../../../../Size";
 
 export const StyledSidebar = styled.section`
 
@@ -34,7 +35,9 @@ border-radius:10px;
    
   }
   
-
+  @media (max-width: 450px) {
+    
+  }
    
    
 }

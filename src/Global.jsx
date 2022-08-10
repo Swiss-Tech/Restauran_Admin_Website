@@ -1,5 +1,9 @@
 import styled from "styled-components";
   const GlobalStyle = styled.section`
+
+  .main{
+    flex:6;
+  }
 .customButton {
     
     background-color:${({theme})=>theme.colors.primary} ;
@@ -126,6 +130,9 @@ import styled from "styled-components";
 
     }
 
+
+  
+ 
  `;
 
  export default GlobalStyle;

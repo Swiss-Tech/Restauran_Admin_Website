@@ -16,7 +16,7 @@ import { restaurantInfoStatus } from "./services/account.service";
 import { logout_function } from "./services/auth.service";
 
 
-import Sidebar from './pages/home/sidebar/Sidebar';
+
 import Dashboard from './pages/home/dashboard/Dashboard';
 import Order from './pages/home/order/OrderList';
 import NewOrder from './pages/home/order/newOrder/NewOrder';
@@ -29,7 +29,9 @@ import Catagories from './pages/home/menu/catagories/Catagories';
 import Customers from './pages/home/customers/Customers';
 import Employees from './pages/home/employees/Employees';
 import Account from "./pages/account/Account";
+import Loader from "./pages/reusable-components/Loader";
 
+import ResponsiveDrawer from "./Drawer";
 const theme = {
   colors: {
     primary: "#FECB16",
@@ -77,7 +79,10 @@ useEffect(()=>{
 
 
 const pathName= window.location.pathname
-
+const [mobileOpen, setMobileOpen] = React.useState();
+const handleDrawerToggle = () => {
+  setMobileOpen(!mobileOpen);
+};
 
   return (
     <ThemeProvider theme={theme}>
@@ -101,40 +106,44 @@ const pathName= window.location.pathname
    
      
 </div> */}
-<div style={(firstTimecontroller) ?{
+
+<div className="sidebar" style={(firstTimecontroller) ?{
  display:'none'
 }:authController.isLoggedIn ? hasData ? pathName ==='/login' || pathName ==='/restaurantinformation' || pathName ==='/signup' || pathName==='/account' ?{
   display:'none'
 }:{
-  flex:'1'
+  
 }:{
   display:'none'
 } :{
   display:'none'
 }}>
-    <Sidebar/>
+  
+  <ResponsiveDrawer/>
+
+   
 </div>
+
+
       
        
 
-       <div style={{
-        flex:'6'
+       <div className="main"  style={{
+        dispaly:'none'
        }}>
        <Routes>
             
 
-      <Route path="/" element={ firstTimecontroller === false ? authController.isLoggedIn ? hasData ? <Navigate to="dashboard" /> : hasData === false ?<Navigate to="restaurantinformation"/> : <div
+   <Route path="/" element={ firstTimecontroller === false ? authController.isLoggedIn ? hasData ? <Navigate to="dashboard" /> : hasData === false ?<Navigate to="restaurantinformation"/> : <div
           className="container-fluid vh-100"
  
         >
-          <div className="row d-flex flex-column justify-content-center align-items-center h-100">
-            <div className="spinner-border text-warning" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
-          </div>
+         <Loader/>
         </div> : <Navigate to="login"/>:<Navigate to="landing" />} />
-      <Route path = "dashboard" element={ <Dashboard/>}/>
+        
+  <Route path = "dashboard" element={ <Dashboard/>}/>
    {/* order */}
+
    <Route path='order' > 
      <Route index element ={<Order/>} />
      <Route path='neworder' element = {<NewOrder/>}/> 
@@ -170,6 +179,12 @@ const pathName= window.location.pathname
 
           </Routes>
        </div>
+
+
+
+
+
+       
        </div>
         </BrowserRouter>
       </GlobalStyle>
@@ -178,4 +193,9 @@ const pathName= window.location.pathname
 
 
 }
+
+
+
+
+
 
