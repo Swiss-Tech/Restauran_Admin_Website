@@ -59,6 +59,30 @@ try{
 }
 
 
+
+export async function dashboardData   (){
+    var token = authHeader();
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+       
+        redirect: 'follow'
+      };
+      
+    return  fetch("http://165.232.80.134/test/admin/dash/get", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+      
+            return result;
+        })
+        .catch(error => console.log('error', error));
+
+
+}
+
+
 export const restaurantInfoStatus =async ()=>{
     var requestOptions = {
         method: 'GET',
@@ -90,3 +114,6 @@ export const restaurantInfoStatus =async ()=>{
     //         console.log('error', error);
     //     });
 }
+
+
+

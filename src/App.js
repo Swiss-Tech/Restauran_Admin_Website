@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import GlobalStyle from "./Global";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { bindActionCreators } from "redux";
-import { authactionCreators, menuActionCreators , categoryActionCreators } from "./actions";
+import { authactionCreators, menuActionCreators , categoryActionCreators, accountActionCreators } from "./actions";
 import RestaurantInformation from "./pages/restaurant-information/Restaurant_Information";
 
 import { restaurantInfoStatus } from "./services/account.service"; 
@@ -18,7 +18,7 @@ import { logout_function } from "./services/auth.service";
 
 
 import Dashboard from './pages/home/dashboard/Dashboard';
-import Order from './pages/home/order/OrderList';
+import Order from './pages/home/order/Order';
 import NewOrder from './pages/home/order/newOrder/NewOrder';
 import OrderDetail from './pages/home/order/orderDetail/OrderDetail';
 import Menus from './pages/home/menu/Menus';
@@ -48,11 +48,13 @@ export default  function App()  {
   
   
   const authController = useSelector((state) => state.auth);
+  
   const dispatch = useDispatch();
    const menuController = useSelector((state) => state.menu);
   const categoryController = useSelector((state) => state.category);
   const ActionController = bindActionCreators(authactionCreators, dispatch);
   const MenuActionController = bindActionCreators(menuActionCreators, dispatch);
+  const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
   const CategoryActionContoller = bindActionCreators(categoryActionCreators , dispatch);
   const [hasData , setHasData] = useState();
 
@@ -79,11 +81,67 @@ useEffect(()=>{
 
 
 const pathName= window.location.pathname
-const [mobileOpen, setMobileOpen] = React.useState();
-const handleDrawerToggle = () => {
-  setMobileOpen(!mobileOpen);
+
+const currentTime = new Date()
+const expires = new Date (JSON.parse(localStorage.getItem("expires")));
+
+
+
+
+
+
+
+var loginTimeExpire = new Date(localStorage.getItem("logintime"));
+loginTimeExpire.setHours(loginTimeExpire.getHours(), loginTimeExpire.getMinutes()+5,);
+
+
+useEffect(()=>{
+  if( loginTimeExpire < new Date() && JSON.parse(localStorage.getItem("isRefreshCalled"))===false){
+    console.log("expired")
+    console.log(new Date(localStorage.getItem("logintime")));
+    console.log(loginTimeExpire);
+    localStorage.removeItem("logintime");
+    localStorage.setItem("isRefreshCalled", true);
+    // implement refresh token 
+    var myHeaders = new Headers();
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  redirect: 'follow'
 };
 
+fetch("http://165.232.80.134/test/admin/auth/token/refresh", requestOptions)
+  .then(response => response.json())
+  .then(result => {
+    console.log(result)
+  })
+  .catch(error => console.log('error here', error));
+  logout_function();
+  }
+  
+  else{
+    // logout_function()
+  //  console.log("token is not expired")
+  //  console.log(new Date());
+  //  console.log(loginTimeExpire);
+  }
+})
+
+
+useEffect(()=>{
+if(currentTime > expires ){
+logout_function();
+}
+else{
+  // logout_function();
+  console.log(expires);
+  console.log("refreh token not expired")
+  // console.log(currentTime)
+  // console.log(expires)
+}
+})
+console.log(AccountActionController.getDashboardData())
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle>

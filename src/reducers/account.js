@@ -1,4 +1,4 @@
-import { RESTAURANT_INFORMATION_FILLED_FAILED , RESTAURANT_INFORMATION_FILLED_SUCCESS , CLEAR_RESTAURANT_MESSAGE } from "../actions/types"
+import { RESTAURANT_INFORMATION_FILLED_FAILED , RESTAURANT_INFORMATION_FILLED_SUCCESS , CLEAR_RESTAURANT_MESSAGE, RESTAURANT_INFORMATION_FETCHED_SUCCESS, RESTAURANT_INFO_FETCHED_FAILED, RESTAURANT_INFO_FETCHED_SUCCESS } from "../actions/types"
 var  initalState = {
     restaurantInformation :[],
     responseMessage:null,
@@ -9,6 +9,20 @@ var  initalState = {
 export default function reducer(state= initalState, action){
     const {type , payload} = action;
     switch(type){
+
+
+        case RESTAURANT_INFO_FETCHED_SUCCESS :
+            return {
+                ...state,
+                restaurantInformation :payload,
+                sucess:true
+            }
+        case RESTAURANT_INFO_FETCHED_FAILED :
+            return {
+                ...state,
+                responseMessage:payload,
+                sucess:false
+            }
         case RESTAURANT_INFORMATION_FILLED_SUCCESS :
             return {
                 ...state,

@@ -20,6 +20,7 @@ export async function login_function(admin) {
   var requestOptions = {
     method: "POST",
     headers: myHeaders,
+    credentials: "include",
     body: raw,
     redirect: "follow",
   };
@@ -27,8 +28,13 @@ export async function login_function(admin) {
   return fetch(API_BASE_URL + API_ADMIN_LOGIN, requestOptions)
     .then((response) => response.json())
     .then((result) => {
+     
       if (result.success) {
+
+        localStorage.setItem("isRefreshCalled", false);
         localStorage.setItem("token", JSON.stringify(result.data));
+        localStorage.setItem("expires", JSON.stringify(result.expires));
+        localStorage.setItem("logintime",JSON.stringify(Date()));
         return result;
       }
 
@@ -86,3 +92,8 @@ export async function firsttime_function() {
 }
 
 //
+
+
+export async function refresh_token(){
+
+}

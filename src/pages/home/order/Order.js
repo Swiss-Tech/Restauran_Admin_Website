@@ -5,6 +5,18 @@ import { orderActionCreators } from "../../../actions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
+import styled from "styled-components";
+
+const StyledOrder = styled.section`
+.orderTotal{
+  
+  gap:40px;
+
+
+}
+
+
+`
 
 
 export default function Order() {
@@ -69,10 +81,11 @@ export default function Order() {
    
       }
   return (
-    <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
-         <div class="row">
-        <div class="col">
-            <h3 class="font-weight-bolder">Orders</h3>
+    <StyledOrder>
+    <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
+         <div className="row">
+        <div className="col">
+            <h3 className="font-weight-bolder">Orders</h3>
             <p style={{
               color:'gray'
             }}> {dateState.toLocaleDateString('en-US', {
@@ -85,39 +98,41 @@ export default function Order() {
 
            
         </div>
-        <div class="dropdown-divider"></div>
+        <div className="dropdown-divider"></div>
 
-        <div class="d-flex py-3 flex-wrap" style={{
-           gap:'30px'
+        <div className="orderTotal " style={{
+         display:'flex',
+         marginBottom:'20px'
+          
         }}>
       
         <div
-            class="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3 ">
-            <span class="h3 mr-3 mb-0 " style={{
+            className="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3 ">
+            <span className="h3 mr-3 mb-0 " style={{
               marginRight:"10px"
             }}>{pending}</span>
           Pending
         </div>
       
         <div
-            class="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3">
-            <span class="h3 mr-3 mb-0 ml-16 " style={{
+            className="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3">
+            <span className="h3 mr-3 mb-0 ml-16 " style={{
               marginRight:"10px"
             }}>{active}</span>
             Active
         </div>
 
         <div
-            class="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3 ">
-            <span class="h3 mr-3 mb-0" style={{
+            className="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3 ">
+            <span className="h3 mr-3 mb-0" style={{
               marginRight:"10px"
             }}>{rejected}</span>
             Rejected
         </div>
       
         <div
-            class="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mb-lg-0 mb-3 ">
-            <span class="h3 mr-3 mb-0" style={{
+            className="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mb-lg-0 mb-3 ">
+            <span className="h3 mr-3 mb-0" style={{
               marginRight:"10px"
             }}>{completed}</span>
             Completed
@@ -129,5 +144,6 @@ export default function Order() {
 
     <OrderTable/>
     </div>
+    </StyledOrder>
   )
 }

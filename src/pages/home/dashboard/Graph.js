@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { useSelector } from 'react-redux';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import Loader from '../../reusable-components/Loader';
 
 
 
@@ -78,14 +80,35 @@ const labels = [ 'Jan',
 
 
 
-export const graphData ={
+
+
+export function Graph() {
+  const [revenueData, setRevenuData] = useState();
+  const [orderData, setOrderData] = useState();
+
+  const accountController = useSelector((state)=>state.account);
+
+  console.log(accountController.restaurantInformation.monthlyRevenus)
+  useEffect(()=>{
+    if(accountController.restaurantInformation.monthlyOrders){
+     
+       setOrderData(  accountController.restaurantInformation.monthlyOrders)
+      
+    }
+    if(accountController.restaurantInformation.monthlyRevenus){
+      setRevenuData(accountController.restaurantInformation.monthlyRevenus)
+    }
+    
+  })
+ //  console.log(accountController.restaurantInformation.monthlyOrders);
+    const graphData ={
     
         labels: labels,
         datasets: [
           {
             id: 1,
             label: '',
-            data: [100,200 , 100,250,200,350,250,450,500,400,200,300],
+            data: revenueData ? [revenueData.january,revenueData.february , revenueData.march,revenueData.april,revenueData.may,revenueData.june,revenueData.july,revenueData.august,revenueData.september,revenueData.october,revenueData.november,revenueData.december] :[0,0,0,0,0,0,0,0,0,0,0,0,],
             borderColor: '#7B3EFD',
             backgroundColor: '#7B3EFD',
             lineTension: 0.4,
@@ -96,7 +119,7 @@ export const graphData ={
           {
             id: 2,
             label: '',
-            data: [0, 50, 80,200,250,200,100,100,200,300,300,100],
+            data: orderData ? [orderData.january,orderData.february , orderData.march,orderData.april,orderData.may,orderData.june,orderData.july,orderData.august,orderData.september,orderData.october,orderData.november,orderData.december] :[0,0,0,0,0,0,0,0,0,0,0,0,],
             borderColor: ' #FECB16',
             backgroundColor: ' #FECB16',
             lineTension: 0.4,  
@@ -106,8 +129,9 @@ export const graphData ={
       
 }
 
-export function Graph() {
-  return <Line options={options} data={graphData}/>
+  return (
+      <Line options={options} data={graphData}/>
+  )
    
   ;
 }

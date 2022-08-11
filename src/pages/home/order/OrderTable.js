@@ -150,7 +150,7 @@ const [currentPage,setCurrentPage]= useState(1);
                   currentOrders.map((order,index)=>{return(
                 
                 
-                    <tr className='customShadow'  height="80px" >
+                    <tr key={index} className='customShadow'  height="80px" >
                         <td scope="col" onClick={()=>{
                           navigate(`/order/orderDetail/${order.id}`)
                         }} style={{
