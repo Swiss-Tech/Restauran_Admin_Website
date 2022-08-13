@@ -121,10 +121,7 @@ export default function EmployeeTable(props) {
         <tbody > 
   
                 
-  { 
-                    
-                    
-                    currentEmployees.map((employee,index)=>{return(
+   {   currentEmployees.map((employee,index)=>{return(
                   
                   
                       <tr className='customShadow'  height="80px" >
@@ -146,19 +143,25 @@ export default function EmployeeTable(props) {
                           <td>
                           <DropdownButton variant='white' >
                         
-                  <Dropdown.Item onClick={()=>{
-                    EmployeeActionController.unBlockEmployeeAction(employee['id'])
+                  <Dropdown.Item onClick={ async ()=>{
+                      
+                    await EmployeeActionController.unBlockEmployeeAction(employee['id'])
+                          window.location.reload(false)
                   }} >Unblock</Dropdown.Item>
-                  <Dropdown.Item onClick={()=>{
-                     EmployeeActionController.blockEmployeeAction(employee['id'])
+                  <Dropdown.Item onClick={async ()=>{
+                    
+                     await EmployeeActionController.blockEmployeeAction(employee['id'])
+                     window.location.reload(false)
                   }}  >Block</Dropdown.Item>
                     <Dropdown.Item onClick={()=>{
                              props.setIsEdit(true);
                              props.setEditable(employee)
       
                   }}  >Edit</Dropdown.Item>
-                  <Dropdown.Item onClick={()=>{
-                      EmployeeActionController.deleteEmployeeAction(employee['id'])
+                  <Dropdown.Item onClick={ async ()=>{
+                      
+                      await EmployeeActionController.deleteEmployeeAction(employee['id']);
+                      window.location.reload(false)
                           }}  >Delete</Dropdown.Item>
                           
                   

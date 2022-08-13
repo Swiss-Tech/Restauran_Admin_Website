@@ -91,7 +91,10 @@ function ResponsiveDrawer(props) {
          <Sidebar/>
         </Drawer>
       </Box>
-      <Outlet/>
+      
+      <Outlet style={{
+        backgroundColor:'#FAFAFA'
+      }}/>
       
     </Box>
 

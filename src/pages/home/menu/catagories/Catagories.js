@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import Loader from '../../../reusable-components/Loader';
 
 const StyedCategories = styled.section`
- 
+ width:100%;
  `
  	
  ;
@@ -89,10 +89,12 @@ useEffect(() => {
       navigate(0)
     }
    })
-  console.log(categoryStatuseontroller);
+
   return (
     <StyedCategories>
-   { isLoading ? <Loader/> : <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
+   { isLoading ? <Loader/> : 
+   
+   <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
 
 <div class="row">
         <div class="col">

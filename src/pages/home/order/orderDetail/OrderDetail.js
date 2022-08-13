@@ -18,7 +18,7 @@ export default function OrderDetail() {
   const dispatch = useDispatch()
   const OrderActionController = bindActionCreators(orderActionCreators,dispatch); 
   const [orderDetail, setOrderDetail] = useState();
-  
+  const [isLoading, setLoading] = useState(false);
     const orderController = useSelector((state)=>state.order.orders)
     const [dataSource, setDataSource]=useState([]);
     let {orderId} = useParams();
@@ -83,16 +83,16 @@ export default function OrderDetail() {
       }
 
 
- 
+
   return (
 
-  orderDetail ? <div>
+  orderDetail  ? isLoading ?<Loader/> : 
 
   <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
 <div class="alert-position">
 <alert  type="getAlertMessage().type" dismissible="dismissible"
-    onClosed="onClosed(getAlertMessage())" dismissOnTimeout="3000">
-    {/* getAlertMessagemsg */}
+  dismissOnTimeout="3000">
+   {/* message here */}
     </alert>
 
 </div>
@@ -124,33 +124,31 @@ export default function OrderDetail() {
         <div  >
 
           
-            <div  
-                class="px-4  small py-2 font-weight-bold d-flex justify-content-center align-items-center rounded " style={(orderDetail['status'].toLowerCase() === "pending")?{
-           backgroundColor:'#7b61ff2b',
-           color:'#7B3EFD'
-                }:{}}>
-               {orderDetail['status']}</div>
-   
-            {/* <div 
-                class="px-4 bg-lightPrimary small py-2 font-weight-bold text-warning d-flex justify-content-center align-items-center rounded"  style={(orderDetail['status'].toLowerCase() === "pending")?{
-           backgroundColor:'#fff1bf',
-           color:'#7B3EFD'
-                }:{}}>
-                 {orderDetail['status']}</div>
-            
-            <div
-                class="px-4 bg-lightSuccess small py-2 font-weight-bold text-success d-flex justify-content-center align-items-center rounded"  style={(orderDetail['status'].toLowerCase() === "pending")?{
-           backgroundColor:'#afdaaf',
-           color:'#7B3EFD'
-                }:{}}>
-                {orderDetail['status']}</div>
-      
-            <div 
-                class="px-4 bg-lightDanger small py-2 font-weight-bold text-danger d-flex justify-content-center align-items-center rounded"  style={(orderDetail['status'].toLowerCase() === "pending")?{
-           backgroundColor:'#ffdada',
-           color:'#7B3EFD'
-                }:{}}>
-                 {orderDetail['status']}</div> */}
+          {   orderDetail ? 
+            <><div
+                    class="px-4  small py-2 font-weight-bold d-flex justify-content-center align-items-center rounded " style={(orderDetail.status === 0) ? {
+                      backgroundColor: '#7B61FF2B',
+                      color: ' #7B3EFD'
+                    } : {
+                      display: 'none'
+                    }}>
+                    Pending { orderDetail.status}</div><div
+                      class="px-4 text-yellow-500   bg-warning bg-opacity-10 small py-2 font-weight-bold text-warning d-flex justify-content-center align-items-center rounded" style={(orderDetail.status === 1) ? {} : {
+                        display: 'none'
+                      }}>
+                      Active</div><div
+                        class="px-4   text-green-500 bg-success bg-opacity-10  small py-2 font-weight-bold text-success d-flex justify-content-center align-items-center rounded" style={(orderDetail.status === 2) ? {} : {
+                          display: 'none'
+                        }}>
+                      Completed</div><div
+                        class="px-4 bg-lightDanger small py-2 font-weight-bold text-danger d-flex justify-content-center align-items-center rounded" style={(orderDetail.status === 5) ? {
+                          backgroundColor: '#ffdada',
+                          color: '#7B3EFD'
+                        } : {}}>
+                      Rejected</div></>
+          :<div></div>
+
+          }
         </div>
     </div>
 </div>
@@ -164,143 +162,150 @@ export default function OrderDetail() {
 
 
 <div class="row h-100 pt-4">
-<div class="col-lg-8 ">
-    <div  >
+<div class="col-lg-8  ">
+<div  >
 
-    <Table  borderless  size="sm">
+<Table  borderless  size="sm">
 <thead>
 <tr>
 <th scope="col">Item</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Cost</th>
-                    <th scope="col">Total</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Total</th>
 </tr>
 </thead>
 <tbody>
 {
-    currentOrders.map((order,index)=>{
-        return (
-            <tr>
+currentOrders.map((order,index)=>{
+    return (
+        <tr>
 <td class="d-flex flex-lg-row flex-column bg-white">
+                 
+                 <img class="rounded-lg mr-3 mb-2 mb-lg-0 " style={{
+                  borderRadius:'10px'
+                 }} src={`${API_BASE_URL}/Menu/Photos/`+order['foodImage1']} width="80px"
+                     height="80px" alt=""/>
+
+                 <div class="d-flex flex-column justify-content-center ">
+                    
+                     <h5 style={{
+                       paddingLeft:'20px',
+                       paddingTop:'10px'
+                     }}>{order['name']}</h5>
                      
-                     <img class="rounded-lg mr-3 mb-2 mb-lg-0 " style={{
-                      borderRadius:'10px'
-                     }} src={`${API_BASE_URL}/Menu/Photos/`+order['foodImage1']} width="80px"
-                         height="80px" alt=""/>
-
-                     <div class="d-flex flex-column justify-content-center ">
+                   
+                     <div class="d-flex ">
+                     <div class="d-flex align-items-center 
+         px-3  rounded mr-3" style={{
+   border: "1px solid black",
+  backgroundColor:'white' ,
+  marginLeft:"10px"
+}}>
+{  order['categories'].length === 0 ? "SeaFood":order['categories'][0].categoryName}
+        
+    </div>
+    <div class="d-flex align-items-center 
+         px-3  rounded mr-3" style={{
+   border: "1px solid gray",
+  backgroundColor:'white' ,
+  marginLeft:"10px"
+}}>
+{order['estPrepTime']}
+        
+    </div>      
                         
-                         <h5 style={{
-                           paddingLeft:'20px',
-                           paddingTop:'10px'
-                         }}>{order['name']}</h5>
                          
-                       
-                         <div class="d-flex ">
-                         <div class="d-flex align-items-center 
-             px-3  rounded mr-3" style={{
-       border: "1px solid black",
-      backgroundColor:'white' ,
-      marginLeft:"10px"
-    }}>
-  {  order['categories'].length === 0 ? "SeaFood":order['categories'][0].categoryName}
-            
-        </div>
-        <div class="d-flex align-items-center 
-             px-3  rounded mr-3" style={{
-       border: "1px solid gray",
-      backgroundColor:'white' ,
-      marginLeft:"10px"
-    }}>
- {order['estPrepTime']}
-            
-        </div>      
-                            
-                             
 
-                         </div>
                      </div>
-                 </td>
-                 <td class="bg-white center-vert">1x</td>
-              
-              <td class="bg-white center-vert">${order['price']}</td>
-    
-              <td class="bg-white center-vert">${order['price']}</td>
+                 </div>
+             </td>
+             <td class="bg-white center-vert">1x</td>
+          
+          <td class="bg-white center-vert">${order['price']}</td>
+
+          <td class="bg-white center-vert">${order['price']}</td>
 </tr>
-        )
-    })
+    )
+})
 }
 
 
 </tbody>
 </Table>
-<Pagination ordersPerPage={orderPerPage} totalOrders={dataSource.length} paginate ={paginate} currentPage={currentPage}/>
-    </div>
+
+<Pagination className=" " ordersPerPage={orderPerPage} totalOrders={dataSource.length} paginate ={paginate} currentPage={currentPage}/>
+</div>
 
 
-    <div class="row  justify-content-lg-end justify-content-center text-black my-3">
-        <pagination  totalItems="contentArray.length"
-            pageChanged="pageChanged($event)" maxSize="6" rotate='true' itemsPerPage="itemPerPage">
-        </pagination>
-    </div>
+
+
+<div class=" row d-flex bg-black w-100 p-4 rounded-lg align-items-center m-0 mt-5" style={{
+  borderRadius:'10px',
+  
+
+}}>
+    <div class="col-lg-3 col-6 mb-lg-0 mb-4 d-flex flex-column">
+        <p class="text-white">Total Orders</p>
     
-    <div class=" row d-flex bg-black w-100 p-4 rounded-lg align-items-center m-0 mt-5" style={{
-      borderRadius:'10px',
-   
-    }}>
-        <div class="col-lg-3 col-6 mb-lg-0 mb-4 d-flex flex-column">
-            <p class="text-white">Total Orders</p>
-        
-            <h4  class="text-white">
-           {orderDetail['itemCount']}
-            </h4>
-        </div>
-        <div class="col-lg-3 col-6 mb-lg-0 mb-4 d-flex flex-column">
-            <p class="text-white">Total Payment</p>
-          
-            <h4 class="text-white">Birr 
-            { orderDetail.totalPayment.toFixed(2)}
-            </h4>
-        </div>
-        <div class="col-lg-3 col-6 mb-lg-0 mb-4 d-flex flex-column">
-        <Dropdown>
+        <h4  class="text-white">
+       {orderDetail['itemCount']}
+        </h4>
+    </div>
+    <div class="col-lg-3 col-6 mb-lg-0 mb-4 d-flex flex-column">
+        <p class="text-white">Total Payment</p>
+      
+        <h4 class="text-white">Birr 
+        { orderDetail.totalPayment.toFixed(2)}
+        </h4>
+    </div>
+    <div class="col-lg-3 col-6 mb-lg-0 mb-4 d-flex flex-column">
+    <Dropdown>
 <Dropdown.Toggle style={{
 border:'none',
 height:'50px',
 width:'80%',
 
 }} variant="success" id="dropdown-basic">
-        
+    
 </Dropdown.Toggle>
 <Dropdown.Menu>
-<Dropdown.Item   onClick={()=>{
-             OrderActionController.updateOrderStatusAction(orderId, 'Active');
-                }} >Accept</Dropdown.Item>
-<Dropdown.Item onClick={()=>{
-             OrderActionController.updateOrderStatusAction(orderId, 'Reject');
-                }} >Reject</Dropdown.Item>
+<Dropdown.Item   onClick={async ()=>{
+             
+        await OrderActionController.updateOrderStatusAction(orderId, 1);
+             window.location.reload(false);
+
+            }} >Accept</Dropdown.Item>
+<Dropdown.Item onClick={ async ()=>{
+          
+        await OrderActionController.updateOrderStatusAction(orderId, 5);
+            window.location.reload(false);
+
+            }} >Reject</Dropdown.Item>
 </Dropdown.Menu>
 </Dropdown>
-        </div>
-        <div class="col-lg-3 col-6 mb-lg-0 mb-4 d-flex flex-column">
-            <button className='finshButton'>Finish</button>
-        </div>
-        
-
-       
-      
-      <div>
-      
-      </div>
-
-
-       
-        
-
-
-        
-
     </div>
+    <div class="col-lg-3 col-6 mb-lg-0 mb-4 d-flex flex-column">
+        <button className='finshButton'>Finish</button>
+    </div>
+    
+
+   
+  
+  <div>
+  
+  </div>
+
+
+   
+    
+
+
+    
+
+</div>
+
+    
+    
 </div>
 <div class="col-lg-4 px-lg-5 px-3 mt-lg-0 mt-4">
    
@@ -365,7 +370,7 @@ width:'30%'
 </div>
 </div>
 </div> 
-  </div> :<Loader/>
+   :<Loader/>
  
   )
 }

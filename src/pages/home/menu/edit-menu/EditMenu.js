@@ -109,6 +109,7 @@ function setIntialValue (){
     setDescription(itemDetail['description'])
     setEnoughFor(itemDetail['enoughFor'])
     setEstimatedTime(itemDetail['estimatedTime'])
+    
   
    
      
@@ -481,7 +482,9 @@ useEffect(()=>{
 
             <div className="row  py-3 justify-content-center align-items-center mb-lg-0 mb-5">
                 <button  onClick={ async ()=>{
-                        console.log(itemName)
+                        console.log(estimated_preparation_time)
+
+                        
         //            setLoading(true)
         //    await MenuActionController.updateMenuAction(new MenuItem(menuId , itemName, price, calories, weight,description,enough_for,estimated_preparation_time,removable_ingredients,categories,foodImage1File,foodImage2File,foodImage3File,foodImage4File,checked));
         //      setLoading(false);

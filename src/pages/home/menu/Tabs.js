@@ -209,13 +209,7 @@ function serachFilter()
                 <div class="col-lg-4 d-flex justify-content-lg-end">
             <div>
                  
-                <button 
-                    class="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
-                        class="material-icons-outlined medium mr-2">
-                      <TbAdjustmentsHorizontal size={25} style={{
-                        padding:'2px'
-                      }}/>  
-                    </span> Filter Menu</button>
+                
             </div>
 
         </div>

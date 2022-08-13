@@ -5,7 +5,8 @@ import styled from "styled-components";
     flex:6;
   }
 .customButton {
-    
+     padding-left:20px;
+     padding-right:20px;
     background-color:${({theme})=>theme.colors.primary} ;
         color:black ;     
         border:none ;

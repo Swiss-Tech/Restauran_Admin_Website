@@ -192,9 +192,8 @@ export default function AddNewMenu() {
     })
     const [isLoading , setLoading]= useState (false);
   return (
-  <div>
-    {
-        isLoading ? <Loader/> : <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
+  
+         <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
 
 <div className="row">
         <div className="col-lg-8">
@@ -578,10 +577,16 @@ export default function AddNewMenu() {
 
             <div className="row px-lg-4 py-3 justify-content-center align-items-center mb-lg-0 mb-5">
                 <button onClick={ async ()=>{
-                  setLoading(true);
-          await MenuActionController.addMenuAction(new PostMenuItem(itemName,price,calories,weight,description,enough_for,estimated_preparation_time,removable_ingredients,categories,foodImage1File,foodImage2File,foodImage3File, foodImage4File, checked));
-                setLoading(false);
-            
+                    
+                     
+                  if(itemName && price && categories.length!==0  && weight && description && enough_for && foodImage1 &&foodImage2 && foodImage3 && foodImage4 && estimated_preparation_time ){
+                    
+                  
+                    await MenuActionController.addMenuAction(new PostMenuItem(itemName,price,calories,weight,description,enough_for,estimated_preparation_time,removable_ingredients,categories,foodImage1File,foodImage2File,foodImage3File, foodImage4File, checked));
+                    window.location.reload(false);
+                
+                      
+                  }
             
                 }}  type="button" className="blackButton">
                     Save and add
@@ -605,7 +610,6 @@ export default function AddNewMenu() {
         </div>
     </div>
     </div>
-    }
-  </div>
+  
   )
 }

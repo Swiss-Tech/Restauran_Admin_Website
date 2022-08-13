@@ -8,6 +8,7 @@ import { BsTelephone } from 'react-icons/bs';
 import { AiOutlineMail ,AiOutlineCalendar} from 'react-icons/ai';
 import { IoLocation } from 'react-icons/io5';
 import { Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 const StyledAccount = styled.section`
 
 
@@ -38,6 +39,7 @@ export default function Account() {
     const handleChange = (event) => {
         setChecked(event.target.checked);
       };
+      const navigate = useNavigate();
   return (
   
 <StyledAccount>
@@ -55,7 +57,9 @@ export default function Account() {
                 <div className=' ' style={{
                     marginLeft:'30px'
                 }}>
-                    <button  class="btn bg-black text-white  btn-sm py-1 px-4 rounded"><span
+                    <button onClick={()=>{
+                        navigate('/restaurantinformation')
+                    }}  class="btn bg-black text-white  btn-sm py-1 px-4 rounded"><span
                             class="material-icons-round mr-2 small ">
                         
                         <MdEdit style={{
@@ -247,7 +251,9 @@ export default function Account() {
                        <p>wbilihatu</p>
                         <input type="number" value="0964001922"/ >
                     </div>
-                    <div class="d-flex flex-column justify-content-start " style={{
+                    <div class="d-flex flex-column justify-content-start "  onClick={()=>{
+                        navigate('/edit/admin')
+                    }}  style={{
                         marginLeft:'20px'
                     }}>Edit</div>
                 </div>
@@ -260,13 +266,7 @@ export default function Account() {
                     <div className=' ' style={{
                     marginLeft:'30px'
                 }}>
-                    <button  class="btn border text-black  btn-sm py-1 px-4 rounded"><span
-                            class="material-icons-round mr-2 small ">
-                        
-                        <MdEdit style={{
-                            marginRight:'10px'
-                        }} />
-                        </span>Edit</button>
+            
                 </div>
 
                 </div>
@@ -293,7 +293,7 @@ export default function Account() {
                               
                                 <td>
                                     <span  class="material-icons-round mr-3">
-                                        delete
+                                    Delete
                                     </span>
 
                                 </td>
@@ -310,13 +310,7 @@ export default function Account() {
                     <div className=' ' style={{
                     marginLeft:'30px'
                 }}>
-                    <button  class="btn border text-black  btn-sm py-1 px-4 rounded"><span
-                            class="material-icons-round mr-2 small ">
-                        
-                        <MdEdit style={{
-                            marginRight:'10px'
-                        }} />
-                        </span>Edit</button>
+                  
                 </div>
 
                 </div>

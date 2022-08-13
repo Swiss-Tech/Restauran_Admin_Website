@@ -2,9 +2,8 @@ import { restaurant_information_function, dashboardData } from "../services/acco
 import { RESTAURANT_INFORMATION_FILLED_SUCCESS , RESTAURANT_INFORMATION_FILLED_FAILED, CLEAR_RESTAURANT_MESSAGE, RESTAURANT_INFO_FETCHED_SUCCESS, RESTAURANT_INFO_FETCHED_FAILED} from "./types";
 
 
-export const restaurantInformation =(restaurantName, restaurantLocation, restaurantNumber, restaurantEmail, restaurantDescription, logoUrl, restaurantImage1, restaurantImage2, restaurantImage3, restaurantImage4, workingDays , sharedCosts)=>(dispatch)=>{
-
-   
+export const restaurantInformation = (restaurantName, restaurantLocation, restaurantNumber, restaurantEmail, restaurantDescription, logoUrl, restaurantImage1, restaurantImage2, restaurantImage3, restaurantImage4, workingDays , sharedCosts)=>(dispatch)=>{
+  
   return restaurant_information_function(restaurantName, restaurantLocation, restaurantNumber, restaurantEmail, restaurantDescription, logoUrl, restaurantImage1, restaurantImage2, restaurantImage3, restaurantImage4, workingDays , sharedCosts).then(
     (data)=>{
         if (data.success) {
@@ -54,5 +53,7 @@ export const getDashboardData =()=>(dispatch)=>{
     }
   )
 }
+
+
 export const clearRestaurantMessageAction = () => ({ type: CLEAR_RESTAURANT_MESSAGE });
 

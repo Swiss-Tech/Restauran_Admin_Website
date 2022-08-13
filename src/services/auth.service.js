@@ -83,7 +83,11 @@ export async function register_function(user) {
 }
 
 export async function logout_function() {
+  localStorage.removeItem("type");
   localStorage.removeItem("token");
+  localStorage.removeItem("isRefreshCalled");
+  localStorage.removeItem("expires");
+  localStorage.removeItem("logintime");
 }
 
 export async function firsttime_function() {

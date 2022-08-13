@@ -13,9 +13,11 @@ import { TbAdjustmentsHorizontal } from 'react-icons/tb';
 import Pagination from '../order/TablePagination';
 import { customerActionCreators } from '../../../actions';
 import Loader from '../../reusable-components/Loader';
+import apiCall from '../../../ApiCall';
 export default function CustomerTable() {
   const customerController = useSelector((state)=>state.customer);
     const dispatch = useDispatch();
+    const[isLoading , setLoading] = useState(false);
     
   
     const CustomerActionController = bindActionCreators(customerActionCreators, dispatch);
@@ -23,6 +25,7 @@ export default function CustomerTable() {
    
   
   useEffect(()=>{
+    apiCall(dispatch);
     if(customerController.customers.length===0){
 
     
@@ -35,7 +38,7 @@ export default function CustomerTable() {
       
     }
     
-  })
+  },[])
   
   
   
@@ -65,10 +68,11 @@ export default function CustomerTable() {
   
    
    
-  
-
+ 
+ 
     return (
-    dataSource.length !==0 ?   <StyledCustomer>
+     <StyledCustomer>
+     
     <div
             class="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-between align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
                   <div
@@ -76,7 +80,7 @@ export default function CustomerTable() {
           <span class="h3 mr-3 mb-0 " style={{
             marginRight:"10px"
           }}>{customerController.customers.length}</span>
-        Customers
+        Customers 
           </div>
 
           
@@ -121,7 +125,7 @@ export default function CustomerTable() {
         </div>
 
 
-        <Table borderless responsive hover style={{
+        {  isLoading ? <Loader/>: <Table borderless responsive hover style={{
           marginBottom:'80px'
         }} >
       <thead style={{
@@ -163,7 +167,7 @@ export default function CustomerTable() {
                           {customer['activeOrders'].map((order)=>{<p>{order.id}</p>})}
                         </div> }</td>
                         <td >{customer['totalPayment']}</td>
-                        <td >24</td>
+                        <td >{customer['lifeTimeOrder']}</td>
                       
                         <td>
                 
@@ -191,11 +195,16 @@ export default function CustomerTable() {
                         <td>
                         <DropdownButton variant='white' >
                       
-                <Dropdown.Item  onClick={()=>{
-                     CustomerActionController.blockCustomerAction(customer['customer']['id'])
+                <Dropdown.Item  onClick={async ()=>{
+                     
+                   await  CustomerActionController.blockCustomerAction(customer['customer']['id']);
+                   window.location.reload(false)
+                     
                 }}>Block</Dropdown.Item>
-                <Dropdown.Item onClick={()=>{
-                   CustomerActionController.unBlockCustomerAction(customer['customer']['id'])
+                <Dropdown.Item onClick={ async ()=>{
+      
+                  await CustomerActionController.unBlockCustomerAction(customer['customer']['id']);
+                  window.location.reload(false)
                 }} >Unblock</Dropdown.Item>
              
                 
@@ -208,14 +217,17 @@ export default function CustomerTable() {
                     );})
                 }
             </tbody>
-    </Table>
+    </Table>}
 
  
-   
-        <Pagination ordersPerPage={orderPerPage} totalOrders={dataSource.length} paginate ={paginate} currentPage={currentPage}/>
+    <div className=' fixed-bottom  mb-5 mr-5  account btn'>
+
+    <Pagination ordersPerPage={orderPerPage} totalOrders={dataSource.length} paginate ={paginate} currentPage={currentPage}/>
+</div>
+        
    
 
-    </StyledCustomer> : <Loader/>
+    </StyledCustomer>
     )
   }
   

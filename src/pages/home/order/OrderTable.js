@@ -15,7 +15,42 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import styled from 'styled-components';
 
 import { orderActionCreators } from '../../../actions';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import Loader from '../../reusable-components/Loader';
+import apiCall from '../../../ApiCall';
 
+
+
+ function NoOrder() {
+  return (
+    <div style={{
+      display:'flex',
+      flexDirection:'column',
+      alignItems:'center',
+      justifyContent:'center',
+     
+      marginTop:'13%'
+
+     
+      
+
+     }}>
+<AiOutlineExclamationCircle size={'7%'} color="#C7C7CC" style={{
+marginBottom:'1%'
+}}/>
+<h6 style={{
+color:'#8E8E93',
+fontWeight:'300',
+fontSize:'20px',
+marginBottom:'1%'
+
+}}>No Orders are found</h6>
+
+
+
+     </div>
+  )
+}
 
 
 export default function OrderTable() {
@@ -23,6 +58,7 @@ export default function OrderTable() {
   const navigate = useNavigate();
   const OrderActionController = bindActionCreators(orderActionCreators, dispatch);
   const orderController = useSelector((state)=>state.order);
+  const [isLoading, setLoading] = useState(false);
    const [pending , setPending] = useState(0);
    const [processing, setProcessing] = useState();
    const [canceled, setCanceled] = useState();
@@ -72,8 +108,9 @@ const [currentPage,setCurrentPage]= useState(1);
  
 
 
-  return (
+  return ( isLoading ? <Loader/>:
     <StyledOrder >
+
     <div
             class="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-between align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
           
@@ -101,7 +138,10 @@ const [currentPage,setCurrentPage]= useState(1);
                 <div class="col-lg-4 d-flex justify-content-lg-end">
             <div>
                  
-                <button 
+                <button  onClick={()=>{
+                  currentOrders.sort();
+                  window.location.reload(false);
+                }}
                     class="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
                         class="material-icons-outlined medium mr-2">
                       <TbAdjustmentsHorizontal size={25} style={{
@@ -117,11 +157,12 @@ const [currentPage,setCurrentPage]= useState(1);
 
 
         <Table borderless responsive hover style={{
-          marginBottom:"120px"
-        }} >
+          marginBottom:'160px'
+        }}  >
       <thead style={{
        
       }}>
+      
       <tr   style={{
         color:'#8E8E93',
        
@@ -146,7 +187,7 @@ const [currentPage,setCurrentPage]= useState(1);
               
 { 
                   
-                  
+                  currentOrders.length === 0 ?<tr></tr> :
                   currentOrders.map((order,index)=>{return(
                 
                 
@@ -217,14 +258,27 @@ const [currentPage,setCurrentPage]= useState(1);
                         <td>
                         <DropdownButton variant='white' >
                       
-                <Dropdown.Item onClick={()=>{
-             OrderActionController.updateOrderStatusAction(order['id'], 'Active');
+                <Dropdown.Item onClick={ async ()=>{
+                  //  setLoading(true);
+           await  OrderActionController.updateOrderStatusAction(order['id'], 1);
+             window.location.reload(false);      
+          // setLoading(false)
                 }} >Accept</Dropdown.Item>
-                <Dropdown.Item onClick={()=>{
-             OrderActionController.updateOrderStatusAction(order['id'], 'Completed');
+                <Dropdown.Item onClick={async ()=>{
+                    
+            await OrderActionController.updateOrderStatusAction(order['id'], 2);
+             window.location.reload(false);
+         
+           
                 }}  >Complete</Dropdown.Item>
-                  <Dropdown.Item onClick={()=>{
-             OrderActionController.updateOrderStatusAction(order['id'], 'Rejected');
+                  <Dropdown.Item onClick={async ()=>{
+                   
+           await  OrderActionController.updateOrderStatusAction(order['id'], 5);
+           window.location.reload(false);
+                       
+
+       
+          
                 }}  >Reject</Dropdown.Item>
                 <Dropdown.Item onClick={()=>{
                           navigate(`/order/orderDetail/${order.id}`)
@@ -240,10 +294,15 @@ const [currentPage,setCurrentPage]= useState(1);
             </tbody>
     </Table>
 
- 
-   
-        <Pagination ordersPerPage={orderPerPage} totalOrders={dataSource.length} paginate ={paginate} currentPage={currentPage}/>
-   
+    {dataSource.length === 0 ? <NoOrder/> :<div></div>}
+
+    <div className=' fixed-bottom  mb-5 mr-5  account btn'>
+
+    <Pagination className="fixed-bottom" ordersPerPage={orderPerPage} totalOrders={dataSource.length} paginate ={paginate} currentPage={currentPage}/>
+    </div>
+       
+     
+       
 
     </StyledOrder>
   )
@@ -252,6 +311,7 @@ const [currentPage,setCurrentPage]= useState(1);
 
 
 const StyledOrder = styled.section`
+
 td {
   
   vertical-align: middle;

@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import GlobalStyle from "./Global";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { bindActionCreators } from "redux";
-import { authactionCreators, menuActionCreators , categoryActionCreators, accountActionCreators } from "./actions";
+import { authactionCreators, menuActionCreators , categoryActionCreators, accountActionCreators, orderActionCreators } from "./actions";
 import RestaurantInformation from "./pages/restaurant-information/Restaurant_Information";
 
 import { restaurantInfoStatus } from "./services/account.service"; 
@@ -30,8 +30,9 @@ import Customers from './pages/home/customers/Customers';
 import Employees from './pages/home/employees/Employees';
 import Account from "./pages/account/Account";
 import Loader from "./pages/reusable-components/Loader";
-
+import apiCall from "./ApiCall";
 import ResponsiveDrawer from "./Drawer";
+import AdminEdit from "./pages/account/edit-admin/AdminEdit";
 const theme = {
   colors: {
     primary: "#FECB16",
@@ -55,7 +56,9 @@ export default  function App()  {
   const ActionController = bindActionCreators(authactionCreators, dispatch);
   const MenuActionController = bindActionCreators(menuActionCreators, dispatch);
   const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
+  const OrderActionController = bindActionCreators(orderActionCreators, dispatch);
   const CategoryActionContoller = bindActionCreators(categoryActionCreators , dispatch);
+  const orderController = useSelector((state)=>state.order);
   const [hasData , setHasData] = useState();
 
   
@@ -64,20 +67,25 @@ export default  function App()  {
     setHasData(data);
   } 
     );
-
+    useEffect(()=>{
+      callingApi()
+    },[]);
   function callingApi(){
     if(authController.isLoggedIn){
       if(menuController.menus.length === 0 ){
         MenuActionController.getallmenues();
+       
+
         }
        if(categoryController.categories.length===1){
         CategoryActionContoller.getAllCatagoryAction();
        }
+       if(orderController.orders===0){
+        OrderActionController.getAllOrdersAction();
+       }
     }
   }
-useEffect(()=>{
-  callingApi()
-},[]);
+
 
 
 const pathName= window.location.pathname
@@ -95,117 +103,69 @@ var loginTimeExpire = new Date(localStorage.getItem("logintime"));
 loginTimeExpire.setHours(loginTimeExpire.getHours(), loginTimeExpire.getMinutes()+5,);
 
 
-useEffect(()=>{
-  if( loginTimeExpire < new Date() && JSON.parse(localStorage.getItem("isRefreshCalled"))===false){
-    console.log("expired")
-    console.log(new Date(localStorage.getItem("logintime")));
-    console.log(loginTimeExpire);
-    localStorage.removeItem("logintime");
-    localStorage.setItem("isRefreshCalled", true);
-    // implement refresh token 
-    var myHeaders = new Headers();
-
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  redirect: 'follow'
-};
-
-fetch("http://165.232.80.134/test/admin/auth/token/refresh", requestOptions)
-  .then(response => response.json())
-  .then(result => {
-    console.log(result)
-  })
-  .catch(error => console.log('error here', error));
-  logout_function();
-  }
-  
-  else{
-    // logout_function()
-  //  console.log("token is not expired")
-  //  console.log(new Date());
-  //  console.log(loginTimeExpire);
-  }
-})
 
 
 useEffect(()=>{
 if(currentTime > expires ){
-logout_function();
+
 }
 else{
   // logout_function();
   console.log(expires);
   console.log("refreh token not expired")
-  // console.log(currentTime)
-  // console.log(expires)
+
 }
 })
-console.log(AccountActionController.getDashboardData())
+
+
+
+useEffect(()=>{
+  if(authController.isLoggedIn){
+    apiCall(dispatch);
+  }
+
+},[])
+ 
+
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle>
         <BrowserRouter>
-       <div style={{
-        display:'flex',
-       
-       }}>
-       
-       {/* <div style={
-        (firstTimecontroller === false)  ?  
-       authController.isLoggedIn ? 
-       hasData === true ? 
-       { flex:'1'}:
-       { display:'none'} : 
-       
-       {display:'none'} :
-       
-       {display:'none'}}>
-   
      
-</div> */}
+       
+    
 
-<div className="sidebar" style={(firstTimecontroller) ?{
- display:'none'
-}:authController.isLoggedIn ? hasData ? pathName ==='/login' || pathName ==='/restaurantinformation' || pathName ==='/signup' || pathName==='/account' ?{
-  display:'none'
-}:{
-  
-}:{
-  display:'none'
-} :{
-  display:'none'
-}}>
-  
-  <ResponsiveDrawer/>
 
-   
-</div>
 
 
       
        
 
-       <div className="main"  style={{
-        dispaly:'none'
-       }}>
+       
        <Routes>
+
+
+       <Route path="/">
+
+       </Route>
             
 
-   <Route path="/" element={ firstTimecontroller === false ? authController.isLoggedIn ? hasData ? <Navigate to="dashboard" /> : hasData === false ?<Navigate to="restaurantinformation"/> : <div
+   <Route path="/" element={ firstTimecontroller === false ? authController.isLoggedIn ? hasData ? <ResponsiveDrawer/>: hasData === false ?<Navigate to="restaurantinformation"/> : <div
           className="container-fluid vh-100"
  
         >
          <Loader/>
-        </div> : <Navigate to="login"/>:<Navigate to="landing" />} />
-        
-  <Route path = "dashboard" element={ <Dashboard/>}/>
+        </div> : <Navigate to="login"/>:<Navigate to="landing" />} >
+
+    <Route index element={ <Dashboard/>}/>
    {/* order */}
 
    <Route path='order' > 
      <Route index element ={<Order/>} />
      <Route path='neworder' element = {<NewOrder/>}/> 
-     <Route path='orderDetail/:orderId' element = {<OrderDetail/>}/> 
+     <Route path="orderDetail/:orderId" element = {<OrderDetail/>}/> 
+      
    </Route>
 
    {/* menu */}
@@ -222,11 +182,16 @@ console.log(AccountActionController.getDashboardData())
    <Route path='addMenu' element={<AddNewMenu/>}/>
    <Route path="customers" element={<Customers/>}/>
    <Route path='employees' element ={<Employees/>}/>
-   <Route path="/restaurantinformation" element={<RestaurantInformation />} />
+ 
+   <Route path ="account" element={<Account/>} />
+        </Route>
+        <Route path="/restaurantinformation" element={<RestaurantInformation />} />
     <Route path="/login" element={<Login />}></Route>
   <Route path="/signup" element={<Signup />}></Route> 
-   <Route path="/landing" element={<Landing />}></Route> 
-   <Route path ="account" element={<Account/>} />
+   <Route path="/landing" element={<Landing />}></Route>
+   <Route path="/edit/admin" element={<AdminEdit/>}/>
+        
+ 
           
         
            
@@ -236,14 +201,14 @@ console.log(AccountActionController.getDashboardData())
 
 
           </Routes>
-       </div>
+      
 
 
 
 
 
        
-       </div>
+      
         </BrowserRouter>
       </GlobalStyle>
     </ThemeProvider>

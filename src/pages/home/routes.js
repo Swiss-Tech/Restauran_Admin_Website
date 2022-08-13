@@ -13,7 +13,7 @@ const routes = [
       name: "Dashboard",
       key: "dashboard",
       icon: <MdDashboard/>,
-      route: "/dashboard",
+      route: "/",
       additionalRoutes:[]
     },
     {

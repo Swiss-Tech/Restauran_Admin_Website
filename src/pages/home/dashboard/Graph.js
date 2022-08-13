@@ -88,7 +88,7 @@ export function Graph() {
 
   const accountController = useSelector((state)=>state.account);
 
-  console.log(accountController.restaurantInformation.monthlyRevenus)
+
   useEffect(()=>{
     if(accountController.restaurantInformation.monthlyOrders){
      

@@ -12,6 +12,41 @@ import styled from 'styled-components';
 import { messageActionCreators } from '../../../../actions';
 import { orderActionCreators } from '../../../../actions';
 import { useSelector } from 'react-redux';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import apiCall from '../../../../ApiCall';
+
+
+function NoOrder() {
+  return (
+    <div style={{
+      display:'flex',
+      flexDirection:'column',
+      alignItems:'center',
+      justifyContent:'center',
+     
+      marginTop:'13%'
+
+     
+      
+
+     }}>
+<AiOutlineExclamationCircle size={'7%'} color="#C7C7CC" style={{
+marginBottom:'1%'
+}}/>
+<h6 style={{
+color:'#8E8E93',
+fontWeight:'300',
+fontSize:'20px',
+marginBottom:'1%'
+
+}}>No Orders are found</h6>
+
+
+
+     </div>
+  )
+}
+
 export default function NewOrder() {
  const dispatch = useDispatch();
  const OrderActionController = bindActionCreators(orderActionCreators, dispatch);
@@ -22,14 +57,16 @@ export default function NewOrder() {
  
 
   useEffect(()=>{
+    apiCall(dispatch);
     if(orderController.orders.length === 0){
+
       OrderActionController.getAllOrdersAction();
       setDataSource(orderController.orders);
     }
     else{
       setDataSource(orderController.orders);
     }
-  })
+  },[])
   const goToDetail =(order)=>{
     //
     navigate('/orderdetail',{state:{order}});
@@ -75,7 +112,7 @@ export default function NewOrder() {
           setInterval(() => setDateState(new Date()), 30000);
         }, []);
   return (
-    <StyledOrder>
+   
       <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
 <div class="col">
             <h3 class="font-weight-bolder">New Orders</h3>
@@ -133,7 +170,7 @@ export default function NewOrder() {
 
         </div>
 
-
+        <StyledOrder>
         <Table borderless responsive  >
       <thead style={{
        
@@ -174,11 +211,7 @@ export default function NewOrder() {
 
                          
                             <div 
-                             style={( order['status'].toLowerCase() ==='pending')?{
-                              color:'orange'
-                             }:{
-                       
-                            }}>
+                            >
                            {order['status']}</div>
 
                           
@@ -201,12 +234,17 @@ export default function NewOrder() {
                     );})
                 }
             </tbody>
-    </Table>
+    </Table></StyledOrder>
+    {dataSource.length === 0 ? <NoOrder/> :<div></div>}
+    <div className=' fixed-bottom  mb-5 mr-5  account btn'>
 
+    <Pagination  ordersPerPage={orderPerPage} totalOrders={dataSource.length} paginate ={paginate} currentPage={currentPage}/>
+</div>
+   
  
-        <Pagination ordersPerPage={orderPerPage} totalOrders={dataSource.length} paginate ={paginate} currentPage={currentPage}/>
+
         </div>
-    </StyledOrder>
+    
   )
 }
 

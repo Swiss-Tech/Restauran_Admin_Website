@@ -59,7 +59,10 @@ var requestOptions = {
 };
 return fetch("http://165.232.80.134/test/admin/Menu/add", requestOptions)
   .then(response => response.json())
-  .then(result => result)
+  .then(result => {
+    console.log(result);
+    return result;
+  })
   .catch(error => console.log('error', error));
 
 }

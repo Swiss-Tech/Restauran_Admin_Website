@@ -12,10 +12,11 @@ import { TbAdjustmentsHorizontal } from 'react-icons/tb';
 import { Outlet } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
+import apiCall from '../../../ApiCall';
 
 export default function Menus() {
   
-    
+  
 const menuController = useSelector((state)=>state.menu);
 const categoryController = useSelector((state)=>state.category);
     const dispatch = useDispatch();
@@ -31,6 +32,10 @@ const categoryController = useSelector((state)=>state.category);
     useEffect(() => {
         setInterval(() => setDateState(new Date()), 30000);
       }, []);
+
+      useEffect(()=>{
+        apiCall(dispatch)
+      },[])
     
   return (
     <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">

@@ -1,8 +1,6 @@
 
 import {Graph,} from "./Graph"
 import { BarGraph } from "./Bar"
-import { IoMdNotificationsOutline ,} from "react-icons/io";
-
 import { BsBookmarkDash } from "react-icons/bs";
 import { AiOutlineDollar ,AiOutlineArrowDown,AiOutlineArrowUp } from "react-icons/ai";
 
@@ -16,8 +14,11 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { parse } from "path-browserify";
 import Loader from "../../reusable-components/Loader";
-
-
+import { bindActionCreators } from "redux";
+import { accountActionCreators } from "../../../actions";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import apiCall from "../../../ApiCall";
 
 const StyledDashboard = styled.section`
 .graphTitle{
@@ -38,6 +39,9 @@ const StyledDashboard = styled.section`
 
 `
 export default function Dashboard() {
+    const navigate = useNavigate();
+    const dispatch= useDispatch();
+    const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
     const [dataSource, setDataSource] = useState();
     const orderData =[
         {name:"Pizza",
@@ -59,13 +63,16 @@ imageUrl:""
  const dashboardController  = useSelector((state)=>state.account);
  
   useEffect(()=>{
+    apiCall(dispatch);
     if(dashboardController.restaurantInformation){
-        setDataSource(dashboardController.restaurantInformation);
-    }
-  });
 
-  
-  console.log(dataSource)
+        setDataSource(dashboardController.restaurantInformation);
+    }{
+      AccountActionController.getDashboardData();
+    }
+  },[]);
+
+ 
   return (  
   dataSource ?  <StyledDashboard>
   <div  className="container-fluid px-lg-5 px-2 pt-5 position-relative" style={{
@@ -73,7 +80,7 @@ imageUrl:""
   }}>
 <div className="row  ">
 <div className="col">
-        
+      
         <h4 className="font-weight-bolder">Dashboard</h4>
         
         <p style={{
@@ -84,13 +91,15 @@ imageUrl:""
              month: 'short',
              year: 'numeric',
           })}</p>
+          
     </div>
-
+ 
+    
       <div className="dropdown-divider"></div>
       <div className="row " >
       <div className="col-lg-8  px-0 my-2">
       <Row sm={1} lg={3} md={1} xs={1} >
-      <Col lg={4} xs={8}  md={9}> <div className="d-flex flex-column col-lg   mb-3 mb-lg-0">
+      <Col lg={4} xs={8} sm={2} md={9}> <div className="d-flex flex-column col-lg   mb-3 mb-lg-0">
                   <div className="w-100 d-flex flex-column p-4 rounded-lg " style={{
                       backgroundColor:'#FECB16',
                       borderRadius:"20px",
@@ -103,7 +112,7 @@ imageUrl:""
                               <AiOutlineDollar size={19}/>
                           </span>
                        
-                          <span style={{
+                          {/* <span style={{
                               color:'green'
                           }}>0%
                               <span 
@@ -121,10 +130,10 @@ imageUrl:""
                               </span>
                               
                              
-                          </span>
+                          </span> */}
                       </div>
                     
-                      <h2 className="font-weight-bold mt-3">{ parseFloat(dataSource['totalRevenue']).toFixed(2) }</h2>
+                      <h2 className="font-weight-bold mt-3">{ dataSource['totalRevenue'] ? parseFloat(dataSource['totalRevenue']).toFixed(2) : parseFloat(0).toFixed(2)}</h2>
                      
                       <h6 style={{
                           color:'white'
@@ -150,7 +159,7 @@ imageUrl:""
                           </span>
                         
 
-                          <span style={{
+                          {/* <span style={{
                               color:'red'
                           }}>0%
                               <span 
@@ -168,10 +177,10 @@ imageUrl:""
                               </span>
                               
                              
-                          </span>
+                          </span> */}
                       </div>
                    
-                      <h2 className="font-weight-bold mt-3 text-white">{ dataSource['totalDishOrdered'] }</h2>
+                      <h2 className="font-weight-bold mt-3 text-white">{ dataSource['totalDishOrdered'] ? dataSource['totalDishOrdered']:0 }</h2>
        
                       <h6 className="text-muted" color="gray">Total Dish Ordered</h6>
                   </div>
@@ -195,7 +204,7 @@ imageUrl:""
                       </span>
            
 
-                      <span style={{
+                      {/* <span style={{
                           color:'green'
                       }}>0%
                           <span 
@@ -213,11 +222,11 @@ imageUrl:""
                           </span>
                           
                          
-                      </span>
+                      </span> */}
 
                   </div>
                  
-                  <h2 className="font-weight-bold mt-3 ">{dataSource['totalCustomers']} </h2>
+                  <h2 className="font-weight-bold mt-3 ">{dataSource['totalCustomers'] ? dataSource['totalCustomers'] :0} </h2>
              
                   <h6 className="text-muted">Total customers</h6>
               </div>
@@ -247,7 +256,7 @@ imageUrl:""
                       <p className=" text-muted">Total Orders</p>
                   </div>
                   <div>
-                      <h5>{ dataSource['totalRevenueQty'] }</h5>
+                      <h5>{ dataSource['totalRevenue'] }</h5>
                       <p className=" text-muted">Total Revenue</p>
                   </div>
                   <div style={{
@@ -315,11 +324,11 @@ imageUrl:""
                 
                   <div
                       className="d-flex justify-content-center align-items-center border bg-white px-3 py-2 h-auto rounded mr-lg-4 mr-2 mb-lg-3 mb-3  ">
-                      <span className="h3 mr-3 mb-0 gray">{dataSource['totalPending']}</span>
+                      <span className="h3 mr-3 mb-0 gray">{dataSource['totalPending']?dataSource['totalPending']:0}</span>
                       <div style={{
                       color:'gray',
                       fontWeight:"100",
-                      paddingLeft:'10px'
+                      paddingLeft:'10px',
 
                      }}>Pending</div>
                       
@@ -327,7 +336,7 @@ imageUrl:""
                  
                   <div
                       className="d-flex justify-content-center align-items-center border bg-white px-3 py-2 rounded mr-lg-4 mr-2 mb-lg-3 mb-3">
-                      <span className="h3 mr-3 mb-0">{ dataSource['totalProcessing']}</span>
+                      <span className="h3 mr-3 mb-0">{ dataSource['totalProcessing']?dataSource['totalProcessing']:0}</span>
                      <div style={{
                       color:'gray',
                       fontWeight:"100",
@@ -338,7 +347,7 @@ imageUrl:""
                   
                   <div
                       className="d-flex justify-content-center align-items-center border bg-white px-3 py-2 rounded mr-lg-4 mr-2 mb-lg-3 mb-3 ">
-                      <span className="h3 mr-3 mb-0">{dataSource['totalCancelled'] }</span>
+                      <span className="h3 mr-3 mb-0">{dataSource['totalCancelled'] ? dataSource['totalCancelled']:0 }</span>
                       <div style={{
                       color:'gray',
                       fontWeight:"100",
@@ -350,7 +359,7 @@ imageUrl:""
                   
                   <div
                       className="d-flex justify-content-center align-items-center border bg-white px-3 py-2 rounded mr-lg-4 mb-lg-3 mb-3 ">
-                      <span className="h3 mr-3 mb-0">{dataSource['totalCompleted']}</span>
+                      <span className="h3 mr-3 mb-0">{dataSource['totalCompleted']?dataSource['totalCompleted']:0}</span>
                       <div style={{
                       color:'gray',
                       fontWeight:"100",
@@ -360,7 +369,9 @@ imageUrl:""
                       
                   </div>
                   {/* go to orderlisr */}
-                  <div 
+                  <div  onClick={()=>{
+                    navigate('/order')
+                  }}
                       className="d-flex cursor-pointer ml-3 justify-content-center align-items-center border bg-black text-white px-3 py-2 rounded mr-lg-4 mb-lg-3 mb-3 ">
                       view all
                   </div>

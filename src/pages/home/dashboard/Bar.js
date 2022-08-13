@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -51,9 +52,27 @@ export const options = {
   }
 };
 
-const labels = ["1", "2", "3", "4", "5", "6", "7","8","9","10","11","12"];
+const labels = [ 'Jan',
+'Feb',
+'Mar',
+'Apr',
+'May',
+'Jun',
+'Jul',
+'Aug',
+'Sep',
+'Oct',
+'Nov',
+'Dec',];
 
-export const data ={
+
+
+
+
+export  function BarGraph() {
+
+  const [customerData, setCustomerData] = useState();
+  const data ={
     
     labels: labels,
     datasets: [
@@ -63,7 +82,7 @@ export const data ={
       {
         id: 2,
         label: '',
-        data: [20, 50, 80,200,250,200,100,100,200,300,300,100],
+        data: customerData ? [customerData.january,customerData.february , customerData.march,customerData.april,customerData.may,customerData.june,customerData.july,customerData.august,customerData.september,customerData.october,customerData.november,customerData.december] :[0,0,0,0,0,0,0,0,0,0,0,0,],
         borderColor: ' #FECB16',
         backgroundColor: ' #FECB16',
         barThickness: 6,  
@@ -72,8 +91,17 @@ export const data ={
   
 }
 
+  const accountController = useSelector((state)=>state.account);
 
-export  function BarGraph() {
+  useEffect(()=>{
+    if(accountController.restaurantInformation.monthlyCustomers){
+     
+       setCustomerData(accountController.restaurantInformation.monthlyCustomers)
+      
+    }
+  
+    
+  })
   return (
     <div>
       <Bar

@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import { employeeActionCreators } from '../../../actions';
 import { useDispatch } from 'react-redux';
 import { logDOM } from '@testing-library/react';
+import Loader from '../../reusable-components/Loader';
+import apiCall from '../../../ApiCall';
 export default function Employees() {
     const dispatch = useDispatch()
     const EmployeeActionController = bindActionCreators(employeeActionCreators, dispatch);
@@ -31,11 +33,12 @@ export default function Employees() {
     }, [isEdit])
     const [dateState, setDateState] = useState(new Date());
     useEffect(() => {
+        apiCall(dispatch);
         setInterval(() => setDateState(new Date()), 30000);
       }, []);
 
   
-  return (
+  return ( isLoading ? <Loader/>:
     <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
 
 <div class="row">
@@ -64,7 +67,7 @@ export default function Employees() {
 
 
 
-            <EmployeeTable setEditable ={setEditable} setIsEdit={setEdit} handleLoading ={ setLoading } />
+            <EmployeeTable setEditable ={setEditable} setIsEdit={setEdit} handleLoading ={ setLoading } setLoading ={setLoading} />
 
 
     </div>
@@ -170,12 +173,16 @@ export default function Employees() {
                    
                     
                
-                        <div class=" d-flex justify-content-center align-items-center "><button onClick={()=>{
+                        <div class=" d-flex justify-content-center align-items-center "><button onClick={ async ()=>{
                             if(isEdit){
-                                EmployeeActionController.editEmployeeAction(id,employeeFristName, employeeLastName, phoneNumber, employeeEmail, employeePassword);
+                                 setLoading(true);
+                               await EmployeeActionController.editEmployeeAction(id,employeeFristName, employeeLastName, phoneNumber, employeeEmail, employeePassword);
+                               setLoading(false);
                             }
                            else{
-                            EmployeeActionController.addEmployeeAction(new EmployeePost(employeeFristName,employeeLastName,employeeEmail, phoneNumber, employeePassword))
+                            setLoading(true)
+                           await EmployeeActionController.addEmployeeAction(new EmployeePost(employeeFristName,employeeLastName,employeeEmail, phoneNumber, employeePassword))
+                           setLoading(false)
                            }
                         }}
                                 type="button" 

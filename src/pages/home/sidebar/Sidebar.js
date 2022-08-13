@@ -14,6 +14,13 @@ export default function Sidebar() {
 const [showChild , setShowChild] = useState(false);
 const [currentIndex , setIndex] = useState();
 const [changeBackground , setChangeBackground] = useState(false);
+var type =  JSON.parse(localStorage.getItem("type")).toLowerCase();
+var userType = type.split('_')[0];
+
+
+
+
+
 
  
 
@@ -41,7 +48,9 @@ console.log(showChild)
 
             {routes.map((route,index)=>
             
-            <div key={route}>
+            <div key={route} style={(userType==="super")?{}:{
+           display : route.key === "employees" || route.key ==="customers" ?"none":""
+            }}>
             
             
             <div className='sidebartitle'  style={{
@@ -67,7 +76,8 @@ console.log(showChild)
               textDecoration:'none' 
              }} onClick={()=>{
              
-             }}>   <div className='titleIcon' style={{
+             }}>  
+              <div className='titleIcon' style={{
              color: route.route === location.pathname ? 'orange' :''
              }}>{route.icon}</div> <div className='title'>  {route.name}</div></Link>
               
@@ -85,6 +95,7 @@ console.log(showChild)
             </div>
                 
             } 
+            
 
 
             </div>
@@ -119,15 +130,22 @@ console.log(showChild)
             
             }
         </div>
-     <div className=' fixed-bottom account btn' onClick={()=>{
+        
+        
+     <div   className=' fixed-bottom account ' onClick={()=>{
       navigate('/account')
-     }}><img class="rounded-circle mb-lg-0 mb-4 bg-primary  " style={{
+     }} style={(userType==="super") ? {
+      width:'2000px'
+     }:{
+      display:'none'
+     }} >
+     <img class="rounded-circle mb-lg-0 mb-4 bg-primary  " style={{
     
 }}
-    width="80px" height="80px"           src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg"  />
-     <div className=' mt-3 ml-3'>
-        <h6 className='bold' >Woynshet Bilihatu</h6>
-        <p className=' text-muted'>Admin</p>
+    width="60px" height="60px"           src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg"  />
+     <div className='  ml-5 mt-1 justify-content-center'>
+        <div className='  font-extrabold' >Woynshet Bilihatu</div>
+        <div className=' text-muted'>Admin</div>
        </div>
     </div>
       

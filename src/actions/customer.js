@@ -6,21 +6,24 @@ import Customer from "../models/Customer"
 export const getAllCustomersAction =()=>(dispatch)=>{
     return getAllCustomers().then(
         (data)=>{
-          
-        if(data.success){
+          console.log(data.data);
+        // if(data.success){
             data.data.map((customer)=>{
                 dispatch({
                     type:CUSTOMER_FETCHED_SUCCESS,
-                    payload: new Customer(customer.id,customer.customer, customer.customerId, customer.activeOrders,customer.totalPayment,customer.status)
+                    payload: new Customer(customer.id,customer.customer, customer.customerId, customer.activeOrders,customer.totalPayment,customer.status,customer.lifeTimeOrder)
                 })
               })
-        }
-        else{
-            dispatch({
-                type:CUSTOMER_FETCHED_FAILED,
-                payload: data.message
-            })
-        }
+        // }
+        // else{
+        //     dispatch({
+        //         type:CUSTOMER_FETCHED_FAILED,
+        //         payload: data.message
+        //     })
+        // }
+        },
+        (error)=>{
+            console.log("there is error")
         }
     )
 }

@@ -71,6 +71,7 @@ export const getallmenues = ()=> (dispatch)=> {
   };
 
   export const addMenuAction =(menu)=>(dispatch)=>{
+    
      return  addMenuItem(menu).then(
         (data)=>{
          console.log(data);

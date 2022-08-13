@@ -6,17 +6,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import styled from "styled-components";
-
-const StyledOrder = styled.section`
-.orderTotal{
-  
-  gap:40px;
-
-
-}
-
-
-`
+import apiCall from "../../../ApiCall";
 
 
 export default function Order() {
@@ -26,18 +16,19 @@ export default function Order() {
   const [dataSource, setDataSource]=useState([]);
   const [dateState, setDateState] = useState(new Date());
   useEffect(()=>{
+    apiCall(dispatch);
     if(orderController.orders.length===0){
       OrderActionController.getAllOrdersAction();
       
-      setDataSource(orderController.orders);
+      
    
-    }
+    }else
     {
       setDataSource(orderController.orders);
       
     }
     
-  })
+  },[])
   useEffect(() => {
       setInterval(() => setDateState(new Date()), 30000);
     }, []);
@@ -46,43 +37,64 @@ export default function Order() {
     const [rejected, setRejected] = useState(0);
     const [completed, setCompleted] = useState(0);
     const [stopCalculating, setStopCalculating] = useState(false);
+
     useEffect( ()=>{
-      if( stopCalculating === false){
-         calculateFinal(); 
+    
+          if(dataSource.length){
+            
+          }{
+            calculateFinal();
+            setStopCalculating(true)
+          }
+         
+          
         
-      }
-    },  )
+        
+      
+    },[dataSource.length])
+
+
+
     async function  calculateFinal (){
-      if(dataSource.length !==0){
+      if(dataSource.length !==0) {
        dataSource.map((order)=>{
-         if(  order['status'].toLowerCase() === "pending"){
+        console.log(order)
+         if(  order['status'] === 0){
          setPending(pending+1);
+         
+         
          }
-         if(order['status'].toLowerCase() === "active"){
+         if(order['status'] === 1){
           setActive(active+1);
    
          }
-         if(order['status'].toLowerCase() === "rejected"){
+         if(order['status'] === 5){
           setRejected(rejected+1);
          }
-         if(order['status'].toLowerCase() === "completed"){
+         if(order['status'] === 2){
           setCompleted(completed+1);
          }
          
          }
          
+         
          )
-         setStopCalculating(true)
+         
+       
       }
-   
-   
+      
      
    
    
+     
+  
+   
       }
   return (
-    <StyledOrder>
-    <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
+   
+<div  className="container-fluid px-lg-5 px-2 pt-5 position-relative" style={{
+  
+  }}>
          <div className="row">
         <div className="col">
             <h3 className="font-weight-bolder">Orders</h3>
@@ -101,15 +113,19 @@ export default function Order() {
         <div className="dropdown-divider"></div>
 
         <div className="orderTotal " style={{
+          gap:'40px',
          display:'flex',
-         marginBottom:'20px'
+         marginBottom:'20px',
+         
+
           
         }}>
       
         <div
             className="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3 ">
             <span className="h3 mr-3 mb-0 " style={{
-              marginRight:"10px"
+              marginRight:"10px",
+            
             }}>{pending}</span>
           Pending
         </div>
@@ -142,8 +158,8 @@ export default function Order() {
     </div>
 
 
-    <OrderTable/>
+    <OrderTable />
     </div>
-    </StyledOrder>
+  
   )
 }
