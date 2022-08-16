@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState , useEffect } from 'react'
 import { BsArrowLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { MdEdit } from 'react-icons/md'
@@ -9,9 +9,17 @@ import { AiOutlineMail ,AiOutlineCalendar} from 'react-icons/ai';
 import { IoLocation } from 'react-icons/io5';
 import { Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
+import { MdDelete } from 'react-icons/md';
+import SharedCost from '../../models/SharedCost';
+import { accountActionCreators, orderActionCreators } from '../../actions';
+import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../reusable-components/Loader';
+import apiCall from '../../ApiCall';
+import { API_BASE_URL } from '../../services/api-config';
 const StyledAccount = styled.section`
 
-
+width:100%;
 
 .role-type {
   position: absolute;
@@ -35,15 +43,49 @@ const StyledAccount = styled.section`
   background-color: black;
 }`
 export default function Account() {
-    const [checked, setChecked] = React.useState(true);
+    const dispatch = useDispatch();
+    const accountController = useSelector((state)=>state.account);
+    const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
+    const [editSharedCostByValue , setEditSharedCostByValue] = useState(false);
+    const [editSharedCostByPercent , setEditSharedCostByPercent] = useState(false);
+    const [sharedCosts, setSharedCosts] = useState([]); 
+    const [checked, setChecked] = useState(true);
+    const [itemName,setItemName] = useState();
+    const [itemValue, setItemValue] = useState();
+    const [dataSource, setDataSource] = useState();
     const handleChange = (event) => {
         setChecked(event.target.checked);
       };
       const navigate = useNavigate();
+      const handleSharedCost =( sharedCost)=>{
+  
+  
+
+        if(sharedCost.isPercent){
+             setSharedCosts([...sharedCosts , new SharedCost(sharedCost.itemName, sharedCost.isPercent, sharedCost.value)]);
+        }
+        else{
+            setSharedCosts([...sharedCosts , new SharedCost(sharedCost.itemName, sharedCost.isPercent, sharedCost.value)]);
+        }
+      }
+
+
+      useEffect(()=>{
+        apiCall(dispatch);
+        if(accountController.restaurantInformation){
+    
+            setDataSource(accountController.restaurantInformation);
+        }{
+          AccountActionController.getRestaurantInformationAction();
+        }
+      },[]);
+
+
   return (
   
-<StyledAccount>
-<div class="container-fluid vh-100">
+ <StyledAccount>
+ { dataSource ?
+<div class="container-fluid ">
 <div class="row justify-content-center align-items-center pt-5">
         <div class="col-lg-5">
             <div class="d-flex  align-items-center ">
@@ -58,7 +100,7 @@ export default function Account() {
                     marginLeft:'30px'
                 }}>
                     <button onClick={()=>{
-                        navigate('/restaurantinformation')
+                        navigate("/edit/restaurantinformation")
                     }}  class="btn bg-black text-white  btn-sm py-1 px-4 rounded"><span
                             class="material-icons-round mr-2 small ">
                         
@@ -99,7 +141,7 @@ export default function Account() {
           className="d-block w-100" style={{
            borderRadius:'20px'
           }}
-          src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg" 
+          src={API_BASE_URL+"/Auth/Photos/"+ dataSource['image1URL']}
           alt="First slide"
         />
        
@@ -109,7 +151,7 @@ export default function Account() {
            borderRadius:'20px'
           }}
           className="d-block w-100"
-          src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg"
+          src={API_BASE_URL+"/Auth/Photos/"+ dataSource['image2URL']}
           alt="Second slide"
         />
 
@@ -120,7 +162,7 @@ export default function Account() {
           className="d-block w-100"  style={{
            borderRadius:'20px'
           }}
-          src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg"
+          src={API_BASE_URL+"/Auth/Photos/"+ dataSource['image3URL']}
           alt="Third slide"
         />
 
@@ -131,7 +173,7 @@ export default function Account() {
            borderRadius:'20px'
           }}
           className="d-block w-100"
-          src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg" 
+          src={API_BASE_URL+"/Auth/Photos/"+ dataSource['image4URL']}
           alt="Third slide"
         />
 
@@ -153,15 +195,16 @@ export default function Account() {
     marginTop:'30px'
 }}>
 
-    <h4 class="font-weight-bold">Deli</h4>
+    <h4 class="font-weight-bold">{dataSource['restaurantName']}</h4>
     <p class="text-muted">
-    toLowerCasetknfgwenfoerg wergqepargnerjg[qkefera
-        toLowerCasetknfgwenfoerg wergqepargnerjg[qkefera
+    {dataSource['restaurantShortDescription']}
+       
       
       </p>
 
     <div class="d-flex flex-wrap  justify-content-between " style={{
-        marginTop:'20px'
+        marginTop:'20px',
+        gap:'20px'
     }}>
       
         <div class="d-flex justify-content-center align-items-center mr-lg-5 mr-0 mb-3 mb-lg-0  " style={{
@@ -169,21 +212,21 @@ export default function Account() {
         }}><span
                 class="material-icons-outlined medium mr-3 ">
                 <BsTelephone/>
-            </span>0964001822</div>
+            </span>{dataSource['restaurantPhoneNumber']} </div>
         
         <div class="d-flex justify-content-center align-items-center mr-lg-5 mr-0 mb-3 mb-lg-0"  style={{
            gap:'10px' 
         }}><span
                 class="material-icons-outlined medium mr-2">
                 <AiOutlineMail/>
-            </span>wbilihatu@gmail.com</div>
+            </span>{dataSource['restaurantEmail']} </div>
      
         <div class="d-flex justify-content-center align-items-center mr-lg-5 mr-0 mb-3 mb-lg-0"  style={{
            gap:'10px' 
         }}><span
                 class="material-icons-outlined medium mr-2">
                 <IoLocation/>
-            </span>Addis Ababa Ethiopia</div>
+            </span>{dataSource['restaurantLocation']}</div>
     </div>
 </div>
 </div>
@@ -202,11 +245,11 @@ export default function Account() {
                 
                     <div class="d-flex flex-wrap mt-3 mr-lg-5 ">
                         <span >
-                            <span>
-                            Monday
-                                 &nbsp;,&nbsp; Tuesday  &nbsp;,&nbsp; Wednesday
+                            { dataSource['workingDays'].length ===0 ? "No working days":  dataSource['workingDays'].map((day)=><span>
+                            {day}
+                                 &nbsp;,&nbsp;
 
-                            </span>
+                            </span>)}
 
                         </span>
                         <span
@@ -266,17 +309,97 @@ export default function Account() {
                     <div className=' ' style={{
                     marginLeft:'30px'
                 }}>
-            
+                     <button onClick={()=>{
+                        setEditSharedCostByValue(!editSharedCostByValue);
+                     }} class="btn border text-black  btn-sm py-1 px-4 rounded"><span
+                            class="material-icons-round mr-2 small ">
+                        
+                        <MdEdit style={{
+                            marginRight:'10px'
+                        }} />
+                        </span>Edit</button>
                 </div>
 
                 </div>
                 <div class="dropdown-divider my-3"></div> 
+             
+               <div style={(editSharedCostByValue)?{}:{
+                display:'none'
+               }}>
+               <div style={{
+                    display:'flex',
+                   justifyContent:'center',
+                   gap:'15px',
+                    marginBottom:"5px",
+                    
+                }}> 
+                <div className="col-lg-6 col-12">
+                      <div className="form-group">
+                        <label className="font-weight-normal h6 " htmlFor="item-name">
+                          Item name
+                        </label>
+                        <input
+                          formcontrolname="itemControlValue"
+                          required
+                          type="text"
+                          className="form-control"
+                          name=""
+                          id="itemName"
+                          placeholder=""
+                          autoFocus
+                       
+                         onChange={(e)=> setItemName(e.target.value) } 
+
+                        />
+
+                        
+                      </div>
+                     
+                    </div>
+                    <div className="col-lg-6 col-12">
+                      <div className="form-group">
+                        <label className="font-weight-normal h6 " htmlFor="cost">
+                          Price
+                        </label>
+                        <input
+                          formcontrolname="priceControlValue"
+                          required
+                          type="number"
+                          className="form-control"
+                          name=""
+                          id="itemCost"
+                          
+                         onChange={(e)=> setItemValue(e.target.value) } 
+                        />
+
+                        
+
+                        
+                      </div>
+                    </div>
+                    
+
+                    
+                    </div>
+                    <button onClick={async ()=>{
+
+                          if(itemName && itemValue ){
+                  AccountActionController.addCostSharing({isPercent:false ,itemName:itemName , value:itemValue});
+                  
+                 
+            
+                 }
+                 setItemName();
+                  setItemValue();
+                    }} className="addButton  align-self-center ">Add </button>
+
+               </div>
               
                 <div class="w-100 mt-lg-0 mt-3 px-2 table-responsive">
                     <table class="table table-borderless table-sm">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                               
                                 <th scope="col">Item Name</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Action</th>
@@ -284,20 +407,27 @@ export default function Account() {
                         </thead>
                       
                         <tbody>
-                            <tr>
+                           {
+                            dataSource['sharedCosts'].map((item,index)=> {
+                                if(item['isPercent']===false) 
+                              {
+                                return   <tr>
                               
-                                <td>2</td>
-                                <td>potato</td>
+                           
+                                <td>{item['itemName']}</td>
                                
-                                <td>12</td>
+                                <td>{item['value']}</td>
                               
-                                <td>
-                                    <span  class="material-icons-round mr-3">
-                                    Delete
+                                <td className='btn'>
+                                    <span  class="material-icons-round ">
+                                    <MdDelete size={25}/>
                                     </span>
-
+  
                                 </td>
                             </tr>
+                              }
+                            })
+                           }
                         </tbody>
                     </table>
                 </div>
@@ -310,38 +440,121 @@ export default function Account() {
                     <div className=' ' style={{
                     marginLeft:'30px'
                 }}>
-                  
+                  <button onClick={()=>{
+                        setEditSharedCostByPercent(!editSharedCostByPercent);
+                     }} class="btn border text-black  btn-sm py-1 px-4 rounded"><span
+                            class="material-icons-round mr-2 small ">
+                        
+                        <MdEdit style={{
+                            marginRight:'10px'
+                        }} />
+                        </span>Edit</button>
                 </div>
 
                 </div>
                 <div class="dropdown-divider my-3"></div> 
+                <div style={(editSharedCostByPercent)?{}:{
+                display:'none'
+               }}>
+               <div style={{
+                    display:'flex',
+                   justifyContent:'center',
+                   gap:'15px',
+                    marginBottom:"5px",
+                    
+                }}> 
+                <div className="col-lg-6 col-12">
+                      <div className="form-group">
+                        <label className="font-weight-normal h6 " htmlFor="item-name">
+                          Item name
+                        </label>
+                        <input
+                          formcontrolname="itemControlValue"
+                          required
+                          type="text"
+                          className="form-control"
+                          name=""
+                          id="itemName"
+                          placeholder=""
+                          autoFocus
+                       
+                          onChange={(e)=> setItemName(e.target.value) } 
+
+                        />
+
+                        
+                      </div>
+                     
+                    </div>
+                    <div className="col-lg-6 col-12">
+                      <div className="form-group">
+                        <label className="font-weight-normal h6 " htmlFor="cost">
+                          Price
+                        </label>
+                        <input
+                          formcontrolname="priceControlValue"
+                          required
+                          type="number"
+                          className="form-control"
+                          name=""
+                          id="itemCost"
+                          
+                           onChange={(e)=> setItemValue(e.target.value) } 
+                        />
+
+                        
+
+                        
+                      </div>
+                    </div>
+                    
+
+                    
+                    </div>
+                    <button onClick={()=>{
+                          if(itemName && itemValue ){
+                            AccountActionController.addCostSharing({isPercent:true ,itemName:itemName , value:itemValue});
+                 
+            
+                 }
+                 setItemName();
+                  setItemValue();
+                    }} className="addButton  align-self-center ">Add </button>
+
+               </div>
              
                 <div class="w-100 mt-lg-0 mt-3 px-2 table-responsive">
                     <table class="table table-borderless table-sm">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">'item_name' </th>
-                                <th scope="col">'price' </th>
-                                <th scope="col">'actions' </th>
+                                <th scope="col">Item Name </th>
+                                <th scope="col">Value % </th>
+                                <th scope="col">Action </th>
                             </tr>
                         </thead>
                       
                         <tbody>
-                            <tr >
+                       { dataSource['sharedCosts'].map((item,index)=> {
+                                if(item['isPercent']===true) 
+                              {
+                                return   <tr>
+                              
+                              
+                                <td>{item['itemName']}</td>
                                
-                                <td>1</td>
-                                <td>vat</td>
+                                <td>{item['value']}</td>
+                              
+                                <td className='btn' onClick={()=>{
+                                AccountActionController.deteleCostSharing(item.id);
                                 
-                                <td>15%</td>
-                         
-                                <td>
-                                    <span class="material-icons-round mr-3">
-                                        delete
+                                }}>
+                                    <span  class="material-icons-round ">
+                                    <MdDelete size={25}/>
                                     </span>
-
+  
                                 </td>
                             </tr>
+                              }})}
                         </tbody>
                     </table>
                 </div>
@@ -351,8 +564,8 @@ export default function Account() {
 
 
     </div>
-</div>
-</StyledAccount>
+</div> :<Loader/>}
+</StyledAccount> 
    
   )
 }

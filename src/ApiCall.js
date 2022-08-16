@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { customerActionCreators, menuActionCreators, orderActionCreators,accountActionCreators, employeeActionCreators, } from './actions'
+import { customerActionCreators, menuActionCreators, orderActionCreators,accountActionCreators, employeeActionCreators, dashboardActionCreators } from './actions'
 import authHeader from './services/auth-header'
 import jwt_decode from "jwt-decode";
 export default function apiCall(dispatch) {
@@ -14,8 +14,11 @@ export default function apiCall(dispatch) {
     const MenuActionController = bindActionCreators(menuActionCreators,dispatch);
     const OrderActionController = bindActionCreators(orderActionCreators,dispatch);
     const EmployeeActionController = bindActionCreators(employeeActionCreators,dispatch);
+     const DashboardActionCreators = bindActionCreators(dashboardActionCreators,dispatch);
+   
 
-    AccountActionController.getDashboardData();
+    AccountActionController.getRestaurantInformationAction();
+    DashboardActionCreators.getDashboardData();
     CustomerActionController.getAllCustomersAction();
     MenuActionController.getallmenues();
     OrderActionController.getAllOrdersAction();

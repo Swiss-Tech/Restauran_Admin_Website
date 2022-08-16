@@ -15,11 +15,13 @@ import { useSelector } from "react-redux";
 import { parse } from "path-browserify";
 import Loader from "../../reusable-components/Loader";
 import { bindActionCreators } from "redux";
-import { accountActionCreators } from "../../../actions";
+import { accountActionCreators, dashboardActionCreators } from "../../../actions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import apiCall from "../../../ApiCall";
-
+import { MdLogout } from "react-icons/md";
+import { RiLogoutCircleFill ,RiLogoutCircleRLine} from "react-icons/ri";
+import {logout_function} from "../../../services/auth.service";
 const StyledDashboard = styled.section`
 .graphTitle{
     display:flex;
@@ -41,7 +43,8 @@ const StyledDashboard = styled.section`
 export default function Dashboard() {
     const navigate = useNavigate();
     const dispatch= useDispatch();
-    const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
+    const DashboardActionController = bindActionCreators(dashboardActionCreators, dispatch);
+
     const [dataSource, setDataSource] = useState();
     const orderData =[
         {name:"Pizza",
@@ -60,15 +63,18 @@ imageUrl:""
         setInterval(() => setDateState(new Date()), 30000);
       }, []);
 
- const dashboardController  = useSelector((state)=>state.account);
+ const dashController = useSelector((state)=>state.dashboard);
+
+
+
  
   useEffect(()=>{
     apiCall(dispatch);
-    if(dashboardController.restaurantInformation){
+    if(dashController.dashboardData){
 
-        setDataSource(dashboardController.restaurantInformation);
+        setDataSource(dashController.dashboardData);
     }{
-      AccountActionController.getDashboardData();
+      DashboardActionController.getDashboardData();
     }
   },[]);
 
@@ -81,7 +87,18 @@ imageUrl:""
 <div className="row  ">
 <div className="col">
       
-        <h4 className="font-weight-bolder">Dashboard</h4>
+<div style={{ 
+            display:'flex',
+            justifyContent:'space-between'
+           }}>
+           <h3 className="font-weight-bolder">Dashboard</h3>
+           <div className="btn" onClick={()=>{
+            
+          logout_function();
+            window.location.reload(false);
+            navigate('/')
+           }}><RiLogoutCircleRLine  size={"30"}/></div>
+           </div>
         
         <p style={{
           color:'gray'

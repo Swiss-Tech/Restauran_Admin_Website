@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { StyledEditAdmin } from './styled/StyledEditAdmin';
 import { useSelector, useDispatch } from "react-redux";
-import { authactionCreators } from '../../../actions';
+import { accountActionCreators } from '../../../actions';
 import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router";
 import Modal from "react-modal";
@@ -10,10 +10,10 @@ import Modal from "react-modal";
 export default function AdminEdit() {
     const navigate = useNavigate();
     const controller = useSelector((state) => state.auth);
-    const messagecontroller = useSelector((state) => state.message);
+    const messagecontroller = useSelector((state) => state.account);
   
     const dispatch = useDispatch();
-    const ActionController = bindActionCreators(authactionCreators, dispatch);
+    const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
     
     
   
@@ -33,7 +33,7 @@ export default function AdminEdit() {
     }
   
   
-    console.log(messagecontroller.message);
+    
   
      function handlePasswordConfirmation ( ){
       return (password === confirmPass);
@@ -41,7 +41,7 @@ export default function AdminEdit() {
     return (
       <StyledEditAdmin>
   
-  
+
   
   <div>
           <div
@@ -64,8 +64,8 @@ export default function AdminEdit() {
                     </div>
                     <div className="modal-footer flex-column border-top-0">
                       <button
-                        type="button"
-                        className="btn btn-lg btn-light w-100 mx-0"
+                        type="button "
+                        className="customButton btn btn-lg btn-light w-100 mx-0"
                         data-bs-dismiss="modal"
                         onClick={() => {
                           
@@ -74,7 +74,7 @@ export default function AdminEdit() {
                           setModal(false);
                         }}
                       >
-                        Close
+                        Okay
                       </button>
                     </div>
                   </div>
@@ -271,7 +271,7 @@ export default function AdminEdit() {
                   //  toggleModal(true);
                   setLoading(true);
   
-                 await ActionController.register({
+                 await AccountActionController.updateAdminInfoAction({
                     firstName: firstName,
                     lastName: lastName,
                     email: email,

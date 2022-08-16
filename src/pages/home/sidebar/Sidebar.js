@@ -135,7 +135,7 @@ console.log(showChild)
      <div   className=' fixed-bottom account ' onClick={()=>{
       navigate('/account')
      }} style={(userType==="super") ? {
-      width:'2000px'
+      width:'200px'
      }:{
       display:'none'
      }} >

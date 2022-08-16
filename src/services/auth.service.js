@@ -7,8 +7,25 @@ import {
 } from "./api-config";
 
 // login function
-
+export async function checkStatus(){
+  var myHeaders = new Headers();
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+ return fetch("http://165.232.80.134/test/admin/Auth/checkstatus", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      console.log(result);
+      return result;
+    })
+    .catch(error => console.log('error', error));
+}
 export async function login_function(admin) {
+
+
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 

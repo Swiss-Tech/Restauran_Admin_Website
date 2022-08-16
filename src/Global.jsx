@@ -1,5 +1,22 @@
 import styled from "styled-components";
   const GlobalStyle = styled.section`
+.addButton{
+  
+  background-color: ${({theme})=>theme.colors.primary};
+  color:white;
+ 
+       
+        border:none ;
+        font-weight :700;
+        height:45px;
+        width:20%;
+        border-radius:10px;
+
+        
+        &:hover{
+          
+        }
+}
 
   .main{
     flex:6;

@@ -33,6 +33,8 @@ import Loader from "./pages/reusable-components/Loader";
 import apiCall from "./ApiCall";
 import ResponsiveDrawer from "./Drawer";
 import AdminEdit from "./pages/account/edit-admin/AdminEdit";
+import EditRestaurantInformation from "./pages/account/edit-restaurant-information/Restaurant_Information";
+import { checkStatus } from "./services/auth.service";
 const theme = {
   colors: {
     primary: "#FECB16",
@@ -126,29 +128,15 @@ useEffect(()=>{
 
 },[])
  
-
-
+ console.log(firstTimecontroller);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle>
         <BrowserRouter>
-     
-       
-    
-
-
-
-
-      
-       
-
-       
        <Routes>
 
 
-       <Route path="/">
-
-       </Route>
+      
             
 
    <Route path="/" element={ firstTimecontroller === false ? authController.isLoggedIn ? hasData ? <ResponsiveDrawer/>: hasData === false ?<Navigate to="restaurantinformation"/> : <div
@@ -184,12 +172,16 @@ useEffect(()=>{
    <Route path='employees' element ={<Employees/>}/>
  
    <Route path ="account" element={<Account/>} />
+   <Route path="/edit/restaurantinformation" element={<EditRestaurantInformation/>}/>
+   <Route path="/edit/admin" element={<AdminEdit/>}/>
         </Route>
+        
         <Route path="/restaurantinformation" element={<RestaurantInformation />} />
     <Route path="/login" element={<Login />}></Route>
   <Route path="/signup" element={<Signup />}></Route> 
    <Route path="/landing" element={<Landing />}></Route>
-   <Route path="/edit/admin" element={<AdminEdit/>}/>
+  
+
         
  
           

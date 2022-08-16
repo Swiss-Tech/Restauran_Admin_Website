@@ -1,15 +1,15 @@
 import React, { useState , useEffect} from "react";
 import StepperPage from "./stepper/Stepper";
-import Loader from "../reusable-components/Loader";
+import Loader from "../../reusable-components/Loader";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { accountActionCreators } from "../../actions";
+import { accountActionCreators } from "../../../actions";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
 
 
 
-export default function  RestaurantInformation () {
+export default function  EditRestaurantInformation () {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const [isLoading , setLoading] = useState(false);
@@ -28,7 +28,7 @@ export default function  RestaurantInformation () {
     else{
       setModal(true)
     }
-  },[])
+  })
 
  console.log(AccountActionController)
     return (
@@ -74,8 +74,8 @@ export default function  RestaurantInformation () {
         </div>
       :
       <div className="container-fluid" style={{
-        marginLeft:'10%',
-        marginTop:'2%'
+        marginLeft:'2%',
+      
       }}>
         <div className="row  ">
           <div className="col-xl-10 col-12  ">
@@ -84,8 +84,8 @@ export default function  RestaurantInformation () {
           
               
               
-            }} className=" mt-5 ">Enter Your </h6>
-            <h2 className="font-weight-bolder  fw-bolder lg mb-2"  >Restaurant Information</h2>
+            }} className=" mt-5 "> </h6>
+            <h2 className="font-weight-bolder  fw-bolder lg mb-2"  >Edit Restaurant Information</h2>
             <h6 className=" text-muted  font-weight-light mb-5">
               This information is needed so that your users can
             

@@ -85,18 +85,17 @@ const labels = [ 'Jan',
 export function Graph() {
   const [revenueData, setRevenuData] = useState();
   const [orderData, setOrderData] = useState();
-
-  const accountController = useSelector((state)=>state.account);
+  const dashController = useSelector((state)=>state.dashboard);
 
 
   useEffect(()=>{
-    if(accountController.restaurantInformation.monthlyOrders){
+    if(dashController.dashboardData.monthlyOrders){
      
-       setOrderData(  accountController.restaurantInformation.monthlyOrders)
+       setOrderData(  dashController.dashboardData.monthlyOrders)
       
     }
-    if(accountController.restaurantInformation.monthlyRevenus){
-      setRevenuData(accountController.restaurantInformation.monthlyRevenus)
+    if(dashController.dashboardData.monthlyRevenus){
+      setRevenuData(dashController.dashboardData.monthlyRevenus)
     }
     
   })

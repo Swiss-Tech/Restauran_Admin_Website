@@ -91,12 +91,12 @@ export  function BarGraph() {
   
 }
 
-  const accountController = useSelector((state)=>state.account);
+const dashController = useSelector((state)=>state.dashboard);
 
   useEffect(()=>{
-    if(accountController.restaurantInformation.monthlyCustomers){
+    if(dashController.dashboardData.monthlyCustomers){
      
-       setCustomerData(accountController.restaurantInformation.monthlyCustomers)
+       setCustomerData(dashController.dashboardData.monthlyCustomers)
       
     }
   

@@ -1,17 +1,19 @@
 import { API_BASE_URL , API_ADMIN_RESTAURANTINFORMATION  , API_RESTAURANT_INFO_STATUS} from "./api-config";
 import authHeader from "./auth-header";
-export async function editAdmin(){
+
+export async function editAdmin(admin){
+   
     var token = authHeader();
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
-    "email": "wbilihatu@gmail.com",
-    "firstName": "Woyn",
-    "lastname": "Bilu",
-    "phoneNumber": "0909090909",
-    "password": "test1234"
+    "email":`${admin.email}`,
+    "firstName": `${admin.firstName}`,
+    "lastname": `${admin.lastname}`,
+    "phoneNumber":`${admin.phoneNumber}`,
+    "password": `${admin.password}`
   });
   
   var requestOptions = {
@@ -29,6 +31,7 @@ var raw = JSON.stringify({
     })
     .catch(error => console.log('error', error));
 }
+
 export async function deleteDays(id){
     var token = authHeader();
     var myHeaders = new Headers();
@@ -59,7 +62,7 @@ export async function deleteCostSharing(id){
         redirect: 'follow'
       };
       
-     return fetch(`http://165.232.80.134/test/admin/Auth/cost/detete/${id}`, requestOptions)
+     return fetch(`http://165.232.80.134/test/admin/Auth/cost/delete/${id}`, requestOptions)
         .then(response => response.json())
         .then(result => {
             console.log(result)
@@ -95,16 +98,16 @@ var raw = JSON.stringify([
     .catch(error => console.log('error', error));
 
 }
-export async function addSharedCost (){
+export async function addSharedCost (sharedCost){
     var token = authHeader();
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify([
         {
-          "itemName": "Vating",
-          "isPercent": true,
-          "value": 15
+          "itemName": sharedCost.itemName,
+          "isPercent": sharedCost.isPercent,
+          "value": sharedCost.value
         }
       ],
       );
@@ -116,9 +119,11 @@ export async function addSharedCost (){
         redirect: 'follow'
       };
       
-      fetch("http://165.232.80.134/test/admin/Auth/cost/add", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
+    return  fetch("http://165.232.80.134/test/admin/Auth/cost/add", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          return result
+        })
         .catch(error => console.log('error', error));
 }
 
@@ -207,6 +212,25 @@ try{
 }catch(e){
     console.log(e);
 }
+}
+
+export async function get_restaurant_information(){
+ 
+  var token = authHeader();
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
+  myHeaders.append("Content-Type", "application/json");
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+ return fetch(" http://165.232.80.134/test/admin/Auth/getrestinfo", requestOptions)
+    .then(response => response.json())
+    .then(result => result)
+    .catch(error => console.log('error', error));
 }
 
 

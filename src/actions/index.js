@@ -7,3 +7,4 @@ export * as categoryActionCreators from "./category";
 export * as orderActionCreators from "./order";
 export * as customerActionCreators from "./customer";
 export * as employeeActionCreators from "./employees"
+export * as dashboardActionCreators from "./dashboard";
