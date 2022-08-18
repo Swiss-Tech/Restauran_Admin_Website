@@ -17,6 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../reusable-components/Loader';
 import apiCall from '../../ApiCall';
 import { API_BASE_URL } from '../../services/api-config';
+import { IoMdAddCircleOutline } from 'react-icons/io';
+import { addWorkingDays } from '../../services/account.service';
+
 const StyledAccount = styled.section`
 
 width:100%;
@@ -46,6 +49,8 @@ export default function Account() {
     const dispatch = useDispatch();
     const accountController = useSelector((state)=>state.account);
     const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
+    const adminController = useSelector((state)=>state.account.adminInformation);
+
     const [editSharedCostByValue , setEditSharedCostByValue] = useState(false);
     const [editSharedCostByPercent , setEditSharedCostByPercent] = useState(false);
     const [sharedCosts, setSharedCosts] = useState([]); 
@@ -81,10 +86,20 @@ export default function Account() {
       },[]);
 
 
+  const firstName = adminController['firstName']
+  const lastName = adminController['lastname']
+  const phoneNumber  = adminController['phoneNumber'];
+  const email = adminController['email'];
+
+//  useEffect(()=>{
+//   apiCall(dispatch);
+//  },)
+
+
   return (
   
  <StyledAccount>
- { dataSource ?
+ { dataSource ? adminController ?
 <div class="container-fluid ">
 <div class="row justify-content-center align-items-center pt-5">
         <div class="col-lg-5">
@@ -134,6 +149,7 @@ export default function Account() {
         <div class="col-lg-6 col-12">
 
     <div class="bg-inputBg rounded-lg shadow-lg" >
+    
     <Carousel  >
       <Carousel.Item interval={1000}>
       
@@ -245,20 +261,26 @@ export default function Account() {
                 
                     <div class="d-flex flex-wrap mt-3 mr-lg-5 ">
                         <span >
-                            { dataSource['workingDays'].length ===0 ? "No working days":  dataSource['workingDays'].map((day)=><span>
-                            {day}
-                                 &nbsp;,&nbsp;
+                            { dataSource['workingDays'] ?  dataSource['workingDays'].length ===0 ? "No working days":  
+                            
+                            
 
-                            </span>)}
+                            dataSource['workingDays'].map((day)=><span>
+                            {day.day}
+                                 &nbsp; <button onClick={()=>{
+                                 AccountActionController.deleteDaysAction(day.id)
+                                 }} className='blackButton'>Delete </button> 
+
+                            </span>  ) :""
+                            
+                            }
 
                         </span>
+                        
                         <span
-                            class="bg-success text-white px-3 py-1 rounded mx-3">12:00 Am</span>
-                        to
-                        <span style={{
-                            backgroundColor:"#7B3EFD"
-                        }}
-                            class="  text-white px-3 py-1 rounded mx-3">12:00 Pm</span>
+                            class=" bg-warning text-white px-3 py-1 rounded mx-3"> {dataSource['workingHour'] ?dataSource['workingHour']:""}</span>
+
+                     
                     </div>
                 </div>
 </div>
@@ -276,23 +298,37 @@ export default function Account() {
                 
                 <div class="d-flex flex-lg-row flex-column pb-4 ml-lg-3">
                  
-                    <div class="pfp rounded-lg mr-4 position-relative">
-                        <img class="rounded-lg shadow-lg bg-primary" width="150px" height="150px" style={{
-                            borderRadius:'10px'
-                        }}
-                            src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg"  alt=""/>
+                    <div class="pfp rounded-lg mr-4 position-relative" style={{
+                      width:'150px',
+                      height:'150px',
+                      color:'orange',
+                      display:'flex',
+                      justifyContent:'center',
+                      alignItems:'center',
+                      alignContent:'center',
+                      fontSize:'50px',
+                      fontWeight:'900',
+                      backgroundColor:'#FECB16',
+                      color:'white',
+                      borderRadius:'5px'
+                    }}>
+                       
+                         { firstName ? firstName[0]:""}{ lastName ? lastName[0]:""}
                         <div
-                            class="role-type mx-3 bg-black text-white font-weight-bold d-flex justify-content-center align-items-center rounded-pill px-2 py-1">
+                            class="role-type mx-3 bg-black text-white font-weight-bold d-flex justify-content-center align-items-center rounded-pill px-2 py-1" style={{
+                              fontSize:'20px',
+                              fontWeight:'300'
+                            }}>
                             Admin</div>
                     </div>
                     <div class="d-flex flex-column justify-content-center " style={{
                         marginLeft:'20px'
                     }}>
                       
-                        <h5 class="font-weight-bold mt-lg-0 mt-3">suz</h5>
+                        <h5 class="font-weight-bold mt-lg-0 mt-3">{firstName ? firstName +" ":"" } {lastName ? lastName :""}</h5>
               
-                       <p>wbilihatu</p>
-                        <input type="number" value="0964001922"/ >
+                       <p>{email ? email:""}</p>
+                        <input type="number" value={ phoneNumber ? phoneNumber :"" } / >
                     </div>
                     <div class="d-flex flex-column justify-content-start "  onClick={()=>{
                         navigate('/edit/admin')
@@ -314,10 +350,10 @@ export default function Account() {
                      }} class="btn border text-black  btn-sm py-1 px-4 rounded"><span
                             class="material-icons-round mr-2 small ">
                         
-                        <MdEdit style={{
+                        <IoMdAddCircleOutline size={20} style={{
                             marginRight:'10px'
                         }} />
-                        </span>Edit</button>
+                        </span>Add</button>
                 </div>
 
                 </div>
@@ -408,7 +444,7 @@ export default function Account() {
                       
                         <tbody>
                            {
-                            dataSource['sharedCosts'].map((item,index)=> {
+                            dataSource['sharedCosts'] ? dataSource['sharedCosts'].map((item,index)=> {
                                 if(item['isPercent']===false) 
                               {
                                 return   <tr>
@@ -426,7 +462,7 @@ export default function Account() {
                                 </td>
                             </tr>
                               }
-                            })
+                            }) :""
                            }
                         </tbody>
                     </table>
@@ -445,10 +481,10 @@ export default function Account() {
                      }} class="btn border text-black  btn-sm py-1 px-4 rounded"><span
                             class="material-icons-round mr-2 small ">
                         
-                        <MdEdit style={{
+                        <IoMdAddCircleOutline  size={20} style={{
                             marginRight:'10px'
                         }} />
-                        </span>Edit</button>
+                        </span>Add</button>
                 </div>
 
                 </div>
@@ -534,7 +570,7 @@ export default function Account() {
                         </thead>
                       
                         <tbody>
-                       { dataSource['sharedCosts'].map((item,index)=> {
+                       { dataSource['sharedCosts'] ? dataSource['sharedCosts'].map((item,index)=> {
                                 if(item['isPercent']===true) 
                               {
                                 return   <tr>
@@ -554,7 +590,7 @@ export default function Account() {
   
                                 </td>
                             </tr>
-                              }})}
+                              }}):""}
                         </tbody>
                     </table>
                 </div>
@@ -564,7 +600,7 @@ export default function Account() {
 
 
     </div>
-</div> :<Loader/>}
+</div>  :<Loader/> :<Loader/>}
 </StyledAccount> 
    
   )

@@ -16,14 +16,15 @@ export default function apiCall(dispatch) {
     const EmployeeActionController = bindActionCreators(employeeActionCreators,dispatch);
      const DashboardActionCreators = bindActionCreators(dashboardActionCreators,dispatch);
    
-
+     DashboardActionCreators.getDashboardData();
     AccountActionController.getRestaurantInformationAction();
-    DashboardActionCreators.getDashboardData();
+    AccountActionController.getAdminInformationAction();
+    
     CustomerActionController.getAllCustomersAction();
     MenuActionController.getallmenues();
     OrderActionController.getAllOrdersAction();
     EmployeeActionController.getAllEmployeesAction();
-    console.log(decoded['_at_']);
+  
     if(JSON.parse(localStorage.getItem("type"))===null){
        
         localStorage.setItem("type", JSON.stringify(decoded['_at_']))

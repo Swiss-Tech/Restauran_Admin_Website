@@ -1,3 +1,4 @@
+import { API_ADMIN_GET_ALL_CUSTOMER, API_ADMIN_UPDATE_CUSTOMER, API_ADMIN_UPDATE_CUSTOMER_STATUS, API_BASE_URL } from "./api-config";
 import authHeader from "./auth-header";
 
 export async function getAllCustomers(){
@@ -10,10 +11,10 @@ var requestOptions = {
     redirect: 'follow'
   };
 
- return fetch("http://165.232.80.134/test/admin/Customer/getcustomerdata", requestOptions)
+ return fetch(API_BASE_URL+API_ADMIN_GET_ALL_CUSTOMER, requestOptions)
   .then(response => response.json())
   .then(result => {
-   
+     console.log(result)
     return result;
   })
   .catch(error => console.log('error', error));
@@ -37,7 +38,7 @@ export async function blockCustomer(customerId ){
       redirect: 'follow'
     };
     
-   return fetch(`http://165.232.80.134/test/admin/customer/update/status/${customerId}`, requestOptions)
+   return fetch(API_BASE_URL+API_ADMIN_UPDATE_CUSTOMER+customerId, requestOptions)
       .then(response => response.json())
       .then(result => {
         console.log(result)
@@ -65,7 +66,7 @@ export async function unBlockCustomer(customerId ){
     redirect: 'follow'
   };
   
- return fetch(`http://165.232.80.134/test/admin/customer/update/status/${customerId}`, requestOptions)
+ return fetch(API_BASE_URL+API_ADMIN_UPDATE_CUSTOMER_STATUS+customerId, requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)

@@ -1,5 +1,5 @@
 import authHeader from "./auth-header";
-import { API_BASE_URL } from "./api-config";
+import { API_ADMIN_GET_ALL_ORDER, API_ADMIN_UPDATE_ORDER, API_BASE_URL } from "./api-config";
 // import url here
 export async function getAllOrders (){
     var token = authHeader();
@@ -11,7 +11,7 @@ var requestOptions = {
     redirect: 'follow'
   };
  
- return fetch("http://165.232.80.134/test/admin/Order/getall", requestOptions)
+ return fetch(API_BASE_URL+API_ADMIN_GET_ALL_ORDER, requestOptions)
   .then(response => response.json())
   .then(result => {
    
@@ -38,7 +38,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-return fetch(`http://165.232.80.134/test/admin/order/update/status/${orderId}`, requestOptions)
+return fetch(API_BASE_URL+API_ADMIN_UPDATE_ORDER+orderId, requestOptions)
   .then(response => response.json())
   .then(result => {
     console.log(result)

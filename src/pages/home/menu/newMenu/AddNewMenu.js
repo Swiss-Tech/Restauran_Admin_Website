@@ -192,7 +192,7 @@ export default function AddNewMenu() {
     })
     const [isLoading , setLoading]= useState (false);
   return (
-  
+           isLoading ? <Loader/>:
          <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
 
 <div className="row">
@@ -213,7 +213,9 @@ export default function AddNewMenu() {
         
         </div>
         <div className="col-lg-4 d-flex justify-content-lg-end">
-            <div> <button 
+            <div> <button  onClick={()=>{
+                  navigate("/catagories");
+            }}
                     className="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
                         className="material-icons-outlined medium mr-2">
                         
@@ -366,12 +368,12 @@ export default function AddNewMenu() {
                         <div className="form-group">
                             <label className="font-weight-normal h6 " htmlFor="removable_ingredients">Removable Ingredients
                                  </label>
-                            <div className="d-flex">
+                            <div className="d-flex gap-3">
                         
                                 <input type="text" name="removableIngredient"
                                     placeholder="" onChange={(e)=>setIngredients(e.target.value)} />
                        
-                                <button  onClick={()=>{
+                                <button className='blackButton'  onClick={()=>{
                                     
                                   
                                 }}
@@ -387,7 +389,7 @@ export default function AddNewMenu() {
                      
                         <div className="d-flex flex-wrap">
                             {
-                                removable_ingredients.map((ingredient , index)=><div 
+                                removable_ingredients.map((ingredient , index)=><div key={index.toString()} 
                                 className="rounded-pill bg-placeholder text-black font-weight-normal d-inline-flex justify-content-center align-items-center pl-3 pr-2 py-1 mr-2 mb-2">
                                 {ingredient}<span 
                                     className="material-icons medium ml-2 btn p-0 m-0">
@@ -442,6 +444,9 @@ export default function AddNewMenu() {
            setDisplay(!isDisplay);
         }}> Categories <MdKeyboardArrowDown/></div>
 
+
+
+
 <div className="dropdown-divider mt-2 mb-3 "></div>
        <div  style={(isDisplay)?{
         display:'flex',
@@ -450,11 +455,13 @@ export default function AddNewMenu() {
         alignContent:'start',
         alignItems:'start',
        border:'1px solid gray',
-       gap:'10px'
+       gap:'10px',
+       borderRadius:'3px',
+       marginBottom:'10px'
        }:{
         display:'none'
        }}>
-       {categoryController.categories.map((category)=> category.id===1 ?<div></div> : <button className='buttonHover' style={{
+       {categoryController.categories.map((category, index)=> category.id===1 ?<div key={index.toString()}></div> : <button key={index.toString()} className='buttonHover' style={{
             border:'none',
             backgroundColor:'transparent'
         }} onClick={()=>{
@@ -568,7 +575,7 @@ export default function AddNewMenu() {
                  
                     <h6 className="pt-2 mt-1 mr-2">Status Avialable</h6>
                    
-                    <Switch   checked={checked}
+                    <Switch   checked={checked} color="warning"
       onChange={handleChange} />
 
                 </div>
@@ -581,15 +588,18 @@ export default function AddNewMenu() {
                      
                   if(itemName && price && categories.length!==0  && weight && description && enough_for && foodImage1 &&foodImage2 && foodImage3 && foodImage4 && estimated_preparation_time ){
                     
-                  
+                         setLoading(true)
                     await MenuActionController.addMenuAction(new PostMenuItem(itemName,price,calories,weight,description,enough_for,estimated_preparation_time,removable_ingredients,categories,foodImage1File,foodImage2File,foodImage3File, foodImage4File, checked));
                     window.location.reload(false);
+                       setLoading(false)
                 
                       
                   }
             
-                }}  type="button" className="blackButton">
-                    Save and add
+                }}  type="button" className="blackButton" style={{
+                    width:'40%',
+                }}>
+                    Save and Add
                   
                         {/* <div className="spinner-border text-white" role="status">
                             <span className="sr-only">Loading...</span>

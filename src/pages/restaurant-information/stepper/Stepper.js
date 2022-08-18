@@ -75,14 +75,17 @@ export default function StepperPage(props) {
 
 const handleWorkingDaysChange = (e) => {
   // Destructuring
+
   const { value, checked } = e.target;
   const { days } = workingDays;
   // Case 1 : The user checks the box
   if (checked) {
     setWorkingDays({
-      days: [...days, value],
+      days: [...days, e.target.id],
     
     });
+
+  
   }
   // Case 2  : The user unchecks the box
   else {
@@ -185,7 +188,7 @@ activeStep={activeStep}
                       className="form-control"
                       name="restaurantName"
                       id="restaurant-name"
-                      value={restaurantName}
+                     
                       required
                       onChange={(e) => setRestaurantName(e.target.value)}
                     />    
@@ -214,7 +217,7 @@ activeStep={activeStep}
                       formcontrolname="phoneNumber"
                       name="phoneNumber"
                       id="phone-number"
-                      value={restaurantNumber}
+           
                       onChange={(e) => setRestaurantNumber(e.target.value)}
                     />
                     <div className="form-control-feedback text-danger" style={(restaurantNumber)?{
@@ -238,7 +241,7 @@ activeStep={activeStep}
                       Location
                     </label>
     <input required type="text" className="form-control" name="" 
-                                id="location" value={ restaurantLocation } onChange={(e) => setRestaurantLocation(e.target.value)}  />
+                                id="location"  onChange={(e) => setRestaurantLocation(e.target.value)}  />
 
 
 <div className="form-control-feedback text-danger" style={(restaurantLocation)?{
@@ -272,7 +275,7 @@ activeStep={activeStep}
                       formcontrolname="email"
                       id="email"
                       placeholder=""
-                      value={restaurantEmail}
+
                       onChange={(e) => setRestaurantEmail(e.target.value)}
                     />
                     <div className="form-control-feedback text-danger" style={(restaurantEmail )?{
@@ -307,7 +310,7 @@ activeStep={activeStep}
                       name=""
                       formcontrolname="shortDescription"
                       id="description"
-                     value={ restaurantDescription } 
+
                       onChange={(e) => setRestaurantDescription(e.target.value)}
                     ></textarea>
                   </div>
@@ -370,7 +373,7 @@ activeStep={activeStep}
                               type="checkbox"
                               id={element}
                               name="workingDay"
-                              value={element}
+                             
                               onChange={handleWorkingDaysChange}
                             
                       
@@ -410,7 +413,7 @@ display:'none'
 
                       <div>
                       
-                        <input type="time" defaultValue={openAt} onChange={setOpetAtTime}/>
+                        <input type="time"  defaultValue="10:00" onChange={setOpetAtTime}/>
                       </div>
 
                      
@@ -431,7 +434,7 @@ display:'none'
                     <div className="col-lg-6 mt-lg-0 mt-4">
                       <h6 className="mb-3">Closes At</h6>
                       <div>
-                        <input type="time" defaultValue={closeAt} onChange={setColseAtTime} />
+                        <input type="time" defaultValue="10:00" onChange={setColseAtTime} />
                       </div>
                      
                       
@@ -529,7 +532,7 @@ display:'none'
                }
               
             }}>
-              Next
+              Finish
             </button>
           </div>
 </div>
@@ -537,238 +540,21 @@ display:'none'
     
     </StepContent>
   </Step>
-  <Step>
-    <StepLabel icon={<StepperLableIcon activeStep={activeStep} step={4}/>}>
-    <StepperHeader stepNumber={4} stepTitle={"Shared Costs"} />
-    </StepLabel>
-    <StepContent>
-    <div id="step4">
-            <div className="dropdown-divider"></div>
-            <div className="row bg-white py-4">
-              <div className="col-lg-6 col-12">
-                <h6 className=" text-muted  font-weight-light mb-3">
-                  This information is needed so that your users can <br /> know
-                  more about you   Ex. Delivery Fee 50 Birr
-                </h6>
-                <form>
 
-                  <div className="row" style={{
-                    marginTop:'10px',
-                    marginBottom:'10px'
-                  }}>
-                    <div className="col-lg-6 col-12">
-                      <div className="form-group">
-                        <label className="font-weight-normal h6 " htmlFor="item-name">
-                          Item name
-                        </label>
-                        <input
-                          formcontrolname="itemControlValue"
-                          required
-                          type="text"
-                          className="form-control"
-                          name=""
-                          id="itemName"
-                          placeholder=""
-                          autoFocus
-                       
-                          onChange={(e)=> setItemName(e.target.value) } 
-
-                        />
-
-                        
-                      </div>
-                    </div>
-                    <div className="col-lg-6 col-12">
-                      <div className="form-group">
-                        <label className="font-weight-normal h6 " htmlFor="cost">
-                          Price
-                        </label>
-                        <input
-                          formcontrolname="priceControlValue"
-                          required
-                          type="number"
-                          className="form-control"
-                          name=""
-                          id="itemCost"
-                          
-                          onChange={(e)=> setItemValue(e.target.value) } 
-                        />
-
-                        
-
-                        
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                <button className="addButton " onClick={ async ()=>{
-                  
-     
-                 if(itemName && itemValue ){
-                  handleSharedCost({isPercent:true ,itemName:itemName , value:itemValue});
-                 
-            
-                 }
-                 setItemName();
-                  setItemValue();
-                 
-
-                }}>
-                  Add
-                </button>
-               
-                <div className="dropdown-divider"></div>
-                
-                <table className="table table-borderless table-sm">
-                  <thead>
-                    <tr style={{
-                        margin:'10px'
-                      }}>
-                      <th scope="col" style={{
-                        color:'gray'
-                      }}>Item name</th>
-                      <th scope="col" style={{
-                        color:'gray'
-                      }}>Price</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                  {
-                      sharedCosts.map((item, index)=> item.isPercent ? <tr key={item}>
-                          <th scope="col">{item.itemName}</th>
-                      <th scope="col">{item.value}</th>
-                          </tr> :<div></div>
-                       
-                          
-                        
-                      )
-                    }
-                  </tbody>
-                </table>
-             
-              </div>
-              {/* shared costs table */}
-              <div className="col-lg-6 col-12">
-                <h6 className=" text-muted  font-weight-light mb-3">
-                  This information is needed so that your users can <br /> know
-                  more about your services . Example Vat 20 %
-
-                </h6>
-                <form>
-                  <div className="row" style={{
-                    marginTop:'10px',
-                    marginBottom:'10px'
-                  }}>
-                    <div className="col-lg-6 col-12">
-                      <div className="form-group">
-                        <label className="font-weight-normal h6 " htmlFor="item-name">
-                          Item name
-                        </label>
-                        <input
-                          formcontrolname="itemControlValue"
-                          required
-                          type="text"
-                          className="form-control"
-                          name=""
-                          id="item-name"
-                          placeholder=""
-                          autoFocus 
-                          onChange={(e)=>setItemNameByPercent(e.target.value)}
-                        />
-
-                        
-                      </div>
-                    </div>
-                    <div className="col-lg-6 col-12">
-                      <div className="form-group">
-                        <label className="font-weight-normal h6 " htmlFor="cost">
-                          Value
-                        </label>
-                        <input
-                          formcontrolname="priceControlValue"
-                          required
-                          type="number"
-                          className="form-control"
-                          name=""
-                          id="cost" 
-                          onChange={(e)=>setItemValueByPercent(e.target.value)}
-                        />
-
-                        
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                <button onClick={()=>{
-                 if( itemNameByPercent && itemValueByPercent ){
-                  handleSharedCost({isPercent:false, itemName:itemNameByPercent, value:itemValueByPercent});
-                 }
-                 setItemValueByPercent();
-                 setItemNameByPercent();
-                }} type="button" className="addButton ">
-                  Add
-                </button>
-                <div className="dropdown-divider"></div>
-                <table className="table table-borderless table-sm">
-                  <thead>
-                    <tr>
-                      <th scope="col">Item name</th>
-                      <th scope="col">Value</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-
-                    {
-                      sharedCosts.map((item, index)=> item.isPercent ? <div></div> : <tr key={item}>
-                          <th scope="col">{item.itemName}</th>
-                      <th scope="col">{item.value}</th>
-                          </tr>
-                       
-                          
-                        
-                      )
-                    }
-                    
-                  </tbody>
-                </table>
-               
-              </div>
-              <div className="d-flex mt-4 twoButton">
-                <button className="previous_btn" onClick={()=>{
-                  handleBack();
-                }}>
-                  Previous
-                </button>
-
-                <button
-                  onClick={() => {
-                    if(sharedCosts.length > 0){
-                      handleNext();
-                    }
-                  
-                  }}
-                 
-                  className="stepperContinueButton "
-                >
-                  Finish
-                </button>
-              </div>
-            </div>
-          </div>
-    </StepContent>
-  </Step>
 
   
   </Stepper>
   </StyledEngineProvider>
-  <Paper square elevation={0} sx={{ p: 3 }}>
-      <Typography>All steps completed - you&apos;re finished</Typography>
+  <Paper style={(activeStep===3)?{}:{
+    display:'none'
+  }} square elevation={0} sx={{ p: 3 }}>
+      <Typography  >All steps completed - you&apos;re finished</Typography>
       <button  sx={{ mt: 1, mr: 1 }}  className="stepperContinueButton " onClick={ async ()=>{
         props.setLoading(true);
-       await ActionController.restaurantInformation( restaurantName, restaurantLocation, restaurantNumber, restaurantEmail, restaurantDescription, logoUrl, restaurantImage1, restaurantImage2, restaurantImage3, restaurantImage4, workingDays , sharedCosts);
+       await ActionController.restaurantInformation( restaurantName, restaurantLocation, restaurantNumber, restaurantEmail, restaurantDescription, logoUrl, restaurantImage1, restaurantImage2, restaurantImage3, restaurantImage4, workingDays , sharedCosts, openAt, closeAt);
+  
         props.setLoading(false)
+        props.setModal(true);
       }}>
         Finish
       </button>

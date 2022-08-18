@@ -10,13 +10,6 @@ import { useDispatch, useSelector } from "react-redux/es/exports";
 import { bindActionCreators } from "redux";
 import { authactionCreators, menuActionCreators , categoryActionCreators, accountActionCreators, orderActionCreators } from "./actions";
 import RestaurantInformation from "./pages/restaurant-information/Restaurant_Information";
-
-import { restaurantInfoStatus } from "./services/account.service"; 
-
-import { logout_function } from "./services/auth.service";
-
-
-
 import Dashboard from './pages/home/dashboard/Dashboard';
 import Order from './pages/home/order/Order';
 import NewOrder from './pages/home/order/newOrder/NewOrder';
@@ -34,7 +27,7 @@ import apiCall from "./ApiCall";
 import ResponsiveDrawer from "./Drawer";
 import AdminEdit from "./pages/account/edit-admin/AdminEdit";
 import EditRestaurantInformation from "./pages/account/edit-restaurant-information/Restaurant_Information";
-import { checkStatus } from "./services/auth.service";
+import { checkRestaurantStatus , checkAdminStatus, logout_function } from "./services/auth.service";
 const theme = {
   colors: {
     primary: "#FECB16",
@@ -65,10 +58,7 @@ export default  function App()  {
 
   
  
-  restaurantInfoStatus().then((data)=>{
-    setHasData(data);
-  } 
-    );
+ 
     useEffect(()=>{
       callingApi()
     },[]);
@@ -102,33 +92,37 @@ const expires = new Date (JSON.parse(localStorage.getItem("expires")));
 
 
 var loginTimeExpire = new Date(localStorage.getItem("logintime"));
-loginTimeExpire.setHours(loginTimeExpire.getHours(), loginTimeExpire.getMinutes()+5,);
+loginTimeExpire.setHours(loginTimeExpire.getHours()+23, loginTimeExpire.getMinutes()+59, loginTimeExpire.getSeconds()+59);
+
+
 
 
 
 
 useEffect(()=>{
-if(currentTime > expires ){
-
+if(loginTimeExpire === Date() ){
+  logout_function();
 }
-else{
-  // logout_function();
-  console.log(expires);
-  console.log("refreh token not expired")
-
-}
-})
+},[])
 
 
 
 useEffect(()=>{
   if(authController.isLoggedIn){
-    apiCall(dispatch);
+   // apiCall(dispatch);
   }
 
 },[])
+
+checkAdminStatus();
+checkRestaurantStatus();
+ const isRestaurant = JSON.parse( localStorage.getItem("restaurantExist")) ;
+ const isAdmin = JSON.parse( localStorage.getItem("adminExist"));
  
- console.log(firstTimecontroller);
+
+
+
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle>
@@ -139,13 +133,18 @@ useEffect(()=>{
       
             
 
-   <Route path="/" element={ firstTimecontroller === false ? authController.isLoggedIn ? hasData ? <ResponsiveDrawer/>: hasData === false ?<Navigate to="restaurantinformation"/> : <div
-          className="container-fluid vh-100"
- 
-        >
-         <Loader/>
-        </div> : <Navigate to="login"/>:<Navigate to="landing" />} >
 
+
+       
+   <Route path="/" element={ 
+    isAdmin ?
+          authController.isLoggedIn ?
+              isRestaurant
+               ? <ResponsiveDrawer/> 
+              : isRestaurant===false ? <Navigate to="restaurantinformation"/> :<Loader/> 
+          : <Navigate to="login"/> 
+          
+    :isAdmin==false ?<Navigate to="landing"/> :<Loader/> }>
     <Route index element={ <Dashboard/>}/>
    {/* order */}
 

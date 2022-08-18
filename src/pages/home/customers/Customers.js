@@ -13,7 +13,7 @@ export default function Customers() {
   const [dateState, setDateState] = useState(new Date());
   useEffect(() => {
     setInterval(() => setDateState(new Date()), 30000);
-    apiCall(dispatch);
+   
 
   }, []);
 

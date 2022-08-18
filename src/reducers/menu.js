@@ -35,7 +35,7 @@ export default function reducer( state = initalState, action){
             return {
                 ...state,
                 responseMessage:payload,
-                responseMessage:null,
+               
                 sucess:true
             }
         case MENUITEM_UPDATE_FAILED :{
@@ -44,6 +44,23 @@ export default function reducer( state = initalState, action){
                 responseMessage :payload,
                 sucess:false
             }
+
+        
+        }
+        case MENUITEM_DELETE_SUCCESS :
+            return {
+                ...state,
+                responseMessage:payload,
+                sucess:true
+            }
+        case MENUITEM_DELETE_FAILED :{
+            return {
+                ...state,
+                responseMessage :payload,
+                sucess:false
+            }
+
+        
         }
          case CLEAR_MENU_MESSAGE :
             return {

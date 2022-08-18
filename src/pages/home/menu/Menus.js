@@ -36,13 +36,14 @@ const categoryController = useSelector((state)=>state.category);
       useEffect(()=>{
         apiCall(dispatch)
       },[])
+
     
   return (
-    <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
-    <div class="row">
-        <div class="col-lg-8">
+    <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
+    <div className="row">
+        <div className="col-lg-8">
           
-            <h3 class="font-weight-bolder">Menus</h3>
+            <h3 className="font-weight-bolder">Menus</h3>
             <p style={{
               color:'gray'
             }}> {dateState.toLocaleDateString('en-US', {
@@ -54,14 +55,14 @@ const categoryController = useSelector((state)=>state.category);
 
         </div>
        
-        <div class="col-lg-4 d-flex justify-content-lg-end">
+        <div className="col-lg-4 d-flex justify-content-lg-end">
             <div>
               
                 <button  onClick={()=>{
                   navigate("/catagories");
                 }}
-                    class="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
-                        class="material-icons-outlined medium mr-2">
+                    className="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
+                        className="material-icons-outlined medium mr-2">
                       <TbAdjustmentsHorizontal size={25} style={{
                         padding:'2px'
                       }}/>  
@@ -70,7 +71,7 @@ const categoryController = useSelector((state)=>state.category);
 
         </div>
     </div>
-    <div class="dropdown-divider"></div>
+    <div className="dropdown-divider"></div>
     
    
     <Tabs/>

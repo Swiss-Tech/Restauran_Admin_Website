@@ -113,9 +113,9 @@ export default function NewOrder() {
         }, []);
   return (
    
-      <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
-<div class="col">
-            <h3 class="font-weight-bolder">New Orders</h3>
+      <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
+<div className="col">
+            <h3 className="font-weight-bolder">New Orders</h3>
             <p style={{
               color:'gray'
             }}> {dateState.toLocaleDateString('en-US', {
@@ -128,12 +128,12 @@ export default function NewOrder() {
 
            
         </div>
-        <div class="dropdown-divider"></div>
+        <div className="dropdown-divider"></div>
     <div
-            class="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-end align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
+            className="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-end align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
           
             
-                <div class="col-lg-4 px-0 ">
+                <div className="col-lg-4 px-0 ">
                 <div className="customSearch " style={{
                   justifyContent:'start',
                   alignContent:'center',
@@ -148,17 +148,17 @@ export default function NewOrder() {
     background:'transparent',
     padding:'0',
     margin:'0'
-  }}  type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" value={inputText} onChange={filterData} />
+  }}  type="text" className="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" value={inputText} onChange={filterData} />
 
         </div>
                 </div>
 
-                <div class="col-lg-4 d-flex justify-content-lg-end">
+                <div className="col-lg-4 d-flex justify-content-lg-end">
             <div>
                  
                 <button 
-                    class="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
-                        class="material-icons-outlined medium mr-2">
+                    className="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
+                        className="material-icons-outlined medium mr-2">
                       <TbAdjustmentsHorizontal size={25} style={{
                         padding:'2px'
                       }}/>  
@@ -223,7 +223,7 @@ export default function NewOrder() {
                           
                         }}>
                         <div
-            class=" btn d-flex justify-content-center align-items-center border  py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3 shadow-sm">
+            className=" btn d-flex justify-content-center align-items-center border  py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3 shadow-sm">
    
             View
         </div>

@@ -1,26 +1,35 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { StyledEditAdmin } from './styled/StyledEditAdmin';
 import { useSelector, useDispatch } from "react-redux";
 import { accountActionCreators } from '../../../actions';
 import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router";
 import Modal from "react-modal";
+import apiCall from '../../../ApiCall';
 
 
 export default function AdminEdit() {
+  const dispatch = useDispatch();
     const navigate = useNavigate();
+    useEffect(()=>{
+      apiCall(dispatch)
+    },[])
+
     const controller = useSelector((state) => state.auth);
     const messagecontroller = useSelector((state) => state.account);
+    const adminController = useSelector((state)=>state.account.adminInformation)
   
-    const dispatch = useDispatch();
+   
+    
+  
     const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
     
     
   
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [firstName, setFirstName] = useState(adminController['firstName'] ? adminController['firstName'] :"");
+    const [lastName, setLastName] = useState(adminController['lastname']?adminController['lastname']:"");
+    const [email, setEmail] = useState(adminController['email']?adminController['email']:"");
+    const [phoneNumber, setPhoneNumber] = useState(adminController['phoneNumber']?adminController['phoneNumber']:"");
     const [password, setPassword] = useState("");
     const [confirmPass, setConfirmPass] = useState("");
   
@@ -38,6 +47,8 @@ export default function AdminEdit() {
      function handlePasswordConfirmation ( ){
       return (password === confirmPass);
      }
+
+     console.log(adminController)
     return (
       <StyledEditAdmin>
   
@@ -118,6 +129,7 @@ export default function AdminEdit() {
                   className="form-control"
                   name=""
                   id="first-name"
+                  defaultValue={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
                 <div className="form-control-feedback text-danger" style={ firstName ?{
@@ -143,6 +155,7 @@ export default function AdminEdit() {
                   className="form-control"
                   name=""
                   id="last-name"
+                  defaultValue={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
                 <div className="form-control-feedback text-danger" style={ lastName ?{
@@ -167,6 +180,7 @@ export default function AdminEdit() {
                   className="form-control"
                   name=""
                   id="email"
+                  defaultValue={ email }
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <div className="form-control-feedback text-danger" style={ email ?{
@@ -194,6 +208,7 @@ export default function AdminEdit() {
                   name=""
                   id="phone-number"
                   placeholder=""
+                  defaultValue={ phoneNumber }
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
                 <div className="form-control-feedback text-danger" style={ phoneNumber ?{

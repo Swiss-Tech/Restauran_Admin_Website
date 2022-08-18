@@ -135,7 +135,8 @@ export default function EmployeeTable(props) {
                           <td>
                   
                            
-                          {employee['status']}
+                         { parseInt(employee['status']) === 0 ? "Unblocked" :"Blocked"  }
+                           
                   
                              
                   
@@ -144,14 +145,17 @@ export default function EmployeeTable(props) {
                           <DropdownButton variant='white' >
                         
                   <Dropdown.Item onClick={ async ()=>{
-                      
+                                        props.handleLoading(true);
                     await EmployeeActionController.unBlockEmployeeAction(employee['id'])
+                
                           window.location.reload(false)
+                          props.handleLoading(false);
                   }} >Unblock</Dropdown.Item>
                   <Dropdown.Item onClick={async ()=>{
-                    
+                          props.handleLoading(true);
                      await EmployeeActionController.blockEmployeeAction(employee['id'])
                      window.location.reload(false)
+                     props.handleLoading(false);
                   }}  >Block</Dropdown.Item>
                     <Dropdown.Item onClick={()=>{
                              props.setIsEdit(true);
@@ -159,9 +163,10 @@ export default function EmployeeTable(props) {
       
                   }}  >Edit</Dropdown.Item>
                   <Dropdown.Item onClick={ async ()=>{
-                      
+                        props.handleLoading(true);
                       await EmployeeActionController.deleteEmployeeAction(employee['id']);
                       window.location.reload(false)
+                      props.handleLoading(false);
                           }}  >Delete</Dropdown.Item>
                           
                   

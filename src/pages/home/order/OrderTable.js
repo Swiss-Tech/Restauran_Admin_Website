@@ -112,10 +112,10 @@ const [currentPage,setCurrentPage]= useState(1);
     <StyledOrder >
 
     <div
-            class="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-between align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
+            className="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-between align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
           
             
-                <div class="col-lg-4 px-0 ">
+                <div className="col-lg-4 px-0 ">
                 <div className="customSearch " style={{
                   justifyContent:'start',
                   alignContent:'center',
@@ -130,20 +130,20 @@ const [currentPage,setCurrentPage]= useState(1);
     background:'transparent',
     padding:'0',
     margin:'0'
-  }}  type="text" class="form-control" placeholder="Search"  aria-describedby="basic-addon1" alue={inputText} onChange={filterData} />
+  }}  type="text" className="form-control" placeholder="Search"  aria-describedby="basic-addon1" alue={inputText} onChange={filterData} />
 
         </div>
                 </div>
 
-                <div class="col-lg-4 d-flex justify-content-lg-end">
+                <div className="col-lg-4 d-flex justify-content-lg-end">
             <div>
                  
                 <button  onClick={()=>{
                   currentOrders.sort();
                   window.location.reload(false);
                 }}
-                    class="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
-                        class="material-icons-outlined medium mr-2">
+                    className="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
+                        className="material-icons-outlined medium mr-2">
                       <TbAdjustmentsHorizontal size={25} style={{
                         padding:'2px'
                       }}/>  
@@ -236,22 +236,22 @@ const [currentPage,setCurrentPage]= useState(1);
                 
                          
                             <div 
-                             style={(order.status==='pending')?{
-                              color:'orange'
-                             }:{
+                             style={{
+                              color:parseInt(order['status']) === 0 ?"orange" :  parseInt(order['status']) === 1 ? "Green":parseInt(order['status']) === 2  ? "#7B3EFD":"Red",
+                             }
                                 
-                            }}>{order['status']}
+                            }>{ parseInt(order['status']) === 0 ?"Pending" :  parseInt(order['status']) === 1 ? "Active":parseInt(order['status']) === 2  ? "Completed ":"Rejected" }
                             </div>
                 
                             {/* <div 
-                            class="px-2 bg-lightSuccess small py-1 font-weight-bold text-success d-flex justify-content-center align-items-center rounded-pill">
+                            className="px-2 bg-lightSuccess small py-1 font-weight-bold text-success d-flex justify-content-center align-items-center rounded-pill">
                            {order.status}</div>
                 
                            <div 
-                            class="px-2 bg-lightDanger small py-1 font-weight-bold text-danger d-flex justify-content-center align-items-center rounded-pill">
+                            className="px-2 bg-lightDanger small py-1 font-weight-bold text-danger d-flex justify-content-center align-items-center rounded-pill">
                             {order.status}</div>
                         <div 
-                            class="px-2 bg-light small py-1 font-weight-bold text-info  d-flex justify-content-center align-items-center rounded-pill">
+                            className="px-2 bg-light small py-1 font-weight-bold text-info  d-flex justify-content-center align-items-center rounded-pill">
                             {order.status}</div> */}
                 
                         </td>
@@ -259,22 +259,23 @@ const [currentPage,setCurrentPage]= useState(1);
                         <DropdownButton variant='white' >
                       
                 <Dropdown.Item onClick={ async ()=>{
-                  //  setLoading(true);
+                   setLoading(true);
            await  OrderActionController.updateOrderStatusAction(order['id'], 1);
              window.location.reload(false);      
-          // setLoading(false)
+          setLoading(false)
                 }} >Accept</Dropdown.Item>
                 <Dropdown.Item onClick={async ()=>{
-                    
+                     setLoading(true);
             await OrderActionController.updateOrderStatusAction(order['id'], 2);
              window.location.reload(false);
-         
+             setLoading(false);
            
                 }}  >Complete</Dropdown.Item>
                   <Dropdown.Item onClick={async ()=>{
-                   
+                    setLoading(true);
            await  OrderActionController.updateOrderStatusAction(order['id'], 5);
            window.location.reload(false);
+           setLoading(false);
                        
 
        

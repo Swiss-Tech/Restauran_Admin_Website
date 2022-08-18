@@ -14,6 +14,41 @@ import Pagination from '../order/TablePagination';
 import { customerActionCreators } from '../../../actions';
 import Loader from '../../reusable-components/Loader';
 import apiCall from '../../../ApiCall';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
+
+
+
+function NoCustomer() {
+  return (
+    <div style={{
+      display:'flex',
+      flexDirection:'column',
+      alignItems:'center',
+      justifyContent:'center',
+     
+      marginTop:'13%'
+
+     
+      
+
+     }}>
+<AiOutlineExclamationCircle size={'7%'} color="#C7C7CC" style={{
+marginBottom:'1%'
+}}/>
+<h6 style={{
+color:'#8E8E93',
+fontWeight:'300',
+fontSize:'20px',
+marginBottom:'1%'
+
+}}>No Orders are found</h6>
+
+
+
+     </div>
+  )
+}
+
 export default function CustomerTable() {
   const customerController = useSelector((state)=>state.customer);
     const dispatch = useDispatch();
@@ -68,7 +103,7 @@ export default function CustomerTable() {
   
    
    
- 
+     apiCall(dispatch);
  
     return (
      <StyledCustomer>
@@ -80,7 +115,7 @@ export default function CustomerTable() {
           <span class="h3 mr-3 mb-0 " style={{
             marginRight:"10px"
           }}>{customerController.customers.length}</span>
-        Customers 
+        Customers  
           </div>
 
           
@@ -155,7 +190,7 @@ export default function CustomerTable() {
               
 { 
                   
-                  
+  currentCustomer.length === 0 ?<tr></tr> :
                   currentCustomer.map((customer,index)=>{return(
                 
                 
@@ -163,10 +198,10 @@ export default function CustomerTable() {
                         <td scope="col" >{index+1}</td>
                         <td scope="col" > {customer['customer']['id']}</td>
                         <td> {customer['customer']['firstName']} {customer['customer']['lastname']}</td>
-                        <td >{ customer['activeOrders'].length === 0 ? customer['activeOrders'].length :<div>
+                        <td >{  parseInt(customer['activeOrders'].length ) === 0 ? customer['activeOrders'].length :<div>
                           {customer['activeOrders'].map((order)=>{<p>{order.id}</p>})}
                         </div> }</td>
-                        <td >{customer['totalPayment']}</td>
+                        <td >{parseFloat(customer['totalPayment']).toFixed(2)}</td>
                         <td >{customer['lifeTimeOrder']}</td>
                       
                         <td>
@@ -177,7 +212,7 @@ export default function CustomerTable() {
                               color:'orange'
                              }:{
                                 
-                            }}>{customer['status']}
+                            }}>{ parseInt(customer['status']) === 0 ? "Unblocked" :"Blocked"  }
                             </div>
                 
                             {/* <div 
@@ -196,15 +231,22 @@ export default function CustomerTable() {
                         <DropdownButton variant='white' >
                       
                 <Dropdown.Item  onClick={async ()=>{
-                     
+                     setLoading(true);
                    await  CustomerActionController.blockCustomerAction(customer['customer']['id']);
                    window.location.reload(false)
+                   
+                  
+                   setLoading(false);
+                  
                      
                 }}>Block</Dropdown.Item>
                 <Dropdown.Item onClick={ async ()=>{
-      
+                   setLoading(true);
                   await CustomerActionController.unBlockCustomerAction(customer['customer']['id']);
                   window.location.reload(false)
+                  
+                
+                  setLoading(false);
                 }} >Unblock</Dropdown.Item>
              
                 
@@ -218,6 +260,7 @@ export default function CustomerTable() {
                 }
             </tbody>
     </Table>}
+    {dataSource.length === 0 ? <NoCustomer/> :<div></div>}
 
  
     <div className=' fixed-bottom  mb-5 mr-5  account btn'>

@@ -95,6 +95,7 @@ imageUrl:""
            <div className="btn" onClick={()=>{
             
           logout_function();
+            
             window.location.reload(false);
             navigate('/')
            }}><RiLogoutCircleRLine  size={"30"}/></div>
@@ -311,10 +312,12 @@ imageUrl:""
               <div className="border btn right d-flex " style={{
                   height:'40px',
                   justifyContent:'center'
-              }}><span><DropdownButton variant='white' className=" " style={{
+              }}><span>
+              {/* <DropdownButton title="" variant='white' className=" " style={{
                   padding:'0',
-                  margin:'0'
-              }} >
+                  margin:'0',
+                  
+              }} > 
                     
                     <Dropdown.Item  onClick={()=>{
                       
@@ -324,7 +327,9 @@ imageUrl:""
                     }} >Weekly</Dropdown.Item>
                  
                     
-                    </DropdownButton></span> Monthly</div>
+                    </DropdownButton> */}
+                    
+                    </span> Monthly</div>
           </div>
         
            <Graph/>
@@ -421,7 +426,7 @@ imageUrl:""
       </div>
    <BarGraph/>   
   </div>
-          <div className="w-100 bg-white rounded-lg px-xl-5  px-4 py-4 mt-3 d-flex flex-column " style={{
+          {/* <div className="w-100 bg-white rounded-lg px-xl-5  px-4 py-4 mt-3 d-flex flex-column " style={{
               backgroundColor:'white',
              
           }}>
@@ -433,7 +438,7 @@ imageUrl:""
          
               <div>
                   {orderData.map((order,index)=>
-                      <div key={ Math.random() }  className="d-flex mb-3">
+                      <div key={ index.toString() }  className="d-flex mb-3">
                   <h6>#{index+1}</h6>
                   <div className="rounded bg-grayBg mx-3 p-3 menu-image  "
                       >
@@ -447,7 +452,7 @@ imageUrl:""
               </div>
               
               <a  className="btn btn-outline-dark mx-5 mt-3">View All</a>
-          </div>
+          </div> */}
       </div>
 
 

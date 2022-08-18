@@ -17,7 +17,7 @@ export const getallmenues = ()=> (dispatch)=> {
             
             if (data.success){
              data.data.map((item)=>{
-                console.log(item)
+              
                 dispatch(
                     {
                         type:MENUITEMS_FETCHED_SUCCESS,
@@ -74,7 +74,7 @@ export const getallmenues = ()=> (dispatch)=> {
     
      return  addMenuItem(menu).then(
         (data)=>{
-         console.log(data);
+         
            if(data.success){
             dispatch({
                 type: MENUITEM_CREATE_SUCCESS,
@@ -107,7 +107,7 @@ export const getallmenues = ()=> (dispatch)=> {
   }
  
   export const updateMenuAction =(menu)=>(dispatch)=>{
-    
+     
     return  updateMenu(menu).then(
        (data)=>{
          
@@ -141,6 +141,35 @@ export const getallmenues = ()=> (dispatch)=> {
 
     )
   
+ }
+
+ 
+ export const deleteMenuAction = (menuId)=>(dispatch)=>{
+    return deleteMenu(menuId).then(
+        (data)=>{
+          if(data.success)
+        {
+          dispatch({
+            type:MENUITEM_DELETE_SUCCESS,
+            payload:data.message
+          })
+
+        }    
+    else{
+      dispatch({
+        type:MENUITEM_DELETE_FAILED,
+        payload:data.message
+      })
+
+    }
+      },
+       (error)=>{
+        //  implement data
+       }
+  
+    ).catch((e)=>{
+
+    })
  }
 
 

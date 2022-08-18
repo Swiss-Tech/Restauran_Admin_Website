@@ -2,7 +2,7 @@ import {
   login_function,
   logout_function,
   register_function,
-  firsttime_function,
+
 } from "../services/auth.service";
 
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
@@ -119,9 +119,3 @@ export const setMessage = (message) => ({
 });
 
 export const clearMessage = () => ({ type: CLEAR_MESSAGE });
-export const firstTimeEntering = () => (dispatch) => {
-  firsttime_function();
-  dispatch({
-    type: LOGOUT,
-  });
-};

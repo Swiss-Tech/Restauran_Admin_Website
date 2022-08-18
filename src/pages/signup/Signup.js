@@ -71,8 +71,10 @@ export default function Signup() {
                       onClick={() => {
                         
                     
-                        navigate('/')
+                        
                         setModal(false);
+                        navigate('/');
+                        window.location.reload(false)
                       }}
                     >
                       Close
@@ -281,6 +283,8 @@ display:'none'
                 });
                 setLoading(false);
                 setModal(true);
+
+
                 
 
                         

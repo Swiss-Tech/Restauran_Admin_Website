@@ -473,7 +473,7 @@ function setIntialValue (){
                  
                     <h6 className="pt-2 mt-1 mr-2">Status Avialable</h6>
                    
-                    <Switch   checked={status}
+                    <Switch   checked={status} color="warning"
       onChange={handleChange} />
 
                 </div>
@@ -486,9 +486,10 @@ function setIntialValue (){
                         
 
                         
-                //    setLoading(true)
+                 setLoading(true)
            await MenuActionController.updateMenuAction(new MenuItem(menuId , itemName, price, calories, weight,description,enough_for,estimated_preparation_time,removable_ingredients,categories,foodImage1File,foodImage2File,foodImage3File,foodImage4File,checked));
-            //  setLoading(false);
+           window.location.reload(false)
+             setLoading(false);
                 }} type="button" className="btn btn-black " style={{
                     backgroundColor:'black',
                     color:'white',

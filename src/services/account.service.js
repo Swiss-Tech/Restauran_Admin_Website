@@ -1,5 +1,27 @@
-import { API_BASE_URL , API_ADMIN_RESTAURANTINFORMATION  , API_RESTAURANT_INFO_STATUS} from "./api-config";
+import {  } from "../actions/types";
+import { API_BASE_URL , API_ADMIN_RESTAURANTINFORMATION ,API_ADMIN_GET_ADMIN , API_RESTAURANT_INFO_STATUS, API_ADMIN_UPDATE, API_ADMIN_DELETE_DAYS, API_ADMIN_DELETE_SHAREDCOST, API_ADMIN_ADD_WORKING_DAYS, API_ADMIN_ADD_SHAREDCOST, API_ADMIN_GET_ALL_DASHBOARD_DATA, API_ADMIN_GET_ALL_RESTAURANT_INFORMATION_DATA, API_ADMIN_GET_DASHBOARD_DATA, API_ADMIN_UPDATE_RESTURANT_INFORMATION} from "./api-config";
 import authHeader from "./auth-header";
+
+
+
+export async function getAdminInfo(){
+  var token = authHeader();
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+ return fetch(API_BASE_URL+API_ADMIN_GET_ADMIN, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+     
+      return result
+    })
+    .catch(error => console.log('error', error));
+}
 
 export async function editAdmin(admin){
    
@@ -23,7 +45,7 @@ var raw = JSON.stringify({
     redirect: 'follow'
   };
   
- return fetch("http://165.232.80.134/test/admin/Auth/admin/update", requestOptions)
+ return fetch(API_BASE_URL+API_ADMIN_UPDATE, requestOptions)
     .then(response => response.json())
     .then(result =>{
         console.log(result)
@@ -31,6 +53,10 @@ var raw = JSON.stringify({
     })
     .catch(error => console.log('error', error));
 }
+
+
+
+
 
 export async function deleteDays(id){
     var token = authHeader();
@@ -43,7 +69,7 @@ export async function deleteDays(id){
         redirect: 'follow'
       };
       
-     return fetch(`http://165.232.80.134/test/admin/Auth/days/detete/${id}`, requestOptions)
+     return fetch( API_BASE_URL+API_ADMIN_DELETE_DAYS+id, requestOptions)
         .then(response => response.json())
         .then(result => {
             console.log(result)
@@ -62,24 +88,21 @@ export async function deleteCostSharing(id){
         redirect: 'follow'
       };
       
-     return fetch(`http://165.232.80.134/test/admin/Auth/cost/delete/${id}`, requestOptions)
+     return fetch(API_BASE_URL+API_ADMIN_DELETE_SHAREDCOST+id, requestOptions)
         .then(response => response.json())
         .then(result => {
-            console.log(result)
+          
             return result;
         })
         .catch(error => console.log('error', error));
 }
-export async function addWorkingDays(){
+export async function addWorkingDays(day){
     var token = authHeader();
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
 
-var raw = JSON.stringify([
-    {
-      "day": "monday"
-    }
+var raw = JSON.stringify([day
   ]);
   
   var requestOptions = {
@@ -89,7 +112,7 @@ var raw = JSON.stringify([
     redirect: 'follow'
   };
   
- return fetch("http://165.232.80.134/test/admin/Auth/days/add", requestOptions)
+ return fetch(API_BASE_URL+API_ADMIN_ADD_WORKING_DAYS, requestOptions)
     .then(response => response.json())
     .then(result => {
         console.log(result)
@@ -119,13 +142,16 @@ export async function addSharedCost (sharedCost){
         redirect: 'follow'
       };
       
-    return  fetch("http://165.232.80.134/test/admin/Auth/cost/add", requestOptions)
+    return  fetch(API_BASE_URL+API_ADMIN_ADD_SHAREDCOST, requestOptions)
         .then(response => response.json())
         .then(result => {
           return result
         })
         .catch(error => console.log('error', error));
 }
+
+
+
 
 export async function editRestaurantInfo(){
     var token = authHeader();
@@ -147,16 +173,15 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-return fetch("http://165.232.80.134/test/admin/Auth/update/restaurant", requestOptions)
+return fetch(API_BASE_URL+API_ADMIN_UPDATE_RESTURANT_INFORMATION, requestOptions)
   .then(response => response.json())
   .then(result => {
-    console.log(result);
     return result;
   })
-  .catch(error => console.log('error', error));
+  .catch(error => error);
 }
 
-export async function restaurant_information_function(name, location, phoneNumber,email,description, logoUrl, image1, image2, image3, image4, days, sharedCosts){
+export async function restaurant_information_function(name, location, phoneNumber,email,description, logoUrl, image1, image2, image3, image4, days, sharedCosts, openAt, closeAt){
    
     var token = authHeader();
      var myHeaders = new Headers();
@@ -165,28 +190,27 @@ export async function restaurant_information_function(name, location, phoneNumbe
     
  
     
-     var dayList = days.days.map((day)=>({"day":day}));
-     var sharedcosts = sharedCosts.map((sharedcost,inde)=>({
-        "itemName":sharedcost.itemName ,
-        "isPercent":sharedcost.isPercent,
-        "value":parseInt(sharedcost.value)
-
-    }));
-  
-
+     var dayList = days.days.map((day)=>({day}));
+     
+        for(var i=0 ; i<days.days.length ; i++){
+          formdata.append("WorkingDays",days.days[i]);
+        } 
+ 
 formdata.append("restaurantName", name);
 formdata.append("restaurantLocation", location);
 formdata.append("restaurantPhoneNumber", phoneNumber);
 formdata.append("restaurantEmail", email);
 formdata.append("restaurantShortDescription", description);
 formdata.append("restaurantLogoPhoto", logoUrl);
-formdata.append("WorkingDays", dayList);
-formdata.append("workingHour", "10");
+formdata.append("workingHour", `${openAt} - ${closeAt}`);
 formdata.append("image1", image1);
 formdata.append("image2", image2);
 formdata.append("image3", image3);
 formdata.append("image4", image4);
-formdata.append("SharedCosts", sharedcosts);
+formdata.append("SharedCosts", JSON.stringify(sharedCosts));
+
+
+
 
 
 var requestOptions = {
@@ -196,22 +220,19 @@ var requestOptions = {
   headers: myHeaders,
 };
 
-try{
-   return await fetch(API_BASE_URL+API_ADMIN_RESTAURANTINFORMATION, requestOptions)
+
+
+return fetch(API_BASE_URL+API_ADMIN_RESTAURANTINFORMATION, requestOptions)
     .then(response => response.json())
     .then(result => {
   
-     if(result.success){
-        return result;
-     }
+    
      console.log(result);
-     return result;
+      return result;
     
     })
-    .catch(error => console.log('error',error));
-}catch(e){
-    console.log(e);
-}
+    .catch(error => error);
+
 }
 
 export async function get_restaurant_information(){
@@ -227,7 +248,7 @@ export async function get_restaurant_information(){
     redirect: 'follow'
   };
   
- return fetch(" http://165.232.80.134/test/admin/Auth/getrestinfo", requestOptions)
+ return fetch(API_BASE_URL+API_ADMIN_GET_ALL_RESTAURANT_INFORMATION_DATA, requestOptions)
     .then(response => response.json())
     .then(result => result)
     .catch(error => console.log('error', error));
@@ -247,7 +268,7 @@ export async function dashboardData   (){
         redirect: 'follow'
       };
       
-    return  fetch("http://165.232.80.134/test/admin/dash/get", requestOptions)
+    return  fetch(API_BASE_URL+API_ADMIN_GET_DASHBOARD_DATA, requestOptions)
         .then(response => response.json())
         .then(result => {
       
@@ -259,37 +280,6 @@ export async function dashboardData   (){
 }
 
 
-export const restaurantInfoStatus =async ()=>{
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-      };
-      
-     try {
-        const response = await fetch("http://165.232.80.134/test/admin/Auth/checkstatus", requestOptions);
-        const result_1 = await response.text();
-        return result_1;
-    } catch (error) {
-        return console.log('error', error);
-    }
-    // var requestOptions = {
-    //     method: 'GET',
-    //     redirect: 'follow'
-    //   };
-      
-    //  return fetch(API_BASE_URL+API_RESTAURANT_INFO_STATUS, requestOptions)
-    //     .then(response => response.json())
-    //     .then(result => {
-              
-        
-    //           return result;
-    
-
-    //     })
-    //     .catch(error => {
-    //         console.log('error', error);
-    //     });
-}
 
 
 

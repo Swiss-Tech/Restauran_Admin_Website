@@ -1,3 +1,4 @@
+import { API_ADMIN_ADD_CATEGORY, API_ADMIN_DELETE_CATEGORY, API_ADMIN_GET_CATEGORIES, API_ADMIN_UPDATE_CATEGORY, API_BASE_URL } from "./api-config";
 import authHeader from "./auth-header";
 
 
@@ -14,7 +15,7 @@ export function getAllCategory(){
       redirect: 'follow'
     };
     
-   return fetch("http://165.232.80.134/test/admin/Menu/category/getall", requestOptions)
+   return fetch(API_BASE_URL+API_ADMIN_GET_CATEGORIES, requestOptions)
       .then(response => response.json())
       .then(result =>{
         
@@ -49,7 +50,7 @@ var requestOptions = {
 };
 
 
-return fetch("http://165.232.80.134/test/admin/Menu/category/add", requestOptions)
+return fetch(API_BASE_URL+API_ADMIN_ADD_CATEGORY, requestOptions)
   .then(response => response.json())
   .then(result => {
    console.log(result)
@@ -67,7 +68,7 @@ return fetch("http://165.232.80.134/test/admin/Menu/category/add", requestOption
 
 
 export function updateCategory(category){
-  console.log(category)
+  
   var categoryId = category['id'];
   var token = authHeader();
     var myHeaders = new Headers();
@@ -86,11 +87,11 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-return fetch(`http://165.232.80.134/test/admin/Menu/category/edit/${categoryId}`, requestOptions)
+return fetch(API_BASE_URL+API_ADMIN_UPDATE_CATEGORY+categoryId, requestOptions)
   .then(response => response.json())
   .then(result => {
     console.log(result)
-    return result
+    return result;
   })
   .catch(error => console.log('error', error));
 }
@@ -110,7 +111,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
- return fetch(`http://165.232.80.134/test/admin/Menu/category/delete/${id}`, requestOptions)
+ return fetch(API_BASE_URL+API_ADMIN_DELETE_CATEGORY+id, requestOptions)
   .then(response => response.json())
   .then(result => {
     console.log(result)

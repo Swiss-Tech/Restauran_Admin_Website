@@ -1,27 +1,53 @@
 
 import { REGISTER_SUCCESS, REGISTER_FAIL } from "../actions/auth";
+import axios from "axios";
+
 import {
   API_BASE_URL,
   API_ADMIN_LOGIN,
   API_ADMIN_REGISTER_URL,
 } from "./api-config";
 
-// login function
-export async function checkStatus(){
-  var myHeaders = new Headers();
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
+// check admin status
+
+export async function checkAdminStatus(){
+
+  axios({
+    url:'http://165.232.80.134/test/admin/Auth/ad',
+    method:'GET',
   
- return fetch("http://165.232.80.134/test/admin/Auth/checkstatus", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-      console.log(result);
-      return result;
-    })
-    .catch(error => console.log('error', error));
+  }).then((response)=>{
+     localStorage.setItem("adminExist",JSON.stringify(response.data));
+  }).catch();
+}
+// login function
+export async function checkRestaurantStatus(){
+
+
+  axios({
+    url:'http://165.232.80.134/test/admin/Auth/checkstatus',
+    method:'GET',
+  
+  }).then((response)=>{
+   
+     localStorage.setItem("restaurantExist",JSON.stringify(response.data));
+   
+  }).catch();
+
+//   var myHeaders = new Headers();
+//   var requestOptions = {
+//     method: 'GET',
+//     headers: myHeaders,
+//     redirect: 'follow'
+//   };
+  
+//  return fetch("http://165.232.80.134/test/admin/Auth/checkstatus", requestOptions)
+//     .then(response => response.json())
+//     .then(result => {
+//       console.log(result);
+//       return result;
+//     })
+//     .catch(error => console.log('error', error));
 }
 export async function login_function(admin) {
 
@@ -87,7 +113,10 @@ export async function register_function(user) {
         // if and else statement to store the token
         if (result.success) {
           
+          localStorage.setItem("isRefreshCalled", false);
           localStorage.setItem("token", JSON.stringify(result.data));
+          localStorage.setItem("expires", JSON.stringify(result.expires));
+          localStorage.setItem("logintime",JSON.stringify(Date()));
           return result;
         }
 
@@ -105,14 +134,11 @@ export async function logout_function() {
   localStorage.removeItem("isRefreshCalled");
   localStorage.removeItem("expires");
   localStorage.removeItem("logintime");
+   localStorage.removeItem("restaurantExist");
+   localStorage.removeItem("adminExist");
 }
 
-export async function firsttime_function() {
-  console.log("first time function is called");
-  localStorage.setItem("firsttime", false);
-}
 
-//
 
 
 export async function refresh_token(){

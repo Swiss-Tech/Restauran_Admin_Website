@@ -17,39 +17,42 @@ export default function  RestaurantInformation () {
    const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
 
 
-   console.log(accountController.responseMessage);
+  
    const [showModal, setModal] = useState(false);
   
 
   useEffect(()=>{
-    if(accountController.responseMessage ===null){
+    if(accountController.responseMessage === null){
       
     }
     else{
       setModal(true)
+
     }
   },[])
 
- console.log(AccountActionController)
     return (
       isLoading ? <Loader/> :  showModal ? 
        <div
           className="container-fluid vh-100"
           
         >
+     
+
           <div className="row d-flex flex-column justify-content-center align-items-center h-100">
             <div>
               <div
                 className="modal-dialog"
                 role="document"
-                style={showModal ? {} : { display: "none" }}
+                
               >
                 <div className="modal-content rounded-4 shadow">
                   <div className="modal-header border-bottom-0">
-                    <h4 className="modal-title">Login</h4>
+                    <h4 className="modal-title">Restaurant Information</h4>
                   </div>
                   <div className="modal-body py-0">
-                    <h6>{accountController.responseMessage}</h6>
+                    <h6>{accountController.responseMessage} <br/> { accountController.success ? "Please Refresh The Page":"Please Refresh The Page" }</h6>
+
                   </div>
                   <div className="modal-footer flex-column border-top-0">
                     <button
@@ -58,13 +61,17 @@ export default function  RestaurantInformation () {
                       data-bs-dismiss="modal"
                       onClick={() => {
                       
-                          
-                          navigate('/')
                         setModal(false);
-                          AccountActionController.clearRestaurantMessageAction();
+                           navigate('/');
+                    
+                                               
+                           
+                           
+                        
+                   
                       }}
                     >
-                      Close
+                  Close
                     </button>
                   </div>
                 </div>
@@ -79,6 +86,7 @@ export default function  RestaurantInformation () {
       }}>
         <div className="row  ">
           <div className="col-xl-10 col-12  ">
+
             <h6 style={{
               fontWeight:'300'
           

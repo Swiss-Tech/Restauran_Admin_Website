@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { StyledLanding } from "./styled/Landing.styled";
 import { useSelector, useDispatch } from "react-redux";
-import { firstTImeActionCreators } from "../../actions";
+
 import { bindActionCreators } from "redux";
 import { checkRestaurantStatus } from "../../services/auth.service";
+import { useNavigate } from "react-router";
 
 var Link = require("react-router-dom").Link;
 
 export default function Landing() {
+  
   // this is to read
   const controller = useSelector((state) => state.first_time);
 
   //
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const ActionController = bindActionCreators(
-    firstTImeActionCreators,
-    dispatch
-  );
+ 
 
   //console.log(controller);
   //initalFirstTime();
@@ -37,7 +37,7 @@ export default function Landing() {
               <div className="sized-box"></div>
               <Link to="/signup">
                 <button
-                  onClick={() => ActionController.firstTime()}
+                  onClick={() => navigate('/signup')}
                   type="button"
                   className="btn font-weight-normal h6 shadow-lg px-5 py-3 rounded-lg mb-4"
                 >
@@ -48,21 +48,7 @@ export default function Landing() {
           </div>
         </div>
       </div>
-      {/* <button
-          onClick={() =>
-            login({
-              name: "Leanne Graham",
-            })
-          }
-        >
-          get persons
-        </button> */}
-      {/* <button
-          onClick={() => login({ email: "suz@gmail.com", password: "123456" })}
-        >
-          login
-        </button> */}
-      {/* <button onClick={() => example()}>Example</button> */}
+     
     </StyledLanding>
   );
 }

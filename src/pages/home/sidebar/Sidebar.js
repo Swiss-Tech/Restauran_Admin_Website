@@ -5,17 +5,32 @@ import { Link } from 'react-router-dom'
 import { BsArrowLeftSquare } from 'react-icons/bs'
 import { MdKeyboardArrowRight , MdKeyboardArrowUp } from 'react-icons/md'
 import { useNavigate , useLocation } from 'react-router-dom'
-import { color } from '@mui/system'
-import { Navigate } from 'react-router-dom'
+import { accountActionCreators } from '../../../actions'
+import { bindActionCreators } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
  
 export default function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate()
+  const dispatch = useDispatch();
 const [showChild , setShowChild] = useState(false);
 const [currentIndex , setIndex] = useState();
 const [changeBackground , setChangeBackground] = useState(false);
+const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
+
 var type =  JSON.parse(localStorage.getItem("type")).toLowerCase();
 var userType = type.split('_')[0];
+const adminController = useSelector((state)=>state.account);
+
+
+
+
+var firstName = adminController.adminInformation['firstName'];
+var lastName = adminController.adminInformation['lastname'];
+
+
+
+
 
 
 
@@ -25,14 +40,14 @@ var userType = type.split('_')[0];
  
 
 
-console.log(showChild)
+
   return (
     <StyledSidebar>
 
 <div className='sidebar d-flex flex-column '>
-       <div class=" logo d-flex justify-content-between align-items-center">
+       <div className=" logo d-flex justify-content-between align-items-center">
                     <span >
-                        <h5 class=" text-logo pt-2 font-weight-bold ml-2">FOOD<span style={{
+                        <h5 className=" text-logo pt-2 font-weight-bold ml-2">FOOD<span style={{
                              color:'orange',
                              
                         }}>VIO</span></h5>
@@ -48,9 +63,10 @@ console.log(showChild)
 
             {routes.map((route,index)=>
             
-            <div key={route} style={(userType==="super")?{}:{
-           display : route.key === "employees" || route.key ==="customers" ?"none":""
-            }}>
+            <div key={route.key}// style={(userType==="super")?{}:{
+          //  display : route.key === "employees" || route.key ==="customers" ?"none":""
+           // }}
+            >
             
             
             <div className='sidebartitle'  style={{
@@ -105,7 +121,7 @@ console.log(showChild)
               display:showChild & currentIndex===index ? '':'none'
             }}>
                 {
-                    route.additionalRoutes.map((subRoute)=><div style={{
+                    route.additionalRoutes.map((subRoute,index)=><div key={index.toString()}  style={{
                         paddingLeft:"55px",
                        
                         
@@ -134,18 +150,32 @@ console.log(showChild)
         
      <div   className=' fixed-bottom account ' onClick={()=>{
       navigate('/account')
-     }} style={(userType==="super") ? {
+     }} 
+     style={{
       width:'200px'
-     }:{
-      display:'none'
-     }} >
-     <img class="rounded-circle mb-lg-0 mb-4 bg-primary  " style={{
-    
-}}
-    width="60px" height="60px"           src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg"  />
-     <div className='  ml-5 mt-1 justify-content-center'>
-        <div className='  font-extrabold' >Woynshet Bilihatu</div>
-        <div className=' text-muted'>Admin</div>
+     }}
+    //  style={(userType==="super") ? {
+    //   width:'200px'
+    //  }:{
+    //   display:'none'
+    //  }} 
+     >
+      <div className="rounded-circle mb-lg-0 mb-4   font-bold " style={{
+        width:'50px',
+        height:"50px",
+        display:'flex',
+        justifyContent:'center',
+        backgroundColor:'#FECB16',
+        alignItems:'center',
+        marginRight:'10px',
+        fontSize:'22px',
+        color:'white'
+        
+
+      }}>  { firstName ? firstName[0]:"" }{ lastName ? lastName[0] :"" }</div>
+     <div className='  ml-6 mt-1 justify-content-center'>
+        <div className=' ml-6 font-extrabold' >{firstName ?firstName:""} {lastName ? lastName:""}</div>
+        <div className='ml-6 text-muted'>{userType ? "Admin" :"" }</div>
        </div>
     </div>
       

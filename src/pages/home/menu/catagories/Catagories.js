@@ -209,7 +209,7 @@ useEffect(() => {
                         display:'flex',
                         justifyContent:'space-between'
                     }}>
-                        <div>Is Parent Category</div>   <Switch    checked={isParentCategory} 
+                        <div>Is Parent Category</div>   <Switch    checked={isParentCategory}  color="warning"
       onChange={handleChange} />
                     </div>
                     <div   onClick={ async ()=>{

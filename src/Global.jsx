@@ -142,7 +142,7 @@ import styled from "styled-components";
         padding-right:30px;
         padding-top:5px;
         padding-bottom:5px;
-        border-radius:10px
+        border-radius:5px
     
       
 

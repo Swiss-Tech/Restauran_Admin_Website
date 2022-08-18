@@ -1,6 +1,6 @@
 
 import React , { useEffect, useState }from 'react'
-import { Nav, Container, Col, Row } from 'react-bootstrap';
+import { Nav, Container, Col, Row, Button } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -8,15 +8,17 @@ import styled from 'styled-components';
 
 import { GrAdd } from "react-icons/gr";
 import {BsSearch} from  "react-icons/bs";
-import { TbAdjustmentsHorizontal } from 'react-icons/tb';
-
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { API_BASE_URL } from '../../../services/api-config';
-import { act } from 'react-dom/test-utils';
-import { color } from '@mui/system';
 import { BsPlus } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { MdDelete } from 'react-icons/md';
+import { menuActionCreators } from '../../../actions';
+import { bindActionCreators } from 'redux';
+import { useDispatch } from 'react-redux';
+import Loader from '../../reusable-components/Loader';
 export default function Tabs() {
+    const  dispatch = useDispatch();
     const navigate = useNavigate()
     const  menuController = useSelector((state)=>state.menu);
     const categoryController = useSelector((state)=>state.category);
@@ -26,11 +28,15 @@ export default function Tabs() {
    
     const handleSelect = (eventKey) => setActiveKey(eventKey);
     const fetchedItems = menuController.menus;
-    const [data, setData] = useState();
+    const [data, setData] = useState([]);
     const [imageUrl , setImageUrl] = useState();
     const [filtered , setFilter] = useState(
      []
     )
+    
+    const MenuActionController = bindActionCreators(menuActionCreators, dispatch);
+    
+    const [isLoading , setLoading] = useState(false);
    
     
 
@@ -124,20 +130,20 @@ function serachFilter()
 
 }
  
-     return (
+     return ( isLoading ? <Loader/>:
     <div>
-        <div class="row w-100 pt-3  ml-0">
-        <div class="col-lg-6 d-flex flex-row px-0">
+        <div className="row w-100 pt-3  ml-0">
+        <div className="col-lg-6 d-flex flex-row px-0">
      
-            <div class="d-flex justify-content-center align-items-center" >
-                <div class="d-flex justify-content-center align-items-center 
+            <div className="d-flex justify-content-center align-items-center" >
+                <div className="d-flex justify-content-center align-items-center 
                      px-3 py-2 rounded mr-3" style={{
               border: "1px solid black",
               backgroundColor:'white' ,
               marginLeft:"10px"
             }}>
 
-                    <span class=" " style={{
+                    <span className=" " style={{
                       fontWeight:'700',
                       fontSize:'20px' ,
                       paddingLeft:'7px',
@@ -151,8 +157,8 @@ function serachFilter()
                     }}>Total Items</div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center align-items-center" >
-                <div class="d-flex justify-content-center align-items-center 
+            <div className="d-flex justify-content-center align-items-center" >
+                <div className="d-flex justify-content-center align-items-center 
                      px-3 py-2 rounded mr-3" 
                      style={{
               border: "1px solid black",
@@ -161,23 +167,23 @@ function serachFilter()
               color:'white'
             
             }}> 
-            <GrAdd 
+            {/* <GrAdd 
            size={10} 
-            />
-            <div style={{
-               border: "1.5px solid white",
-               width:'20px',
-               height:'20px',
+            /> */}
+           
+            
+<Link to="addMenu" style={{
+  textDecoration:'none',
+  color:"white",
+  display:"flex"
+}}>  <BsPlus style={{
+  border: "1.5px solid white",
+              
                borderRadius:'20px',
                marginRight:'5px',
                display:'flex',
                alignItems:'center'
-            }}><BsPlus size={25}/></div>
-            
-<Link to="addMenu" style={{
-  textDecoration:'none',
-  color:"white"
-}}>Add New</Link>
+}} size={25}/> Add New</Link>
                    
                 </div>
             </div>
@@ -187,10 +193,10 @@ function serachFilter()
         </div>
 
         <div
-            class="col-lg-6 d-flex flex-lg-row flex-column align-items-lg-center justify-content-end align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
+            className="col-lg-6 d-flex flex-lg-row flex-column align-items-lg-center justify-content-end align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
           
             
-                <div class="col-lg px-0">
+                <div className="col-lg px-0">
                 <div className="customInput " style={{
                   justifyContent:'start',
                   alignContent:'center',
@@ -206,7 +212,7 @@ function serachFilter()
         </div>
                 </div>
 
-                <div class="col-lg-4 d-flex justify-content-lg-end">
+                <div className="col-lg-4 d-flex justify-content-lg-end">
             <div>
                  
                 
@@ -224,7 +230,7 @@ function serachFilter()
        }} >
      
       {
-        categories.map((tab,index)=> <Nav.Item onClick={()=>{
+        categories.map((tab,index)=> <Nav.Item key={index.toString()} onClick={()=>{
           
         setActiveKey(tab.id);
        }}>
@@ -255,21 +261,21 @@ function serachFilter()
 
            
            }}>
-         { data ?
+         { data ? data.length > 0 ?
            data.map((item,index)=>
     
-           <Col >
+           <Col key={index.toString()} >
           
            
            <StyeledTab>
            <div>
 
-<div class="container">
+<div className="container">
 <Link to={`menudetail/${item.id}`}> 
 
  <img src={`${API_BASE_URL}/Menu/Photos/${item.foodImage1}`} alt="" /></Link>
 <Link to={`editmenu/${item.id}`}> 
-<button class="btn">Edit</button>
+<button className="btn">Edit</button>
 </Link>
   
 </div>
@@ -288,6 +294,7 @@ function serachFilter()
            
        
           }}>
+         
            <h4 style={{
                fontWeight:'500',
                fontSize:'20px'
@@ -296,6 +303,20 @@ function serachFilter()
                fontWeight:'700',
                fontSize:'20px'
            }} >Birr {item.price}</h4>
+   <button className='blackButton' style={{
+    marginBottom:'15px' ,
+     
+   }} onClick={ async ()=>{
+  
+        setLoading(true)
+   await MenuActionController.deleteMenuAction(item.id);
+       window.location.reload(false);
+       setLoading(false);
+    
+    
+   }}  ><MdDelete style={{
+    marginRight:'10px'
+   }} />Delete</button>
           </div>
           <div className=' justify-content-center' style={{
            display:'flex',
@@ -303,24 +324,26 @@ function serachFilter()
        
           }}>
        
-                       <div class="rounded-lg mr-2 " style={{
+                       <div className="rounded-lg mr-2 " style={{
                           
                            color:'black',
                            borderRadius:'10px',
-                           width:'100px',
+                        
                            alignItems:'center',
                            textAlign:'center',
                            justifyContent:'center',
                            display:'flex',
                            border:'1px solid black',
-                           padding:'5px',
+                           paddingLeft:'5px',
+                           paddingRight:'5px',
                            fontSize:'15px'
+
                           
                            
                           }}>
                           {item.itemName}
                           </div>
-                          <div class="rounded-lg mr-2 " style={{
+                          <div className="rounded-lg mr-2 " style={{
                           
                           color:'black',
                            borderRadius:'10px',
@@ -340,7 +363,41 @@ function serachFilter()
           </div>
            
            </Col>
-           ) :
+           )
+           :<Col>
+          <div>
+           <div style={{
+            display:'flex',
+            flexDirection:'column',
+            alignItems:'center',
+            justifyContent:'center',
+           
+            marginTop:'13%'
+
+           
+            
+
+           }}>
+ <AiOutlineExclamationCircle size={'7%'} color="#C7C7CC" style={{
+   marginBottom:'1%'
+ }}/>
+ <h6 style={{
+  color:'#8E8E93',
+  fontWeight:'300',
+  fontSize:'20px',
+  marginBottom:'1%'
+
+ }}>No Items are found</h6>
+
+<button className='customButton'  onClick={()=>{
+ navigate('/menu/addMenu')
+}}>Add New Item</button>
+ 
+           </div>
+           </div>
+          </Col>
+           
+            :
            
           <Col>
           <div>

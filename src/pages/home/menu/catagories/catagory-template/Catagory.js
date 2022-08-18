@@ -13,9 +13,43 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
 import { BiDotsHorizontalRounded , BiDotsVerticalRounded } from "react-icons/bi";
+
+
+function NoCategory() {
+  return (
+    <div style={{
+      display:'flex',
+      flexDirection:'column',
+      alignItems:'center',
+      justifyContent:'center',
+     
+      marginTop:'13%'
+
+     
+      
+
+     }}>
+<AiOutlineExclamationCircle size={'7%'} color="#C7C7CC" style={{
+marginBottom:'1%'
+}}/>
+<h6 style={{
+color:'#8E8E93',
+fontWeight:'300',
+fontSize:'20px',
+marginBottom:'1%'
+
+}}>No Category are found</h6>
+
+
+
+     </div>
+  )
+}
+
+
 
 const StyledAccordion = styled.section`
 
@@ -44,7 +78,8 @@ export default function Catagory(props) {
   
   return (
     <StyledAccordion >
-        {categories.map((item,index)=>
+       
+        { categories.length === 0 ?<div><NoCategory/></div>:  categories.map((item,index)=>
           <Accordion style={{
             boxShadow:'none',
             border:'1px solid gray',
