@@ -3,6 +3,9 @@ export const API_ADMIN_REGISTER_URL = "/Auth/reg/restaurantadmin";
 export const API_ADMIN_LOGIN = "/Auth/login";
 export const API_ADMIN_CHECKSTATUS = "/Auth/checkstatus";
 export const API_ADMIN_RESTAURANTINFORMATION ="/Auth/reg/restaurantinfo";
+
+// status checking related
+export const API_ADMIN_STATUS ="/Auth/ad";
 export const API_RESTAURANT_INFO_STATUS ="/Auth/checkstatus";
 
 //  menu related link
@@ -52,5 +55,11 @@ export const API_ADMIN_GET_ALL_CUSTOMER="/Customer/getcustomerdata";
 export const API_ADMIN_UPDATE_CUSTOMER="/customer/update/status/";
 export const API_ADMIN_UPDATE_CUSTOMER_STATUS ="/customer/update/status/";
 
+// employee related links
 
 
+export const API_ADMIN_GET_EMPLOYEE="/employee/getall";
+export const API_ADMIN_ADD_EMPLOYEE="/employee/add";
+export const API_ADMIN_DELETE_EMPLOYEE="/employee/delete/"
+export const API_ADMIN_UPDATE_EMPLOYEE="/employee/update/status/";
+export const API_ADMIN_EDIT_EMPLOYEE="/employee/update/";

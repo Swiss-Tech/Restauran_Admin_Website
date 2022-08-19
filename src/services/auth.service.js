@@ -6,6 +6,8 @@ import {
   API_BASE_URL,
   API_ADMIN_LOGIN,
   API_ADMIN_REGISTER_URL,
+  API_RESTAURANT_INFO_STATUS,
+  API_ADMIN_STATUS,
 } from "./api-config";
 
 // check admin status
@@ -13,7 +15,7 @@ import {
 export async function checkAdminStatus(){
 
   axios({
-    url:'http://165.232.80.134/test/admin/Auth/ad',
+    url:API_BASE_URL+API_ADMIN_STATUS,
     method:'GET',
   
   }).then((response)=>{
@@ -25,7 +27,7 @@ export async function checkRestaurantStatus(){
 
 
   axios({
-    url:'http://165.232.80.134/test/admin/Auth/checkstatus',
+    url:API_BASE_URL+API_RESTAURANT_INFO_STATUS,
     method:'GET',
   
   }).then((response)=>{

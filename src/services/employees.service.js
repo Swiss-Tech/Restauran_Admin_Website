@@ -1,3 +1,4 @@
+import { API_ADMIN_UPDATE_EMPLOYEE,  API_ADMIN_ADD_EMPLOYEE, API_ADMIN_DELETE_EMPLOYEE, API_ADMIN_EDIT_EMPLOYEE, API_ADMIN_GET_EMPLOYEE, API_BASE_URL } from "./api-config";
 import authHeader from "./auth-header";
 
 export async function getAllEmployees (){
@@ -11,7 +12,7 @@ export async function getAllEmployees (){
         redirect: 'follow'
       };
       
-    return fetch("http://165.232.80.134/test/admin/employee/getall", requestOptions)
+    return fetch(API_BASE_URL+API_ADMIN_GET_EMPLOYEE, requestOptions)
         .then(response => response.json())
         .then(result => 
             {
@@ -48,7 +49,7 @@ var requestOptions = {
 
   
 
-return  fetch("http://165.232.80.134/test/admin/employee/add", requestOptions)
+return  fetch(API_BASE_URL+API_ADMIN_ADD_EMPLOYEE, requestOptions)
   .then((response) => response.json())
   .then((result) => {
   
@@ -75,7 +76,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-return fetch(`http://165.232.80.134/test/admin/employee/update/status/${employeeId}`, requestOptions)
+return fetch(API_BASE_URL+API_ADMIN_UPDATE_EMPLOYEE+employeeId, requestOptions)
   .then(response => response.json())
   .then(result => result)
   .catch(error => console.log('error', error));
@@ -98,7 +99,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-return fetch(`http://165.232.80.134/test/admin/employee/update/status/${employeeId}`, requestOptions)
+return fetch(API_BASE_URL+API_ADMIN_UPDATE_EMPLOYEE+employeeId, requestOptions)
   .then(response => response.json())
   .then(result => result)
   .catch(error => console.log('error', error));
@@ -128,10 +129,10 @@ export async function editEmployee(id, firstName , lastName , phoneNumber, email
       redirect: 'follow'
     };
     
-    fetch(`http://165.232.80.134/test/admin/employee/update/${id}`, requestOptions)
+    return fetch ( API_BASE_URL+API_ADMIN_EDIT_EMPLOYEE+ id, requestOptions)
       .then(response => response.json())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+      .then(result => result)
+      .catch(error => error);
     
 }
 
@@ -146,10 +147,10 @@ export async function deleteEmployee(employeeId){
         redirect: 'follow'
       };
       
-   return   fetch(`http://165.232.80.134/test/admin/Employee/delete/${employeeId}`, requestOptions)
+   return   fetch( API_BASE_URL+API_ADMIN_DELETE_EMPLOYEE+ employeeId, requestOptions)
         .then(response => response.json())
         .then(result => {
-            console.log(result)
+
             return result
         })
         .catch(error => console.log('error', error));
