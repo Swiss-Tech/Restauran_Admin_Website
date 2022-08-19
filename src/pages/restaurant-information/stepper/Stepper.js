@@ -413,7 +413,7 @@ display:'none'
 
                       <div>
                       
-                        <input type="time"  defaultValue="10:00" onChange={setOpetAtTime}/>
+                        <input type="time"  defaultValue="10:00" onChange={(e)=>setOpetAtTime(e.target.value)}/>
                       </div>
 
                      
@@ -434,7 +434,7 @@ display:'none'
                     <div className="col-lg-6 mt-lg-0 mt-4">
                       <h6 className="mb-3">Closes At</h6>
                       <div>
-                        <input type="time" defaultValue="10:00" onChange={setColseAtTime} />
+                        <input type="time" defaultValue="10:00" onChange={(e)=>setColseAtTime(e.target.value)} />
                       </div>
                      
                       
@@ -526,8 +526,9 @@ display:'none'
             </button>
 
             <button  className="stepperContinueButton" onClick={()=>{
-               // validation
+             
                if(stepThreeValidation()){
+              
                 handleNext();
                }
               

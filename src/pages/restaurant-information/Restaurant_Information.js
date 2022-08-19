@@ -2,15 +2,17 @@ import React, { useState , useEffect} from "react";
 import StepperPage from "./stepper/Stepper";
 import Loader from "../reusable-components/Loader";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate ,Link } from "react-router";
 import { accountActionCreators } from "../../actions";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
+import apiCall from "../../ApiCall";
+
 
 
 
 export default function  RestaurantInformation () {
-  const navigate = useNavigate();
+
   const dispatch = useDispatch()
   const [isLoading , setLoading] = useState(false);
    const accountController = useSelector((state)=>state.account);
@@ -55,6 +57,9 @@ export default function  RestaurantInformation () {
 
                   </div>
                   <div className="modal-footer flex-column border-top-0">
+
+
+
                     <button
                       type="button"
                       className="btn btn-lg btn-light w-100 mx-0 "
@@ -62,7 +67,9 @@ export default function  RestaurantInformation () {
                       onClick={() => {
                       
                         setModal(false);
-                           navigate('/');
+                        <Navigate to="/" />
+                        window.location.reload(false);
+                        apiCall(dispatch);
                     
                                                
                            
@@ -72,7 +79,10 @@ export default function  RestaurantInformation () {
                       }}
                     >
                   Close
+                  
                     </button>
+
+                  
                   </div>
                 </div>
               </div>

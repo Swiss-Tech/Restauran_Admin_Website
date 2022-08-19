@@ -25,7 +25,7 @@ const categoryController = useSelector((state)=>state.category);
         menuActionCreators, dispatch
     );
     const CategoryActionCreators = bindActionCreators(categoryActionCreators, dispatch);
-
+    
     
    
     const [dateState, setDateState] = useState(new Date());
@@ -34,10 +34,14 @@ const categoryController = useSelector((state)=>state.category);
       }, []);
 
       useEffect(()=>{
-        apiCall(dispatch)
-      },[])
-
+         if(menuController.menus.success){
+         
+         }{
+          apiCall(dispatch)
+         }
     
+      },)
+
   return (
     <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
     <div className="row">

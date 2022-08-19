@@ -96,14 +96,17 @@ export async function deleteCostSharing(id){
         })
         .catch(error => console.log('error', error));
 }
-export async function addWorkingDays(day){
+export async function addWorkingDays(days){
+
+
+  console.log(days);
     var token = authHeader();
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
 
-var raw = JSON.stringify([day
-  ]);
+var raw = JSON.stringify(days
+  );
   
   var requestOptions = {
     method: 'POST',

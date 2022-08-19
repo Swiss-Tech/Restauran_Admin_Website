@@ -1,19 +1,40 @@
-import { getAdminInfo,get_restaurant_information, restaurant_information_function, editAdmin, deleteCostSharing, addSharedCost, deleteDays } from "../services/account.service";
-import { RESTAURANT_INFORMATION_FILLED_SUCCESS , RESTAURANT_INFORMATION_FILLED_FAILED, CLEAR_RESTAURANT_MESSAGE, RESTAURANT_INFO_FETCHED_SUCCESS, RESTAURANT_INFO_FETCHED_FAILED, RESTAURANT_INFORMATION_ADMIN_UPDATE_SUCCESS, RESTAURANT_INFORMATION_ADMIN_UPDATE_FAILED, RESTAURANT_INFORMATION_SHAREDCOST_ADD_SUCCESS, RESTAURANT_INFORMATION_SHAREDCOST_ADD_FAILED, ADMIN_INFO_FETCHED_SUCCESS, ADMIN_INFO_FETCHED_FAILED} from "./types";
+import { type } from "@testing-library/user-event/dist/type";
+import { addWorkingDays, getAdminInfo,get_restaurant_information, restaurant_information_function, editAdmin, deleteCostSharing, addSharedCost, deleteDays } from "../services/account.service";
+import { RESTAURANT_INFORMATION_DELETE_COSTSHARING_FAILED,RESTAURANT_INFORMATION_DELETE_COSTSHARING_SUCCESS, RESTAURANT_INFORMATION_ADD_COSTSHARING_FAILED,RESTAURANT_INFORMATION_ADD_COSTSHARING_SUCCESS, RESTAURANT_INFORMATION_FILLED_SUCCESS , RESTAURANT_INFORMATION_FILLED_FAILED, CLEAR_RESTAURANT_MESSAGE, RESTAURANT_INFO_FETCHED_SUCCESS, RESTAURANT_INFO_FETCHED_FAILED, RESTAURANT_INFORMATION_ADMIN_UPDATE_SUCCESS, RESTAURANT_INFORMATION_ADMIN_UPDATE_FAILED, RESTAURANT_INFORMATION_SHAREDCOST_ADD_SUCCESS, RESTAURANT_INFORMATION_SHAREDCOST_ADD_FAILED, ADMIN_INFO_FETCHED_SUCCESS, ADMIN_INFO_FETCHED_FAILED, RESTAURANT_INFORMATION_DELETE_DAYS_SUCCESS, RESTAURANT_INFORMATION_DELETE_DAYS_FAILED} from "./types";
 
 
 export const deleteDaysAction =(id)=>(dispatch)=>{
   return deleteDays(id).then((data)=>{
     if(data.success){
 
-    console.log(data.message)
+       dispatch({
+        type:RESTAURANT_INFORMATION_DELETE_DAYS_SUCCESS,
+        payload:data.message
+       })
          
     }
     else{
-      
+      dispatch(
+  {      type:RESTAURANT_INFORMATION_DELETE_DAYS_FAILED,
+         payload:data.message
+  }
+
+      )
 
     }
-  }).catch((e)=>{
+  }).catch((error)=>{
+    const message =
+    (error.response &&
+      error.response.data &&
+      error.response.data.message) ||
+    error.message ||
+    error.toString();
+    dispatch(
+      {      type:RESTAURANT_INFORMATION_DELETE_DAYS_FAILED,
+             payload:message
+      }
+    
+          )
 
   })
 }
@@ -35,8 +56,18 @@ export const getAdminInformationAction = ()=>(dispatch)=>{
             })
           }
         }
-      ).catch((e)=>{
-        console.log(e)
+      ).catch((error)=>{
+        const message =
+    (error.response &&
+      error.response.data &&
+      error.response.data.message) ||
+    error.message ||
+    error.toString();
+
+    dispatch({
+      type:ADMIN_INFO_FETCHED_FAILED,
+      payload:message
+    })
       })
 }
 
@@ -57,9 +88,39 @@ export const getRestaurantInformationAction=()=>(dispatch)=>{
         });
       }
     }
-  )
+  ).catch((error)=>{
+    const message =
+    (error.response &&
+      error.response.data &&
+      error.response.data.message) ||
+    error.message ||
+    error.toString();
+  })
 }
 
+export const addWorkingDaysAction = (days) =>(dispatch)=>{
+return addWorkingDays(days).then((data)=>{
+  if (data.success) {
+    dispatch({
+      type: RESTAURANT_INFORMATION_ADD_COSTSHARING_SUCCESS,
+      payload: data.data,
+    });
+  } else {
+   
+    dispatch({
+      type: RESTAURANT_INFORMATION_ADD_COSTSHARING_FAILED,
+      payload: data.message,
+    });
+  }
+}).catch((error)=>{
+  const message =
+  (error.response &&
+    error.response.data &&
+    error.response.data.message) ||
+  error.message ||
+  error.toString();
+})
+}
 export const addCostSharing =(sharedCost)=>async (dispatch)=>{
   const data = await addSharedCost(sharedCost);
   if (data.success) {
@@ -113,9 +174,31 @@ export const restaurantInformation = (restaurantName, restaurantLocation, restau
 export const deteleCostSharing=(id)=>(dispatch)=>{
   return deleteCostSharing(id).then(
     (data)=>{
-      console.log(data);
+      if(data.success){
+        dispatch({
+          type: RESTAURANT_INFORMATION_DELETE_COSTSHARING_SUCCESS,
+          payload: data.message
+        });  
+      }
+      else{
+        dispatch({
+          type: RESTAURANT_INFORMATION_DELETE_COSTSHARING_FAILED,
+          payload: data.message
+        });
+      }
     }
-  )
+  ).catch((error)=>{
+    const message =
+    (error.response &&
+      error.response.data &&
+      error.response.data.message) ||
+    error.message ||
+    error.toString();
+    dispatch({
+      type: RESTAURANT_INFORMATION_DELETE_COSTSHARING_FAILED,
+      payload: message
+    });
+  })
 }
 
 export const updateAdminInfoAction =(admin)=>(dispatch)=>{
@@ -137,7 +220,16 @@ export const updateAdminInfoAction =(admin)=>(dispatch)=>{
      
     },
     (error)=>{
-        
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      dispatch({
+        type:RESTAURANT_INFORMATION_ADMIN_UPDATE_FAILED,
+        payload:message
+       })
     }
    )
 }

@@ -22,6 +22,35 @@ import { addWorkingDays } from '../../services/account.service';
 
 const StyledAccount = styled.section`
 
+input[type="checkbox"]:not(:checked), 
+input[type="checkbox"]:checked {
+  position: absolute;
+  left: -9999%;
+}
+input[type="checkbox"] + label {
+    width: 50px;
+    align-items:center ;
+    justify-content:center ;
+    text-align:center;
+    border-radius:10px ;
+    background-color: #f8f8f8;
+    color:black;
+    font-weight:700 ;
+    border:none;
+  /* display: inline-block; */
+  padding: 10px;
+  cursor: pointer;
+ color: black;
+  margin-bottom: 10px;
+ 
+}
+
+input[type="checkbox"]:checked + label {
+ 
+ color: white;
+ background-color:${({theme})=>theme.colors.primary};
+}
+
 width:100%;
 
 .role-type {
@@ -82,8 +111,11 @@ export default function Account() {
             setDataSource(accountController.restaurantInformation);
         }{
           AccountActionController.getRestaurantInformationAction();
+          AccountActionController.getRestaurantInformationAction()
         }
       },[]);
+
+      const [isLoading , setLoading] = useState(false);
 
 
   const firstName = adminController['firstName']
@@ -95,11 +127,53 @@ export default function Account() {
 //   apiCall(dispatch);
 //  },)
 
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+const [workingDays, setWorkingDays] = useState({
+  days :[]
+});
+
+
+
+
+
+const handleWorkingDaysChange = (e) => {
+  // Destructuring
+
+  const { value, checked } = e.target;
+  const { days } = workingDays;
+  // Case 1 : The user checks the box
+  if (checked) {
+    setWorkingDays({
+      days: [...days, e.target.id],
+    
+    });
+
+  
+  }
+  // Case 2  : The user unchecks the box
+  else {
+    setWorkingDays({
+      days: days.filter((e) => e !== value),
+    });
+  }
+ 
+};
+
+
+
 
   return (
-  
- <StyledAccount>
- { dataSource ? adminController ?
+   
+ <StyledAccount >
+ { isLoading ? <Loader/> : dataSource ? dataSource.length === 0 ? <Loader/> : adminController ?
 <div class="container-fluid ">
 <div class="row justify-content-center align-items-center pt-5">
         <div class="col-lg-5">
@@ -204,7 +278,7 @@ export default function Account() {
 <img class="rounded-circle mb-lg-0 mb-4 bg-primary shadow-lg logo" style={{
     border:'7px solid orange'
 }}
-    width="150px" height="150px"           src="https://thumbs.dreamstime.com/z/injera-firfir-typical-ethiopian-food-flatbread-fasting-traditional-lunch-teff-beats-potato-dahl-lentils-cuisine-african-plate-farm-160097632.jpg"  />
+    width="150px" height="150px"       src={API_BASE_URL+"/Auth/Photos/"+ dataSource['restaurantLogoPhotoURL']}     />
 
 <div  class="d-flex flex-column " style={{
     marginLeft:'30px',
@@ -265,24 +339,99 @@ export default function Account() {
                             
                             
 
-                            dataSource['workingDays'].map((day)=><span>
+                            dataSource['workingDays'].map((day)=><div style={{
+                              display:'flex',
+                              justifyContent:'space-between',
+                              padding:'10px'
+                            }}>
                             {day.day}
-                                 &nbsp; <button onClick={()=>{
-                                 AccountActionController.deleteDaysAction(day.id)
+                                 &nbsp; <button onClick={ async  ()=>{
+                                  setLoading(true);
+                                await AccountActionController.deleteDaysAction(day.id)
+                                await AccountActionController.getRestaurantInformationAction();
+                                await  AccountActionController.getRestaurantInformationAction()
+                               await  apiCall(dispatch);
+                                window.location.reload(false)
+                                  setLoading(false)
+                              
                                  }} className='blackButton'>Delete </button> 
 
-                            </span>  ) :""
+                            </div>  ) :""
                             
                             }
 
                         </span>
                         
                         <span
-                            class=" bg-warning text-white px-3 py-1 rounded mx-3"> {dataSource['workingHour'] ?dataSource['workingHour']:""}</span>
+                            class=" bg-warning text-white px-3 py-1 rounded mx-3" style={{
+                              height:'40px'
+                            }}> {dataSource['workingHour'] ?dataSource['workingHour']:""}</span>
 
                      
                     </div>
+
+                    
                 </div>
+
+
+                <div className="col-lg-6 ">
+          
+          <h6>Dates</h6>
+     
+          <form> 
+            <div className="row" style={{ display: "flex" , 
+            
+            marginBottom:'5px'}}>
+              <ul style={{
+                padding:'0',
+                margin:'0',
+                clear:'both'
+              }} >
+                {days.map((element) => (
+                  
+                  <li key={element} style={{
+                    listStyleType:'none',
+                    padding:'10px',
+                    float:'left'
+                  }}>
+
+                 
+                    <input
+                      type="checkbox"
+                      id={element}
+                      name="workingDay"
+                     
+                      onChange={handleWorkingDaysChange}
+                    
+              
+                    />
+                    <label htmlFor={element} onClick={()=>{
+
+                    
+                
+                    }}>{element[0]}</label>
+                  </li>
+                ))}
+              </ul>
+              <div className='blackButton' style={{
+                width:'40%'
+              }} onClick={async()=>{
+                           setLoading(true);
+               await AccountActionController.addWorkingDaysAction(workingDays.days)
+                await AccountActionController.getRestaurantInformationAction();
+                await  AccountActionController.getRestaurantInformationAction()
+                setLoading(false)
+                                window.location.reload(false)
+                             
+               
+              }}>Add Days</div>
+            </div>
+
+       
+        
+         
+        </form>
+      </div>
 </div>
 
 
@@ -420,8 +569,13 @@ export default function Account() {
                     <button onClick={async ()=>{
 
                           if(itemName && itemValue ){
-                  AccountActionController.addCostSharing({isPercent:false ,itemName:itemName , value:itemValue});
-                  
+                            setLoading(true)
+                 await AccountActionController.addCostSharing({isPercent:false ,itemName:itemName , value:itemValue});
+                 await AccountActionController.getRestaurantInformationAction()
+                 await AccountActionController.getRestaurantInformationAction()
+                  setLoading(false)
+                       
+            
                  
             
                  }
@@ -454,7 +608,13 @@ export default function Account() {
                                
                                 <td>{item['value']}</td>
                               
-                                <td className='btn'>
+                                <td className='btn' onClick={ async ()=>{
+                                    setLoading(true)
+                               await AccountActionController.deteleCostSharing(item.id);
+                             
+                           window.location.reload(false);
+                           setLoading(false)
+                                }}>
                                     <span  class="material-icons-round ">
                                     <MdDelete size={25}/>
                                     </span>
@@ -476,8 +636,10 @@ export default function Account() {
                     <div className=' ' style={{
                     marginLeft:'30px'
                 }}>
-                  <button onClick={()=>{
+                  <button onClick={   ()=>{
+                         
                         setEditSharedCostByPercent(!editSharedCostByPercent);
+                         
                      }} class="btn border text-black  btn-sm py-1 px-4 rounded"><span
                             class="material-icons-round mr-2 small ">
                         
@@ -547,10 +709,13 @@ export default function Account() {
 
                     
                     </div>
-                    <button onClick={()=>{
+                    <button onClick={async()=>{
                           if(itemName && itemValue ){
-                            AccountActionController.addCostSharing({isPercent:true ,itemName:itemName , value:itemValue});
-                 
+                                  setLoading(true)
+                           await AccountActionController.addCostSharing({isPercent:true ,itemName:itemName , value:itemValue});
+                           
+                           setLoading(false)
+                           window.location.reload(false);
             
                  }
                  setItemName();
@@ -580,9 +745,12 @@ export default function Account() {
                                
                                 <td>{item['value']}</td>
                               
-                                <td className='btn' onClick={()=>{
-                                AccountActionController.deteleCostSharing(item.id);
-                                
+                                <td className='btn' onClick={ async ()=>{
+                                    setLoading(true)
+                               await AccountActionController.deteleCostSharing(item.id);
+                             
+                           window.location.reload(false);
+                           setLoading(false)
                                 }}>
                                     <span  class="material-icons-round ">
                                     <MdDelete size={25}/>
@@ -600,8 +768,10 @@ export default function Account() {
 
 
     </div>
-</div>  :<Loader/> :<Loader/>}
+</div>  :<Loader/> :<Loader/>
+
+}
 </StyledAccount> 
-   
+ 
   )
 }

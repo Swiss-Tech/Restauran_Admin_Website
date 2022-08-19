@@ -31,7 +31,7 @@ export default function AddNewMenu() {
     const [img , setImage] = useState();
     const MenuActionController = bindActionCreators(menuActionCreators, dispatch);
     const categoryController = useSelector((state)=>state.category);
-    const menuController = useSelector((state)=>state.menu.responseMessage);
+    const menuController = useSelector((state)=>state.menu);
     const menuMessageController = useSelector((state)=>state.menu.responseMessage);
     const menuStatusController = useSelector((state)=>state.menu.sucess);
   
@@ -191,9 +191,14 @@ export default function AddNewMenu() {
     
     })
     const [isLoading , setLoading]= useState (false);
+    console.log(menuController);
   return (
+     <div>{
            isLoading ? <Loader/>:
+
          <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
+
+         
 
 <div className="row">
         <div className="col-lg-8">
@@ -620,6 +625,9 @@ export default function AddNewMenu() {
         </div>
     </div>
     </div>
+     
+     }
+     </div>
   
   )
 }

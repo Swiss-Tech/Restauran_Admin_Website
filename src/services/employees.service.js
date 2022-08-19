@@ -15,7 +15,7 @@ export async function getAllEmployees (){
         .then(response => response.json())
         .then(result => 
             {
-          
+              
                 return result
             })
         .catch(error => console.log('error', error));

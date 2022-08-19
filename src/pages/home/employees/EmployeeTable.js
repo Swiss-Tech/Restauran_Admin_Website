@@ -63,8 +63,9 @@ export default function EmployeeTable(props) {
    
   
    
+     console.log(employeeController);
    
-     
+    
     return (
       <StyledOrder >
       <div

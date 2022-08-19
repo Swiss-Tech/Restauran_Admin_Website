@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { StyledSignup } from "./styled/SignupStyled";
 import { useSelector, useDispatch } from "react-redux";
-import { authactionCreators } from "../../actions";
+import { authactionCreators, messageActionCreators } from "../../actions";
 import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router";
 import Modal from "react-modal";
@@ -16,7 +16,7 @@ export default function Signup() {
   const dispatch = useDispatch();
   const ActionController = bindActionCreators(authactionCreators, dispatch);
   
-  
+   const MessageActionController  = bindActionCreators(messageActionCreators, dispatch);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -75,6 +75,8 @@ export default function Signup() {
                         setModal(false);
                         navigate('/');
                         window.location.reload(false)
+                        MessageActionController.clearMessage();
+                        
                       }}
                     >
                       Close

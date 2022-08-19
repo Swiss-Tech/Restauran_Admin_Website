@@ -22,6 +22,7 @@ import apiCall from "../../../ApiCall";
 import { MdLogout } from "react-icons/md";
 import { RiLogoutCircleFill ,RiLogoutCircleRLine} from "react-icons/ri";
 import {logout_function} from "../../../services/auth.service";
+import TransitionAlerts from "../../reusable-components/Alert";
 const StyledDashboard = styled.section`
 .graphTitle{
     display:flex;
@@ -44,19 +45,19 @@ export default function Dashboard() {
     const navigate = useNavigate();
     const dispatch= useDispatch();
     const DashboardActionController = bindActionCreators(dashboardActionCreators, dispatch);
-
+    const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
     const [dataSource, setDataSource] = useState();
-    const orderData =[
-        {name:"Pizza",
-orderAmount:"12",
-imageUrl:""
-        },
-        {
-            name:"Spicy Seasoned sea foods",
-            orderAmount:"23",
-            imageUrl:""
-                    },
-    ];
+//     const orderData =[
+//         {name:"Pizza",
+// orderAmount:"12",
+// imageUrl:""
+//         },
+//         {
+//             name:"Spicy Seasoned sea foods",
+//             orderAmount:"23",
+//             imageUrl:""
+//                     },
+//     ];
 
     const [dateState, setDateState] = useState(new Date());
     useEffect(() => {
@@ -77,10 +78,12 @@ imageUrl:""
       DashboardActionController.getDashboardData();
     }
   },[]);
-
  
+
+  
   return (  
   dataSource ?  <StyledDashboard>
+  <TransitionAlerts open={dashController.responseMessage!== null} message ={dashController.responseMessage}   />
   <div  className="container-fluid px-lg-5 px-2 pt-5 position-relative" style={{
       backgroundColor:'#FAFAFA'
   }}>
@@ -98,6 +101,9 @@ imageUrl:""
             
             window.location.reload(false);
             navigate('/')
+            DashboardActionController.getDashboardData();
+            AccountActionController.clearRestaurantMessageAction();
+            
            }}><RiLogoutCircleRLine  size={"30"}/></div>
            </div>
         

@@ -256,13 +256,46 @@ function serachFilter()
 
    
     
-    <Row   lg={data ? 4 :1} style={{
+    <Row   lg={data ? data.length === 0 ?1 : 4 :1} style={{
        
 
            
            }}>
-         { data ? data.length > 0 ?
-           data.map((item,index)=>
+          
+         { data  ? data.length === 0 ? <Col>
+          <div>
+           <div style={{
+            display:'flex',
+            flexDirection:'column',
+            alignItems:'center',
+            justifyContent:'center',
+           
+            marginTop:'13%'
+
+           
+            
+
+           }}>
+ <AiOutlineExclamationCircle size={'7%'} color="#C7C7CC" style={{
+   marginBottom:'1%'
+ }}/>
+ <h6 style={{
+  color:'#8E8E93',
+  fontWeight:'300',
+  fontSize:'20px',
+  marginBottom:'1%'
+
+ }}>No Items are found</h6>
+
+<button className='customButton'  onClick={()=>{
+ navigate('/menu/addMenu')
+}}>Add New Item</button>
+ 
+           </div>
+           </div>
+          </Col>:
+            
+             data.map((item,index)=>
     
            <Col key={index.toString()} >
           
@@ -364,40 +397,9 @@ function serachFilter()
            
            </Col>
            )
-           :<Col>
-          <div>
-           <div style={{
-            display:'flex',
-            flexDirection:'column',
-            alignItems:'center',
-            justifyContent:'center',
+        
            
-            marginTop:'13%'
-
-           
-            
-
-           }}>
- <AiOutlineExclamationCircle size={'7%'} color="#C7C7CC" style={{
-   marginBottom:'1%'
- }}/>
- <h6 style={{
-  color:'#8E8E93',
-  fontWeight:'300',
-  fontSize:'20px',
-  marginBottom:'1%'
-
- }}>No Items are found</h6>
-
-<button className='customButton'  onClick={()=>{
- navigate('/menu/addMenu')
-}}>Add New Item</button>
- 
-           </div>
-           </div>
-          </Col>
-           
-            :
+            : 
            
           <Col>
           <div>
