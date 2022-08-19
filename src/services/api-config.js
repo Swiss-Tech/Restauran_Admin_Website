@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://165.232.80.134/test/admin";
+export const API_BASE_URL = "https://www.appswissadmin.ch/test/admin";
 export const API_ADMIN_REGISTER_URL = "/Auth/reg/restaurantadmin";
 export const API_ADMIN_LOGIN = "/Auth/login";
 export const API_ADMIN_CHECKSTATUS = "/Auth/checkstatus";
