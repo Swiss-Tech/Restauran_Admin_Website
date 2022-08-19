@@ -183,7 +183,10 @@ const handleWorkingDaysChange = (e) => {
                         class="mr-4 rounded   p-0">
                         <BsArrowLeft style={{
                     marginRight:'15px'
-                }}/>
+
+                }} onClick={()=>{
+                  navigate(-1)
+                }} />
                     </span>Account</h2>
                 <div className=' ' style={{
                     marginLeft:'30px'
@@ -362,21 +365,24 @@ const handleWorkingDaysChange = (e) => {
 
                         </span>
                         
-                        <span
-                            class=" bg-warning text-white px-3 py-1 rounded mx-3" style={{
-                              height:'40px'
-                            }}> {dataSource['workingHour'] ?dataSource['workingHour']:""}</span>
+                       
+                      
 
                      
                     </div>
+
+                    <div  class="d-flex flex-wrap mt-3 mr-lg-5 "> <h6 className=' text-muted'>Working Hour</h6><span
+                            class=" bg-warning text-white px-3 py-1 rounded mx-3" style={{
+                              height:'40px'
+                            }}>  {dataSource['workingHour'] ?dataSource['workingHour']:""}</span> </div>
 
                     
                 </div>
 
 
-                <div className="col-lg-6 ">
+                <div className="col-lg-6  mb-5">
           
-          <h6>Dates</h6>
+          <h6>Add Dates</h6>
      
           <form> 
             <div className="row" style={{ display: "flex" , 
