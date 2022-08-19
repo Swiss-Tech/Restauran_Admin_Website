@@ -40,7 +40,8 @@ export function ImagePicker(props) {
     <div className="imagePicker" style={(preview) ?{
       
      
-      backgroundColor:'transparent'
+      backgroundColor:'transparent',
+      
      
       
     

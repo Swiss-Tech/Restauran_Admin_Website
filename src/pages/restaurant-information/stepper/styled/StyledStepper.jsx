@@ -24,7 +24,7 @@ height:100%;
     height:40px;
 }
 .imagePicker{
-    width:400px;
+    width:95%;
     height:200px;    
     position: relative;
     background-color:#FFF0D4;
@@ -185,6 +185,8 @@ input[type="checkbox"]:checked + label {
         }
 }
 
+
+}
 
 @media (max-width: 450px) {
      
