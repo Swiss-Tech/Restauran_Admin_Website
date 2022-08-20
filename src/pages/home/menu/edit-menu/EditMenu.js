@@ -89,7 +89,7 @@ useEffect(() => {
   }, []);
 
 
-   console.log(menuMessageController);
+   
 useEffect(  ()=>{
     
     if(itemDetail){

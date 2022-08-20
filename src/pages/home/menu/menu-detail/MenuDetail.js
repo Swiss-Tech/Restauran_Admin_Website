@@ -24,7 +24,7 @@ export default function MenuDetail() {
             menuController.map((item)=>{
              
                if(item.id === menuId){
-                   console.log(item)
+                  
                  setItemDetail(item);
    
                }{

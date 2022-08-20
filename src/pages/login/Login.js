@@ -14,7 +14,7 @@ export default function Login() {
   const controller = useSelector((state) => state);
   const dispatch = useDispatch();
   const ActionController = bindActionCreators(authactionCreators, dispatch);
-  console.log(controller.auth);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -161,12 +161,12 @@ await ActionController.login({
   password: password,
 })
   .then(() => {
-    console.log("login sucess");
-    console.log(controller.message.message);
-    //  window.location.reload();
+  
+     window.location.reload();
   })
   .catch((error) => {
-    console.log(error);
+   
+
   });
 setModal(true);
 toggleModal(false);
@@ -176,12 +176,10 @@ toggleModal(false);
               type="button"
               className="customButton shadow-lg px-5  rounded-lg mb-4"
             >
-              login
+              Login
             </button>
 
-            <a href="#" type="button" className="forgot_pass">
-              Forget password
-            </a>
+           
           </div>
         </div>
       </div>

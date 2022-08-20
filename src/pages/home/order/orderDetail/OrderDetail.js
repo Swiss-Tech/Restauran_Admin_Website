@@ -36,7 +36,7 @@ export default function OrderDetail() {
       
      
         if(order['id'] === orderId){
-           console.log(order)
+        
             setOrderDetail(order);
             setDataSource(order['menus'])
         }

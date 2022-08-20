@@ -48,7 +48,7 @@ export default function AdminEdit() {
       return (password === confirmPass);
      }
 
-     console.log(adminController)
+  
     return (
       <StyledEditAdmin>
   

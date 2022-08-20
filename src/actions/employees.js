@@ -10,7 +10,7 @@ export const getAllEmployeesAction =()=>(dispatch)=>{
     return getAllEmployees().then(
         (data)=>{
          if(data.success){
-            console.log(data.data)
+          
             data.data.map((employee)=>{
                
                 dispatch({
@@ -33,7 +33,7 @@ export const addEmployeeAction =(employee)=>(dispatch)=>{
                 payload:data.message
                })
             }else{
-                console.log(data)
+             
                 dispatch({
                     type:EMPLOYEE_ADD_FAILD,
                     payload:data.message
@@ -42,7 +42,7 @@ export const addEmployeeAction =(employee)=>(dispatch)=>{
           
          },
          (error)=>{
-            console.log(error)
+           
          }
      );}
 
@@ -50,10 +50,10 @@ export const addEmployeeAction =(employee)=>(dispatch)=>{
 export const editEmployeeAction=(id,firstName, lastName, phoneNumber, email, password)=>(dispatch)=>{
     return editEmployee(id,firstName, lastName, phoneNumber, email, password).then(
          (data)=>{
-            console.log(data)
+       
          },
          (error)=>{
-            console.log(error)
+
          }
     ) 
 }
@@ -81,20 +81,20 @@ export const deleteEmployeeAction =(employeeId)=>(dispatch)=>{
 export const blockEmployeeAction = (employeeId)=>(dispatch)=>{
     return blockEmployee(employeeId).then(
         (data)=>{
-            console.log(data);
+         
         },
         (error)=>{
-            console.log(error);
+    
         }
     )
 }
 export const unBlockEmployeeAction = (employeeId)=>(dispatch)=>{
     return unBlockEmployee(employeeId).then(
         (data)=>{
-            console.log(data);
+          
         },
         (error)=>{
-            console.log(error);
+       
         }
     )
 }

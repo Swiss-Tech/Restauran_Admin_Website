@@ -58,7 +58,7 @@ export default function Order() {
     async function  calculateFinal (){
       if(dataSource.length !==0) {
        dataSource.map((order)=>{
-        console.log(order)
+  
          if(  order['status'] === 0){
          setPending(pending+1);
          

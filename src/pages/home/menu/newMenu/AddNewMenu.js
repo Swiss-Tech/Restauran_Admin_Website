@@ -191,7 +191,7 @@ export default function AddNewMenu() {
     
     })
     const [isLoading , setLoading]= useState (false);
-    console.log(menuController);
+
   return (
      <div>{
            isLoading ? <Loader/>:

@@ -17,7 +17,6 @@ export default function  EditRestaurantInformation () {
    const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
 
 
-   console.log(accountController.responseMessage);
    const [showModal, setModal] = useState(false);
   
 
@@ -30,7 +29,7 @@ export default function  EditRestaurantInformation () {
     }
   })
 
- console.log(AccountActionController)
+ 
     return (
       isLoading ? <Loader/> :  showModal ? 
        <div

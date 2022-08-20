@@ -70,7 +70,7 @@ export default function Tabs() {
             
             if(item.category.some(category => category.id === activeKey))
             
-    {   console.log(item);
+    {   
         
        if(!filtered.some(isExist=>isExist.id === item.id)){
         filtered.push(item);

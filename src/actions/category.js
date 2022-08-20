@@ -29,7 +29,7 @@ export const addCategoryAction=(category)=>(dispatch)=>{
 
     return addCategory(category).then(
         (data)=>{
-            console.log(data);
+           
              if (data.success) {
                 dispatch({
                     type:CATEGORY_ADD_SUCCESS,

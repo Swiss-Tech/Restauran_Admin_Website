@@ -46,14 +46,13 @@ export const getAllOrdersAction =()=>(dispatch)=>{
         error.message ||
         error.toString();
 
-        console.log(error);
+        
         }
      );
 }
 
 export const updateOrderStatusAction =(orderId , status)=>(dispatch)=>{
-    console.log(orderId)
-    console.log(status)
+
     return updateStatus(orderId, status).then(
         
         (data)=>{

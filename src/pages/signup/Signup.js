@@ -34,7 +34,7 @@ export default function Signup() {
   }
 
 
-  console.log(messagecontroller.message);
+
 
    function handlePasswordConfirmation ( ){
     return (password === confirmPass);
@@ -293,6 +293,9 @@ display:'none'
               }}
               type="button"
               className="customButton btn font-weight-normal"
+              style={{
+                width:'15%'
+              }}
             >
               Signup
             </button>

@@ -20,7 +20,9 @@ export async function getAdminInfo(){
      
       return result
     })
-    .catch(error => console.log('error', error));
+    .catch(error => {
+
+    });
 }
 
 export async function editAdmin(admin){
@@ -51,7 +53,7 @@ var raw = JSON.stringify({
         console.log(result)
         return result;
     })
-    .catch(error => console.log('error', error));
+    .catch(error => {console.log('error', error)});
 }
 
 
@@ -72,7 +74,7 @@ export async function deleteDays(id){
      return fetch( API_BASE_URL+API_ADMIN_DELETE_DAYS+id, requestOptions)
         .then(response => response.json())
         .then(result => {
-            console.log(result)
+
             return result;
         })
         .catch(error => console.log('error', error));
@@ -94,7 +96,9 @@ export async function deleteCostSharing(id){
           
             return result;
         })
-        .catch(error => console.log('error', error));
+        .catch(error =>{
+
+        });
 }
 export async function addWorkingDays(days){
 
@@ -118,7 +122,7 @@ var raw = JSON.stringify(days
  return fetch(API_BASE_URL+API_ADMIN_ADD_WORKING_DAYS, requestOptions)
     .then(response => response.json())
     .then(result => {
-        console.log(result)
+        
         return result;
     })
     .catch(error => console.log('error', error));
@@ -150,7 +154,9 @@ export async function addSharedCost (sharedCost){
         .then(result => {
           return result
         })
-        .catch(error => console.log('error', error));
+        .catch(error =>{
+          
+        });
 }
 
 
@@ -254,7 +260,10 @@ export async function get_restaurant_information(){
  return fetch(API_BASE_URL+API_ADMIN_GET_ALL_RESTAURANT_INFORMATION_DATA, requestOptions)
     .then(response => response.json())
     .then(result => result)
-    .catch(error => console.log('error', error));
+    .catch(error => 
+      {
+
+      });
 }
 
 
