@@ -145,10 +145,10 @@ checkRestaurantStatus();
           authController.isLoggedIn ?
               isRestaurant
                ? <ResponsiveDrawer/> 
-              : isRestaurant===false ? <Navigate to="restaurantinformation"/> :<Loader/> 
+              : isRestaurant===false ? <Navigate to="restaurantinformation"/> :<Navigate to="login"/> 
           : <Navigate to="login"/> 
           
-    :isAdmin==false ?<Navigate to="landing"/> :<Loader/> }>
+    :isAdmin==false ? <Navigate to="landing"/> :<Navigate to="login"/> }>
     <Route index element={ <Dashboard/>}/>
    {/* order */}
 
