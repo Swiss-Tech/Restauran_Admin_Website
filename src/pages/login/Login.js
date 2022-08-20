@@ -1,7 +1,7 @@
 import React, { useState, Component, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 import { bindActionCreators } from "redux";
-import { authactionCreators } from "../../actions";
+import { authactionCreators, messageActionCreators } from "../../actions";
 import authHeader from "../../services/auth-header";
 import { StyledLogin } from "./styled/StyledLogin";
 import { logout } from "../../actions/auth";
@@ -14,6 +14,7 @@ export default function Login() {
   const controller = useSelector((state) => state);
   const dispatch = useDispatch();
   const ActionController = bindActionCreators(authactionCreators, dispatch);
+  const MessageActionController = bindActionCreators(messageActionCreators, dispatch);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +25,11 @@ export default function Login() {
   function toggleModal(value) {
     setLoading(value);
   }
+  useEffect(()=>{
+    MessageActionController.clearMessage();
+  },[
+    
+  ])
 
   return (
     <StyledLogin>
@@ -52,6 +58,7 @@ export default function Login() {
                       className="btn btn-lg btn-light w-100 mx-0 "
                       data-bs-dismiss="modal"
                       onClick={() => {
+                        setModal(false);
                         if(controller.auth.isLoggedIn){
                           navigate('/')
                           setModal(false);
@@ -150,24 +157,18 @@ display:'none'
 
             <button
               onClick={async () => {
+             
                 if(password && email){
                   toggleModal(true);
 
 //
 //  ActionController.login({ email: email, password: password });
-
+     setLoading(true)
 await ActionController.login({
   email: email,
   password: password,
-})
-  .then(() => {
-  
-     window.location.reload();
-  })
-  .catch((error) => {
-   
-
-  });
+});
+setLoading(false)
 setModal(true);
 toggleModal(false);
                 }

@@ -60,8 +60,12 @@ export default  function App()  {
  
  
     useEffect(()=>{
-      callingApi()
-    },[]);
+      if(authController.isLoggedIn){
+        // apiCall(dispatch);
+      }
+
+    },);
+
   function callingApi(){
     if(authController.isLoggedIn){
       if(menuController.menus.length === 0 ){
