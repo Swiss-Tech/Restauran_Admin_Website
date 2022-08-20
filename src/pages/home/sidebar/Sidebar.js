@@ -18,7 +18,7 @@ const [currentIndex , setIndex] = useState();
 const [changeBackground , setChangeBackground] = useState(false);
 const AccountActionController = bindActionCreators(accountActionCreators, dispatch);
 
-var type =  JSON.parse(localStorage.getItem("type")).toLowerCase();
+var type =  localStorage.getItem("type") ? JSON.parse(localStorage.getItem("type")).toLowerCase():"";
 var userType = type.split('_')[0];
 const adminController = useSelector((state)=>state.account);
 
@@ -126,7 +126,7 @@ var lastName = adminController.adminInformation['lastname'];
                        
                         
                     }} onClick={()=>{
-                      setChangeBackground( location.pathname.toLowerCase().includes(route.route.toLowerCase()))
+                      setChangeBackground( location.pathname && location.pathname.toLowerCase().includes(route.route.toLowerCase()))
                     
                     }}>
                        <Link to={subRoute.route} style={{
