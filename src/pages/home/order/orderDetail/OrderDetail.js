@@ -367,7 +367,7 @@ width:'30%'
         </p>
         <p  className="text-label medium text-justify"> <br></br></p>
         <form formGroup="statusFormGroup"> <textarea type="text" rows="6" className="form-control" 
-                formControlName="statusFormControl" id="description" placeholder="Share a replay"></textarea>
+                formcontrolname="statusFormControl" id="description" placeholder="Share a replay"></textarea>
         </form>
     </div>
 </div>

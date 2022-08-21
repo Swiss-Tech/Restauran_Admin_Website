@@ -174,13 +174,13 @@ const handleWorkingDaysChange = (e) => {
    
  <StyledAccount >
  { isLoading ? <Loader/> : dataSource ? dataSource.length === 0 ? <Loader/> : adminController ?
-<div class="container-fluid ">
-<div class="row justify-content-center align-items-center pt-5">
-        <div class="col-lg-5">
-            <div class="d-flex  align-items-center ">
+<div className="container-fluid ">
+<div className="row justify-content-center align-items-center pt-5">
+        <div className="col-lg-5">
+            <div className="d-flex  align-items-center ">
             
-                <h2 class="font-weight-bolder mr-4"><span role="button"
-                        class="mr-4 rounded   p-0">
+                <h2 className="font-weight-bolder mr-4"><span role="button"
+                        className="mr-4 rounded   p-0">
                         <BsArrowLeft style={{
                     marginRight:'15px'
 
@@ -193,8 +193,8 @@ const handleWorkingDaysChange = (e) => {
                 }}>
                     <button onClick={()=>{
                         navigate("/edit/restaurantinformation")
-                    }}  class="btn bg-black text-white  btn-sm py-1 px-4 rounded"><span
-                            class="material-icons-round mr-2 small ">
+                    }}  className="btn bg-black text-white  btn-sm py-1 px-4 rounded"><span
+                            className="material-icons-round mr-2 small ">
                         
                         <MdEdit style={{
                             marginRight:'10px'
@@ -208,10 +208,10 @@ const handleWorkingDaysChange = (e) => {
              
         </div>
       
-        <div class="col-lg-5 d-flex justify-content-lg-end align-items-center">
+        <div className="col-lg-5 d-flex justify-content-lg-end align-items-center">
     
          
-            <h5 class="pt-2 mt-1 mr-2">Restaurant Online</h5>
+            <h5 className="pt-2 mt-1 mr-2">Restaurant Online</h5>
             <Switch   checked={checked}
       onChange={handleChange} />
            
@@ -219,13 +219,13 @@ const handleWorkingDaysChange = (e) => {
         </div>
     </div>
 
-    <div class="row  justify-content-center  pt-4" style={{
+    <div className="row  justify-content-center  pt-4" style={{
         marginTop:'60px'
     }}>
 
-        <div class="col-lg-6 col-12">
+        <div className="col-lg-6 col-12">
 
-    <div class="bg-inputBg rounded-lg shadow-lg" >
+    <div className="bg-inputBg rounded-lg shadow-lg" >
     
     <Carousel  >
       <Carousel.Item interval={1000}>
@@ -275,49 +275,49 @@ const handleWorkingDaysChange = (e) => {
     </Carousel>
             </div>
 
-            <div class="  py-5  rounded-lg d-flex flex-lg-row flex-column  align-items-center ">
+            <div className="  py-5  rounded-lg d-flex flex-lg-row flex-column  align-items-center ">
 
 
-<img class="rounded-circle mb-lg-0 mb-4 bg-primary shadow-lg logo" style={{
+<img className="rounded-circle mb-lg-0 mb-4 bg-primary shadow-lg logo" style={{
     border:'7px solid orange'
 }}
     width="150px" height="150px"       src={API_BASE_URL+"/Auth/Photos/"+ dataSource['restaurantLogoPhotoURL']}     />
 
-<div  class="d-flex flex-column " style={{
+<div  className="d-flex flex-column " style={{
     marginLeft:'30px',
     marginTop:'30px'
 }}>
 
-    <h4 class="font-weight-bold">{dataSource['restaurantName']}</h4>
-    <p class="text-muted">
+    <h4 className="font-weight-bold">{dataSource['restaurantName']}</h4>
+    <p className="text-muted">
     {dataSource['restaurantShortDescription']}
        
       
       </p>
 
-    <div class="d-flex flex-wrap  justify-content-between " style={{
+    <div className="d-flex flex-wrap  justify-content-between " style={{
         marginTop:'20px',
         gap:'20px'
     }}>
       
-        <div class="d-flex justify-content-center align-items-center mr-lg-5 mr-0 mb-3 mb-lg-0  " style={{
+        <div className="d-flex justify-content-center align-items-center mr-lg-5 mr-0 mb-3 mb-lg-0  " style={{
            gap:'10px' 
         }}><span
-                class="material-icons-outlined medium mr-3 ">
+                className="material-icons-outlined medium mr-3 ">
                 <BsTelephone/>
             </span>{dataSource['restaurantPhoneNumber']} </div>
         
-        <div class="d-flex justify-content-center align-items-center mr-lg-5 mr-0 mb-3 mb-lg-0"  style={{
+        <div className="d-flex justify-content-center align-items-center mr-lg-5 mr-0 mb-3 mb-lg-0"  style={{
            gap:'10px' 
         }}><span
-                class="material-icons-outlined medium mr-2">
+                className="material-icons-outlined medium mr-2">
                 <AiOutlineMail/>
             </span>{dataSource['restaurantEmail']} </div>
      
-        <div class="d-flex justify-content-center align-items-center mr-lg-5 mr-0 mb-3 mb-lg-0"  style={{
+        <div className="d-flex justify-content-center align-items-center mr-lg-5 mr-0 mb-3 mb-lg-0"  style={{
            gap:'10px' 
         }}><span
-                class="material-icons-outlined medium mr-2">
+                className="material-icons-outlined medium mr-2">
                 <IoLocation/>
             </span>{dataSource['restaurantLocation']}</div>
     </div>
@@ -326,17 +326,17 @@ const handleWorkingDaysChange = (e) => {
 
 
 
-<div class="d-flex flex-column px-3">
-<div class="d-flex  align-items-center mt-3 mb-2  text-muted">Working days<span
-                        class="material-icons-outlined medium " style={{
+<div className="d-flex flex-column px-3">
+<div className="d-flex  align-items-center mt-3 mb-2  text-muted">Working days<span
+                        className="material-icons-outlined medium " style={{
                         marginLeft:'10px'
                         }}>
                         <AiOutlineCalendar/>
                     </span></div>
 
-                    <div class="d-flex flex-wrap">
+                    <div className="d-flex flex-wrap">
                 
-                    <div class="d-flex flex-wrap mt-3 mr-lg-5 ">
+                    <div className="d-flex flex-wrap mt-3 mr-lg-5 ">
                         <span >
                             { dataSource['workingDays'] ?  dataSource['workingDays'].length ===0 ? "No working days":  
                             
@@ -371,8 +371,8 @@ const handleWorkingDaysChange = (e) => {
                      
                     </div>
 
-                    <div  class="d-flex flex-wrap mt-3 mr-lg-5 "> <h6 className=' text-muted'>Working Hour</h6><span
-                            class=" bg-warning text-white px-3 py-1 rounded mx-3" style={{
+                    <div  className="d-flex flex-wrap mt-3 mr-lg-5 "> <h6 className=' text-muted'>Working Hour</h6><span
+                            className=" bg-warning text-white px-3 py-1 rounded mx-3" style={{
                               height:'40px'
                             }}>  {dataSource['workingHour'] ?dataSource['workingHour']:""}</span> </div>
 
@@ -445,15 +445,15 @@ const handleWorkingDaysChange = (e) => {
         </div>
 
 
-        <div class="col-lg-4 col-12 mt-5 ml-5 " style={{
+        <div className="col-lg-4 col-12 mt-5 ml-5 " style={{
            
         }}>
         <div
-                class="row  bg-background ml-lg-3 ml-2 mr-lg-0 mr-2 mt-lg-0 mt-4 py-4 rounded-lg  px-4 d-flex flex-column ">
+                className="row  bg-background ml-lg-3 ml-2 mr-lg-0 mr-2 mt-lg-0 mt-4 py-4 rounded-lg  px-4 d-flex flex-column ">
                 
-                <div class="d-flex flex-lg-row flex-column pb-4 ml-lg-3">
+                <div className="d-flex flex-lg-row flex-column pb-4 ml-lg-3">
                  
-                    <div class="pfp rounded-lg mr-4 position-relative" style={{
+                    <div className="pfp rounded-lg mr-4 position-relative" style={{
                       width:'150px',
                       height:'150px',
                       color:'orange',
@@ -470,22 +470,22 @@ const handleWorkingDaysChange = (e) => {
                        
                          { firstName ? firstName[0]:""}{ lastName ? lastName[0]:""}
                         <div
-                            class="role-type mx-3 bg-black text-white font-weight-bold d-flex justify-content-center align-items-center rounded-pill px-2 py-1" style={{
+                            className="role-type mx-3 bg-black text-white font-weight-bold d-flex justify-content-center align-items-center rounded-pill px-2 py-1" style={{
                               fontSize:'20px',
                               fontWeight:'300'
                             }}>
                             Admin</div>
                     </div>
-                    <div class="d-flex flex-column justify-content-center " style={{
+                    <div className="d-flex flex-column justify-content-center " style={{
                         marginLeft:'20px'
                     }}>
                       
-                        <h5 class="font-weight-bold mt-lg-0 mt-3">{firstName ? firstName +" ":"" } {lastName ? lastName :""}</h5>
+                        <h5 className="font-weight-bold mt-lg-0 mt-3">{firstName ? firstName +" ":"" } {lastName ? lastName :""}</h5>
               
                        <p>{email ? email:""}</p>
                         <input type="number" value={ phoneNumber ? phoneNumber :"" } / >
                     </div>
-                    <div class="d-flex flex-column justify-content-start "  onClick={()=>{
+                    <div className="d-flex flex-column justify-content-start "  onClick={()=>{
                         navigate('/edit/admin')
                     }}  style={{
                         marginLeft:'20px'
@@ -493,17 +493,17 @@ const handleWorkingDaysChange = (e) => {
                 </div>
             </div>
 
-            <div class="row d-flex flex-column px-3 py-3   mt-3 ml-lg-3 ml-2 mr-2 mr-lg-0 rounded-lg px-4">
+            <div className="row d-flex flex-column px-3 py-3   mt-3 ml-lg-3 ml-2 mr-2 mr-lg-0 rounded-lg px-4">
              
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3 px-2">
-                    <div class="d-flex  align-items-center   h5 font-weight-bold">Shared Costs</div>
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3 px-2">
+                    <div className="d-flex  align-items-center   h5 font-weight-bold">Shared Costs</div>
                     <div className=' ' style={{
                     marginLeft:'30px'
                 }}>
                      <button onClick={()=>{
                         setEditSharedCostByValue(!editSharedCostByValue);
-                     }} class="btn border text-black  btn-sm py-1 px-4 rounded"><span
-                            class="material-icons-round mr-2 small ">
+                     }} className="btn border text-black  btn-sm py-1 px-4 rounded"><span
+                            className="material-icons-round mr-2 small ">
                         
                         <IoMdAddCircleOutline size={20} style={{
                             marginRight:'10px'
@@ -512,7 +512,7 @@ const handleWorkingDaysChange = (e) => {
                 </div>
 
                 </div>
-                <div class="dropdown-divider my-3"></div> 
+                <div className="dropdown-divider my-3"></div> 
              
                <div style={(editSharedCostByValue)?{}:{
                 display:'none'
@@ -591,8 +591,8 @@ const handleWorkingDaysChange = (e) => {
 
                </div>
               
-                <div class="w-100 mt-lg-0 mt-3 px-2 table-responsive">
-                    <table class="table table-borderless table-sm">
+                <div className="w-100 mt-lg-0 mt-3 px-2 table-responsive">
+                    <table className="table table-borderless table-sm">
                         <thead>
                             <tr>
                                
@@ -621,7 +621,7 @@ const handleWorkingDaysChange = (e) => {
                            window.location.reload(false);
                            setLoading(false)
                                 }}>
-                                    <span  class="material-icons-round ">
+                                    <span  className="material-icons-round ">
                                     <MdDelete size={25}/>
                                     </span>
   
@@ -635,10 +635,10 @@ const handleWorkingDaysChange = (e) => {
                 </div>
             </div>
 
-            <div class="row d-flex flex-column px-3 py-3   mt-3 ml-lg-3 ml-2 mr-2 mr-lg-0 rounded-lg px-4">
+            <div className="row d-flex flex-column px-3 py-3   mt-3 ml-lg-3 ml-2 mr-2 mr-lg-0 rounded-lg px-4">
               
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3 px-2">
-                    <div class="d-flex  align-items-center   h5 font-weight-bold">Shared Costs</div>
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3 px-2">
+                    <div className="d-flex  align-items-center   h5 font-weight-bold">Shared Costs</div>
                     <div className=' ' style={{
                     marginLeft:'30px'
                 }}>
@@ -646,8 +646,8 @@ const handleWorkingDaysChange = (e) => {
                          
                         setEditSharedCostByPercent(!editSharedCostByPercent);
                          
-                     }} class="btn border text-black  btn-sm py-1 px-4 rounded"><span
-                            class="material-icons-round mr-2 small ">
+                     }} className="btn border text-black  btn-sm py-1 px-4 rounded"><span
+                            className="material-icons-round mr-2 small ">
                         
                         <IoMdAddCircleOutline  size={20} style={{
                             marginRight:'10px'
@@ -656,7 +656,7 @@ const handleWorkingDaysChange = (e) => {
                 </div>
 
                 </div>
-                <div class="dropdown-divider my-3"></div> 
+                <div className="dropdown-divider my-3"></div> 
                 <div style={(editSharedCostByPercent)?{}:{
                 display:'none'
                }}>
@@ -730,8 +730,8 @@ const handleWorkingDaysChange = (e) => {
 
                </div>
              
-                <div class="w-100 mt-lg-0 mt-3 px-2 table-responsive">
-                    <table class="table table-borderless table-sm">
+                <div className="w-100 mt-lg-0 mt-3 px-2 table-responsive">
+                    <table className="table table-borderless table-sm">
                         <thead>
                             <tr>
                                 <th scope="col">Item Name </th>
@@ -758,7 +758,7 @@ const handleWorkingDaysChange = (e) => {
                            window.location.reload(false);
                            setLoading(false)
                                 }}>
-                                    <span  class="material-icons-round ">
+                                    <span  className="material-icons-round ">
                                     <MdDelete size={25}/>
                                     </span>
   

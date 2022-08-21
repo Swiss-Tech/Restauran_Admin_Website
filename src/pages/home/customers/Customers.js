@@ -24,11 +24,11 @@ export default function Customers() {
  
  
   return (
-    <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
-         <div class="row">
-        <div class="col">
+    <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
+         <div className="row">
+        <div className="col">
           
-            <h3 class="font-weight-bolder">Customers</h3>
+            <h3 className="font-weight-bolder">Customers</h3>
             
             <p style={{
               color:'gray'
@@ -41,7 +41,7 @@ export default function Customers() {
         </div>
 
     </div>
-    <div class="dropdown-divider"></div>
+    <div className="dropdown-divider"></div>
     <CustomerTable/>
     
     </div>

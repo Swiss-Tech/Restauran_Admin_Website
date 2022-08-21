@@ -63,7 +63,7 @@ export const register = (user) => (dispatch) => {
 export const login = (user) => (dispatch) => {
   return login_function(user).then(
     (data) => {
-      console.log(data.message)
+    
       if (data.success) {
         dispatch({
           type: LOGIN_SUCCESS,

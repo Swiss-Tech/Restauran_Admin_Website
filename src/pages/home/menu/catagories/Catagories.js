@@ -62,7 +62,7 @@ export default function Catagories() {
 
   const handleChange = (event) => {
     
-    console.log(event.target.checked);
+  
     setIsParentCategory(event.target.checked);
     if(event.target.checked){
       setSelectedCategoryName("Disabled");
@@ -126,12 +126,12 @@ useEffect(() => {
     <StyedCategories>
    { isLoading ? <Loader/> : 
    
-   <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
+   <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
 
-<div class="row">
-        <div class="col">
+<div className="row">
+        <div className="col">
             
-            <h3 class="font-weight-bolder">Catagories</h3>
+            <h3 className="font-weight-bolder">Catagories</h3>
             <p style={{
               color:'gray'
             }}> {dateState.toLocaleDateString('en-US', {
@@ -143,32 +143,32 @@ useEffect(() => {
         </div>
 
       </div>
-    <div class="dropdown-divider"></div>
-    <div class="row pt-3">
-    <div class="col-lg-7 bg-white px-5 py-5 mx-lg-0 mx-3 rounded-lg">
+    <div className="dropdown-divider"></div>
+    <div className="row pt-3">
+    <div className="col-lg-7 bg-white px-5 py-5 mx-lg-0 mx-3 rounded-lg">
          
       <Catagory setEditable ={setEditable} setIsEdit={setIsEdit} handleDelete={CategoryActionControllers.deleteCategoryAction} handleLoading ={ setLoading }/>
 
 
      </div>
 
-     <div class="col-lg-5 ">
-     <form class="needs-validation" novalidate >
+     <div className="col-lg-5 ">
+     <form className="needs-validation" noValidate >
                               <div
-                    class="d-flex flex-column bg-white px-5 py-5 mx-lg-0 mb-lg-0 mb-5  rounded-lg ml-lg-5 mt-lg-0 mt-3">
-                                        <h5 class="font-weight-bold mb-4">{ isEdit ?'Edit Category':'Add Categories'}</h5>
+                    className="d-flex flex-column bg-white px-5 py-5 mx-lg-0 mb-lg-0 mb-5  rounded-lg ml-lg-5 mt-lg-0 mt-3">
+                                        <h5 className="font-weight-bold mb-4">{ isEdit ?'Edit Category':'Add Categories'}</h5>
                                         
-                        <div class="form-group">
-                            <label class=" h6 " style={{
+                        <div className="form-group">
+                            <label className=" h6 " style={{
                               fontWeight:'300'
-                            }} for="category-name">Category Name 
+                            }} htmlFor="category-name">Category Name 
                            </label>
-                           <input  type="text" class="form-control" formControlName="categoryName"
+                           <input  type="text" className="form-control" formcontrolname="categoryName"
                             name="" defaultValue={categoryName} onChange={(e)=>setCategoryName(e.target.value)}  />
                            
                            
 
-                          <div class="form-control-feedback text-danger" style={(categoryName ) ?{
+                          <div className="form-control-feedback text-danger" style={(categoryName ) ?{
     display:'none'
                           }:{
                            
@@ -177,12 +177,12 @@ useEffect(() => {
                             Please Add Parent  Category
                           </div>
                        
-                           <div class="form-control-feedback text-success" style={(categoryName)?{}:{display:'none'}}>
+                           <div className="form-control-feedback text-success" style={(categoryName)?{}:{display:'none'}}>
                               Looks Good
                         </div>
                     </div>
-                    <div class="form-group">
-                            <label class=" h6 " for="category-name" style={{
+                    <div className="form-group">
+                            <label className=" h6 " htmlFor="category-name" style={{
                               fontWeight:'300'
                             }} >Parent Category 
                            </label>
@@ -223,8 +223,8 @@ useEffect(() => {
           <Menu {...bindMenu(popupState)} style={{
              width:'100%',
           }}>
-            {categoryController.map((category) =>  category.id !=='1' &&  (
-              <MenuItem  style={{
+            {categoryController.map((category, index) =>  category.id !=='1' &&  (
+              <MenuItem  key={index.toString()} style={{
              width:'100%',
           }}
                 onClick={() => {
@@ -245,14 +245,14 @@ useEffect(() => {
     
 
                      
-                          <div class="form-control-feedback text-danger" style={(parentCategory)?{
+                          <div className="form-control-feedback text-danger" style={(parentCategory)?{
                             display:'none'
                           }: isParentCategory ?{display:'none'}:{}}
                             >
                             Please Select Parent Category 
                           </div>
                        
-                           <div class="form-control-feedback text-success" style={(parentCategory)?{
+                           <div className="form-control-feedback text-success" style={(parentCategory)?{
                        
                           }:{     display:'none'}} >
                               Looks Good

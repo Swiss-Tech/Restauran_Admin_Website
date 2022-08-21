@@ -87,7 +87,10 @@ export async function login_function(admin) {
 
       return result;
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => error);
+
+
+  
 }
 
 // register admin
@@ -126,9 +129,9 @@ export async function register_function(user) {
 
         return result;
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) =>error);
   } catch (e) {
-    console.log(e);
+   return e
   }
 }
 

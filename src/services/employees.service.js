@@ -19,7 +19,7 @@ export async function getAllEmployees (){
               
                 return result
             })
-        .catch(error => console.log('error', error));
+        .catch(error => error);
 }
 
 
@@ -55,7 +55,7 @@ return  fetch(API_BASE_URL+API_ADMIN_ADD_EMPLOYEE, requestOptions)
   
     return result;
   })
-  .catch((error) => console.log("error", error));
+  .catch((error) => error);
 }
 
 
@@ -79,7 +79,7 @@ var requestOptions = {
 return fetch(API_BASE_URL+API_ADMIN_UPDATE_EMPLOYEE+employeeId, requestOptions)
   .then(response => response.json())
   .then(result => result)
-  .catch(error => console.log('error', error));
+  .catch(error => error);
 }
 
 export async function unBlockEmployee(employeeId){
@@ -102,7 +102,7 @@ var requestOptions = {
 return fetch(API_BASE_URL+API_ADMIN_UPDATE_EMPLOYEE+employeeId, requestOptions)
   .then(response => response.json())
   .then(result => result)
-  .catch(error => console.log('error', error));
+  .catch(error => error);
 }
 
 export async function editEmployee(id, firstName , lastName , phoneNumber, email, password){
@@ -153,5 +153,5 @@ export async function deleteEmployee(employeeId){
 
             return result
         })
-        .catch(error => console.log('error', error));
+        .catch(error => error);
 }

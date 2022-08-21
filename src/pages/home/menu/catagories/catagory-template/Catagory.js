@@ -75,12 +75,12 @@ export default function Catagory(props) {
   };
 
    var categories = categoryController.filter((category)=>category.id!=='1' && category )
-  
+ 
   return (
     <StyledAccordion >
        
-        { categories.length === 0 ?<div><NoCategory/></div>:  categories.map((item,index)=>
-          <Accordion style={{
+        { categories.length === 0 ?<div><NoCategory/></div>:  categories.map((item,index)=> item.isParentCategory &&
+          <Accordion key={index.toString()} style={{
             boxShadow:'none',
             border:'1px solid gray',
             marginTop:'10px' ,
@@ -96,11 +96,11 @@ export default function Catagory(props) {
             gap:'20px',
           }} >
           
-        { categoryController.map((sub, index)=> sub.parentCategory === item.id  &&    <MdKeyboardArrowDown onClick={()=>{
+        { categoryController.map((sub, index)=> sub.parentCategory === item.id  &&    <MdKeyboardArrowDown key={index.toString()} onClick={()=>{
            setExpand(!expand)}}/>) } 
            
           
-           <DropdownButton
+           <DropdownButton title=""
  
             drop={'end'} variant='Secondary'
 
@@ -158,7 +158,7 @@ export default function Catagory(props) {
          
         </AccordionSummary>
 
-     { categoryController.map((sub)=> sub.parentCategory === item.id && <AccordionDetails>
+     { categoryController.map((sub,index)=> sub.parentCategory === item.id && <AccordionDetails key={index.toString()}>
         
       <div style={{
             boxShadow:'none',

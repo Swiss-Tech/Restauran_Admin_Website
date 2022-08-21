@@ -109,10 +109,10 @@ export default function CustomerTable() {
      <StyledCustomer>
      
     <div
-            class="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-between align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
+            className="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-between align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
                   <div
-          class="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3 ">
-          <span class="h3 mr-3 mb-0 " style={{
+          className="d-flex justify-content-center align-items-center border bg-white px-4 py-2 rounded mr-lg-3 mr-2 mb-lg-0 mb-3 ">
+          <span className="h3 mr-3 mb-0 " style={{
             marginRight:"10px"
           }}>{customerController.customers.length}</span>
         Customers  
@@ -120,7 +120,7 @@ export default function CustomerTable() {
 
           
             
-                <div class="col-lg-4  " style={{
+                <div className="col-lg-4  " style={{
                   marginTop:'20px'
                 }}>
                 <div className="customSearch " style={{
@@ -137,17 +137,17 @@ export default function CustomerTable() {
     background:'transparent',
     padding:'0',
     margin:'0'
-  }}  type="text" class="form-control" placeholder="Search"  aria-describedby="basic-addon1" alue={inputText} onChange={filterData} />
+  }}  type="text" className="form-control" placeholder="Search"  aria-describedby="basic-addon1" alue={inputText} onChange={filterData} />
 
                 </div>
                 </div>
 
-                <div class="col-lg-4 d-flex justify-content-lg-end">
+                <div className="col-lg-4 d-flex justify-content-lg-end">
             <div>
                  
                 <button 
-                    class="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
-                        class="material-icons-outlined medium mr-2">
+                    className="btn btn-default d-flex justify-content-center align-items-center border border-placeholder"><span
+                        className="material-icons-outlined medium mr-2">
                       <TbAdjustmentsHorizontal size={25} style={{
                         padding:'2px'
                       }}/>  
@@ -216,19 +216,19 @@ export default function CustomerTable() {
                             </div>
                 
                             {/* <div 
-                            class="px-2 bg-lightSuccess small py-1 font-weight-bold text-success d-flex justify-content-center align-items-center rounded-pill">
+                            className="px-2 bg-lightSuccess small py-1 font-weight-bold text-success d-flex justify-content-center align-items-center rounded-pill">
                            {order.status}</div>
                 
                            <div 
-                            class="px-2 bg-lightDanger small py-1 font-weight-bold text-danger d-flex justify-content-center align-items-center rounded-pill">
+                            className="px-2 bg-lightDanger small py-1 font-weight-bold text-danger d-flex justify-content-center align-items-center rounded-pill">
                             {order.status}</div>
                         <div 
-                            class="px-2 bg-light small py-1 font-weight-bold text-info  d-flex justify-content-center align-items-center rounded-pill">
+                            className="px-2 bg-light small py-1 font-weight-bold text-info  d-flex justify-content-center align-items-center rounded-pill">
                             {order.status}</div> */}
                 
                         </td>
                         <td>
-                        <DropdownButton variant='white' >
+                        <DropdownButton title="" variant='white' >
                       
                 <Dropdown.Item  onClick={async ()=>{
                      setLoading(true);

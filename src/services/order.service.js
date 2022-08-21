@@ -17,7 +17,7 @@ var requestOptions = {
    
     return result;
   })
-  .catch(error => console.log('error', error));
+  .catch(error => error);
 }
 
 
@@ -41,10 +41,10 @@ var requestOptions = {
 return fetch(API_BASE_URL+API_ADMIN_UPDATE_ORDER+orderId, requestOptions)
   .then(response => response.json())
   .then(result => {
-    console.log(result)
+  
     return result
   })
-  .catch(error => console.log('error', error));
+  .catch(error => error);
 }
 
 

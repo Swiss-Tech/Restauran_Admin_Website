@@ -338,10 +338,10 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: '100%' }}>
       
-      <div class="d-flex justify-content-between align-items-center mt-lg-0 mt-3 ml-lg-3 ml-0">
+      <div className="d-flex justify-content-between align-items-center mt-lg-0 mt-3 ml-lg-3 ml-0">
       <div className="search">
-                <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>{
+                <form className="form-inline">
+                <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>{
                  setInputText(e.target.value);
                 }}/>
                  </form>

@@ -47,6 +47,8 @@ apiCall(dispatch);
 
 
 
+
+
   return (
     <StyledSidebar>
 
@@ -161,7 +163,7 @@ apiCall(dispatch);
     
      style={(userType[0]==="e") ?{
       display:'none'
-     }: userType[0] ==="a" ? {
+     }: userType[0] ==="s" ? {
       width:'200px'
      } :{
       display:'none'

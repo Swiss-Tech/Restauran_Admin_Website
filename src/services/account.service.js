@@ -50,10 +50,10 @@ var raw = JSON.stringify({
  return fetch(API_BASE_URL+API_ADMIN_UPDATE, requestOptions)
     .then(response => response.json())
     .then(result =>{
-        console.log(result)
+      
         return result;
     })
-    .catch(error => {console.log('error', error)});
+    .catch((error) => error);
 }
 
 
@@ -77,7 +77,7 @@ export async function deleteDays(id){
 
             return result;
         })
-        .catch(error => console.log('error', error));
+        .catch(error => error);
 }
 export async function deleteCostSharing(id){
     var token = authHeader();
@@ -103,7 +103,7 @@ export async function deleteCostSharing(id){
 export async function addWorkingDays(days){
 
 
-  console.log(days);
+
     var token = authHeader();
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
@@ -125,7 +125,7 @@ var raw = JSON.stringify(days
         
         return result;
     })
-    .catch(error => console.log('error', error));
+    .catch(error => error);
 
 }
 export async function addSharedCost (sharedCost){
@@ -236,7 +236,7 @@ return fetch(API_BASE_URL+API_ADMIN_RESTAURANTINFORMATION, requestOptions)
     .then(result => {
   
     
-     console.log(result);
+   
       return result;
     
     })
@@ -286,7 +286,7 @@ export async function dashboardData   (){
       
             return result;
         })
-        .catch(error => console.log('error', error));
+        .catch(error => error);
 
 
 }

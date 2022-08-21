@@ -69,10 +69,10 @@ export default function EmployeeTable(props) {
     return (
       <StyledOrder >
       <div
-              class="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-between align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
+              className="col-lg-12 d-flex flex-lg-row flex-column align-items-lg-center justify-content-between align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
             
               
-                  <div class="col-lg-4 px-0 ">
+                  <div className="col-lg-4 px-0 ">
                   <div className="customSearch " style={{
                     justifyContent:'start',
                     alignContent:'center',
@@ -87,7 +87,7 @@ export default function EmployeeTable(props) {
       background:'transparent',
       padding:'0',
       margin:'0'
-    }}  type="text" class="form-control" placeholder="Search"  aria-describedby="basic-addon1" alue={inputText} onChange={filterData} />
+    }}  type="text" className="form-control" placeholder="Search"  aria-describedby="basic-addon1" alue={inputText} onChange={filterData} />
   
           </div>
                   </div>
@@ -143,7 +143,7 @@ export default function EmployeeTable(props) {
                   
                           </td>
                           <td>
-                          <DropdownButton variant='white' >
+                          <DropdownButton title="" variant='white' >
                         
                   <Dropdown.Item onClick={ async ()=>{
                                         props.handleLoading(true);

@@ -28,7 +28,7 @@ export async function getAllCategory(){
 
 export async function addCategory(category){
  
- console.log(category)
+
 
 var token = authHeader();
 var myHeaders = new Headers();

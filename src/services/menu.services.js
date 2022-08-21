@@ -19,7 +19,7 @@ var requestOptions = {
    
      return result;
     } )
-    .catch(error => console.log('error', error));
+    .catch(error => error);
 }
 
 
@@ -58,10 +58,10 @@ var requestOptions = {
 };
   return fetch(API_BASE_URL+API_ADMIN_MENU_ADD, requestOptions).then(response => response.json())
   .then(result => {
-    console.log(result)
+   
     return result;
   })
-  .catch(error => console.log('error', error));
+  .catch(error => error);
     
 }
 
@@ -73,7 +73,7 @@ export function updateMenu (menu){
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     var categoryList = menu['category'].map((category)=>(category.id))
-  console.log(categoryList);
+ 
 var formdata = new FormData();
 var menuId  = menu['id'];
 

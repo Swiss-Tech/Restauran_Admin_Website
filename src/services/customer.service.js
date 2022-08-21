@@ -14,10 +14,10 @@ var requestOptions = {
  return fetch(API_BASE_URL+API_ADMIN_GET_ALL_CUSTOMER, requestOptions)
   .then(response => response.json())
   .then(result => {
-     console.log(result)
+    
     return result;
   })
-  .catch(error => console.log('error', error));
+  .catch(error => error);
 }
 
 
@@ -41,10 +41,10 @@ export async function blockCustomer(customerId ){
    return fetch(API_BASE_URL+API_ADMIN_UPDATE_CUSTOMER+customerId, requestOptions)
       .then(response => response.json())
       .then(result => {
-        console.log(result)
+        
         return result;
       })
-      .catch(error => console.log('error', error));
+      .catch(error =>error);
 
 }
 
@@ -69,8 +69,8 @@ export async function unBlockCustomer(customerId ){
  return fetch(API_BASE_URL+API_ADMIN_UPDATE_CUSTOMER_STATUS+customerId, requestOptions)
     .then(response => response.json())
     .then(result => {
-      console.log(result)
+      
       return result;
     })
-    .catch(error => console.log('error', error));
+    .catch(error => error);
 }

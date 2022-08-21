@@ -39,12 +39,12 @@ export default function Employees() {
 
   
   return ( isLoading ? <Loader/>:
-    <div class="container-fluid px-lg-5 px-2 pt-5 position-relative">
+    <div className="container-fluid px-lg-5 px-2 pt-5 position-relative">
 
-<div class="row">
-        <div class="col">
+<div className="row">
+        <div className="col">
            
-            <h3 class="font-weight-bolder">Employees</h3>
+            <h3 className="font-weight-bolder">Employees</h3>
           
             <p style={{
               color:'gray'
@@ -57,11 +57,11 @@ export default function Employees() {
         </div>
 
     </div>
-    <div class="dropdown-divider"></div>
-    <div class="row w-100 pt-3  ml-0  ">
-    <div class="col-lg-7 px-0">
+    <div className="dropdown-divider"></div>
+    <div className="row w-100 pt-3  ml-0  ">
+    <div className="col-lg-7 px-0">
     <div
-                class="col-lg-6 d-flex flex-lg-row flex-column  align-items-lg-center align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
+                className="col-lg-6 d-flex flex-lg-row flex-column  align-items-lg-center align-items-end flex-wrap mr-0  mt-4 px-0 mt-lg-0">
 
             </div>
 
@@ -71,99 +71,99 @@ export default function Employees() {
 
 
     </div>
-    <div class="col-lg-5 ">
-    <form class="needs-validation" novalidate >
+    <div className="col-lg-5 ">
+    <form className="needs-validation" noValidate >
     <div
-                    class="d-flex flex-column bg-white px-5 py-5 mx-lg-0 mb-lg-0 mb-5  rounded-lg ml-lg-5 mt-lg-0 mt-3">
-                        <h5 class="font-weight-bold mb-4">Add employee</h5>
+                    className="d-flex flex-column bg-white px-5 py-5 mx-lg-0 mb-lg-0 mb-5  rounded-lg ml-lg-5 mt-lg-0 mt-3">
+                        <h5 className="font-weight-bold mb-4">Add employee</h5>
                    
-                        <div class="form-group">
-                        <label class="font-weight-normal h6 " for="employee-first-name"> First Name
+                        <div className="form-group">
+                        <label className="font-weight-normal h6 " for="employee-first-name"> First Name
                             </label>
-                        <input type="text" class="form-control" defaultValue={employeeFristName} onChange={(e)=> setEmployeeFirstName(e.target.value)}/>
+                        <input type="text" className="form-control" defaultValue={employeeFristName} onChange={(e)=> setEmployeeFirstName(e.target.value)}/>
                  
-                        <div class="form-control-feedback text-danger" style={(employeeFristName ) ?{
+                        <div className="form-control-feedback text-danger" style={(employeeFristName ) ?{
                             display:'none'
                         }:{}}
                             >
                             Please Add employee First name
                         </div>
   
-                        <div class="form-control-feedback text-success"  style={(employeeFristName ) ?{
+                        <div className="form-control-feedback text-success"  style={(employeeFristName ) ?{
                            
                         }:{ display:'none'}} > 
                             Looks Good
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="font-weight-normal h6 " for="employee-name"> Last Name
+                    <div className="form-group">
+                        <label className="font-weight-normal h6 " for="employee-name"> Last Name
                             </label>
-                        <input type="text" class="form-control" defaultValue={employeeLastName} onChange={(e)=> setEmployeeLastName(e.target.value)}/>
+                        <input type="text" className="form-control" defaultValue={employeeLastName} onChange={(e)=> setEmployeeLastName(e.target.value)}/>
                  
-                        <div class="form-control-feedback text-danger" style={(employeeLastName ) ?{
+                        <div className="form-control-feedback text-danger" style={(employeeLastName ) ?{
                             display:'none'
                         }:{}}
                             >
                             Please Add employee last name
                         </div>
   
-                        <div class="form-control-feedback text-success"  style={(employeeLastName ) ?{
+                        <div className="form-control-feedback text-success"  style={(employeeLastName ) ?{
                            
                         }:{ display:'none'}} > 
                             Looks Good
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="font-weight-normal h6 " for="employee-name">Phone Number
+                    <div className="form-group">
+                        <label className="font-weight-normal h6 " for="employee-name">Phone Number
                             </label>
-                        <input type="number" class="form-control" defaultValue={phoneNumber} onChange={(e)=> setPhoneNumber(e.target.value)}/>
+                        <input type="number" className="form-control" defaultValue={phoneNumber} onChange={(e)=> setPhoneNumber(e.target.value)}/>
                  
-                        <div class="form-control-feedback text-danger" style={(phoneNumber ) ?{
+                        <div className="form-control-feedback text-danger" style={(phoneNumber ) ?{
                             display:'none'
                         }:{}}
                             >
                             Please Add Phone Number
                         </div>
   
-                        <div class="form-control-feedback text-success"  style={(phoneNumber ) ?{
+                        <div className="form-control-feedback text-success"  style={(phoneNumber ) ?{
                            
                         }:{ display:'none'}} > 
                             Looks Good
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="font-weight-normal h6 " >Email
+                    <div className="form-group">
+                        <label className="font-weight-normal h6 " >Email
                             </label>
-                        <input type="email" class="form-control" defaultValue={employeeEmail} onChange={(e)=>setEmployeeEmail(e.target.value)}/>
+                        <input type="email" className="form-control" defaultValue={employeeEmail} onChange={(e)=>setEmployeeEmail(e.target.value)}/>
                  
-                        <div class="form-control-feedback text-danger"   style={(employeeEmail ) ?{
+                        <div className="form-control-feedback text-danger"   style={(employeeEmail ) ?{
                           display:'none' 
                         }:{ }}
                             >
                             Please enter password again
                         </div>
                    
-                        <div class="form-control-feedback text-success" style={(employeeEmail ) ?{
+                        <div className="form-control-feedback text-success" style={(employeeEmail ) ?{
                      
                         }:{      display:'none' }} >
                             Looks Good
                         </div>
                     </div>
                    
-                    <div class="form-group">
-                        <label class="font-weight-normal h6 " for="password" >Password
+                    <div className="form-group">
+                        <label className="font-weight-normal h6 " for="password" >Password
                             </label>
-                        <input type="text" class="form-control" onChange={(e)=>setEmployeePassword(e.target.value)} />
+                        <input type="text" className="form-control" onChange={(e)=>setEmployeePassword(e.target.value)} />
                        
-                        <div class="form-control-feedback text-danger"  style={(employeePassword ) ?{
+                        <div className="form-control-feedback text-danger"  style={(employeePassword ) ?{
                      display:'none' 
                     }:{      }} 
                             >
                             Please enter password 
                         </div>
                    
-                        <div class="form-control-feedback text-success"   style={(employeePassword ) ?{
+                        <div className="form-control-feedback text-success"   style={(employeePassword ) ?{
                     
                     }:{      display:'none'  }} >
                             Looks Good
@@ -173,7 +173,7 @@ export default function Employees() {
                    
                     
                
-                        <div class=" d-flex justify-content-center align-items-center "><button onClick={ async ()=>{
+                        <div className=" d-flex justify-content-center align-items-center "><button onClick={ async ()=>{
                             if(isEdit){
                                  setLoading(true);
                                await EmployeeActionController.editEmployeeAction(id,employeeFristName, employeeLastName, phoneNumber, employeeEmail, employeePassword);
@@ -186,7 +186,7 @@ export default function Employees() {
                            }
                         }}
                                 type="button" 
-                                class="btn customButton px-5  font-weight-bold ml-2 d-inline mt-3"> { isEdit ? "Update Employee":"Add Employee"}
+                                className="btn customButton px-5  font-weight-bold ml-2 d-inline mt-3"> { isEdit ? "Update Employee":"Add Employee"}
                                 </button></div>
                     
                     </div>
