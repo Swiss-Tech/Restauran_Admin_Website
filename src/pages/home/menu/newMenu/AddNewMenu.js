@@ -85,16 +85,21 @@ export default function AddNewMenu() {
       return () => URL.revokeObjectURL(objectUrl);
     }, [selectedFile]);
     const onSelectFile = (e) => {
+
+    
       if (!e.target.files || e.target.files.length === 0) {
         setSelectedFile(undefined);
         return;
       }
   
       setSelectedFile(e.target.files[0]);
+     
     
     };
 
     useEffect(()=>{
+        
+       
         if(preview && selectedFile){
            
             if(imgController===1){
@@ -102,6 +107,9 @@ export default function AddNewMenu() {
                 setFoodImage1File(selectedFile);
                 setController(2);
                 setPreview(null)
+             
+               
+               
               
              
                 
@@ -111,6 +119,7 @@ export default function AddNewMenu() {
                 setFoodImage2File(selectedFile);
                 setController(3);
                 setPreview(null)
+              
           
              
                
@@ -120,6 +129,7 @@ export default function AddNewMenu() {
                 setFoodImage3File(selectedFile);
                 setController(4);
                 setPreview(null)
+               
               
              
             }
@@ -128,10 +138,14 @@ export default function AddNewMenu() {
                 setFoodImage4File(selectedFile);
                 setController(1);
                 setPreview(null)
+              
                 
              
                
             }
+
+       
+        
 
         
 
@@ -146,17 +160,7 @@ export default function AddNewMenu() {
 
       const [imgURL , setImageURL] = useState();
 
-     var handleInputChange =(e)=>{
-        setImageURL(e);
-        
-      }
-
-      function handleSubmit(){
-      if(imgURL){
-       
-
-      }
-      }
+     
 
 
       useEffect(()=>{
@@ -412,7 +416,7 @@ export default function AddNewMenu() {
                     
                         <div className="form-group">
                             <label className="font-weight-normal h6 "
-                                htmlFor="estimated_preparation_time">Estmated Pereparation </label>
+                                htmlFor="estimated_preparation_time">Estimated  Preparation </label>
                             <input  type="text" className="form-control" name="estimatedTime"
                                 id="estimated_preparation_time" placeholder="" onChange={(e)=> setEstimatedTime(e.target.value) }/>
                                 <div className="text-danger" style={(estimated_preparation_time) ? {
@@ -420,7 +424,7 @@ export default function AddNewMenu() {
                             }:{}}
                                
                                 >
-                                Estmated Pereparation Time is required 
+                                Estimated Preparation Time is required 
                             </div>
                           
                             <div className="form-control-feedback text-success" style={(estimated_preparation_time) ? {
@@ -527,6 +531,9 @@ export default function AddNewMenu() {
                     <label
                 className="btn "
                 onChange={onSelectFile}
+                onClick={(event)=> { 
+               event.target.value = null
+          }}
                 htmlFor={'id'}
                 style={{
                     border:'1px solid black' ,
@@ -535,7 +542,7 @@ export default function AddNewMenu() {
                 }}
               >
               
-                <input   name="" type="file" hidden id='id' />
+                <input   name="" type="file" hidden id='id'  />
                 Add
               </label>
                 </div>

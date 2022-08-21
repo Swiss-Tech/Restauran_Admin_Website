@@ -67,7 +67,7 @@ export default function  RestaurantInformation () {
                       onClick={() => {
                       
                         setModal(false);
-                        <Navigate to="/" />
+                        <Navigate to="/home" />
                         window.location.reload(false);
                         apiCall(dispatch);
                     
@@ -95,6 +95,7 @@ export default function  RestaurantInformation () {
         marginTop:'2%'
       }}>
         <div className="row  ">
+ 
           <div className="col-xl-10 col-12  ">
 
             <h6 style={{

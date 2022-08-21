@@ -15,12 +15,29 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Loader from '../../../reusable-components/Loader';
+import apiCall from '../../../../ApiCall';
+import { IoMdArrowDropdown } from 'react-icons/io';
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 
 const StyedCategories = styled.section`
  width:100%;
+ .MuiButton-root {
+  border: none;
+    outline:none;
+   &:hover{
+    border: none;
+    outline:none;
+    background:none;
+    outline:none;
+    
+   }
+}
  `
+
  	
  ;
+
+
 export default function Catagories() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,7 +61,16 @@ export default function Catagories() {
   const [checked, setChecked] = React.useState(true);
 
   const handleChange = (event) => {
+    
+    console.log(event.target.checked);
     setIsParentCategory(event.target.checked);
+    if(event.target.checked){
+      setSelectedCategoryName("Disabled");
+     
+    }
+    else{
+      setSelectedCategoryName("Select Categories");
+    }
   };
 
   
@@ -89,6 +115,12 @@ useEffect(() => {
       navigate(0)
     }
    })
+
+
+   useEffect(()=>{
+    apiCall(dispatch);
+   },[])
+   const [selectedCategoryName, setSelectedCategoryName] = useState( "Select Category");
 
   return (
     <StyedCategories>
@@ -157,35 +189,57 @@ useEffect(() => {
                   
 
   
-
+                        
      <div className='customInput' style={{
       justifyContent:'end',
       color:isParentCategory ?'gray':'black'
       }}>
-   <DropdownButton
- 
+     <PopupState  variant="popover" popupId="demo-popup-menu">
+      {(popupState) => (
+        <>
+          <Button disabled={ isParentCategory ? true: false}
+            style={{
+              backgroundColor: "transparent",
+              color:isParentCategory ? "gray" :  "black",
+              display:'flex',
+              width:'100%',
+              justifyContent:'space-between',
+              alignItems:'center'
+              
+            }}
+            variant="contained"
+            {...bindTrigger(popupState)}
+          >
+            {selectedCategoryName}
+            <div
+              style={{
+                marginLeft: "20px"
+              }}
+            >
+              <IoMdArrowDropdown/>
+            </div>
+          </Button>
 
-  className="but"
- 
- as='div' title="Categories" variant='Secondary'
- >
- 
-  {categoryController.map((category)=> category.id !=='1' && <Dropdown.Item eventKey="1" style={{
-  
- }} onClick={()=>{
-   
- 
-    setParentCategory(category.id)
-  
-
-
- 
- }}>{category.categoryName}</Dropdown.Item>)}
-  
- 
-  
-  
- </DropdownButton>
+          <Menu {...bindMenu(popupState)} style={{
+             width:'100%',
+          }}>
+            {categoryController.map((category) =>  category.id !=='1' &&  (
+              <MenuItem  style={{
+             width:'100%',
+          }}
+                onClick={() => {
+                  popupState.close();
+                  setParentCategory(category.id)
+                  setSelectedCategoryName(category.categoryName);
+                }}
+              >
+                {category.categoryName}
+              </MenuItem>
+            ))}
+          </Menu>
+        </>
+      )}
+    </PopupState>
      
      </div>
     

@@ -8,6 +8,7 @@ import { useNavigate , useLocation } from 'react-router-dom'
 import { accountActionCreators } from '../../../actions'
 import { bindActionCreators } from 'redux'
 import { useDispatch, useSelector } from 'react-redux'
+import apiCall from '../../../ApiCall'
  
 export default function Sidebar() {
   const location = useLocation();
@@ -27,6 +28,11 @@ const adminController = useSelector((state)=>state.account);
 
 var firstName = adminController.adminInformation['firstName'];
 var lastName = adminController.adminInformation['lastname'];
+
+
+useEffect(()=>{
+apiCall(dispatch);
+},[]);
 
 
 
@@ -63,9 +69,10 @@ var lastName = adminController.adminInformation['lastname'];
 
             {routes.map((route,index)=>
             
-            <div key={route.key}// style={(userType==="super")?{}:{
-          //  display : route.key === "employees" || route.key ==="customers" ?"none":""
-           // }}
+            <div key={route.key}
+            style={(userType[0]==="e")?{
+           display : route.key === "employees" || route.key ==="customers" ?"none":""
+           }:{}}
             >
             
             
@@ -151,14 +158,14 @@ var lastName = adminController.adminInformation['lastname'];
      <div   className=' fixed-bottom account ' onClick={()=>{
       navigate('/account')
      }} 
-     style={{
+    
+     style={(userType[0]==="e") ?{
+      display:'none'
+     }: userType[0] ==="a" ? {
       width:'200px'
-     }}
-    //  style={(userType==="super") ? {
-    //   width:'200px'
-    //  }:{
-    //   display:'none'
-    //  }} 
+     } :{
+      display:'none'
+     }} 
      >
       <div className="rounded-circle mb-lg-0 mb-4   font-bold " style={{
         width:'50px',

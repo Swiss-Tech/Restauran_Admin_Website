@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { customerActionCreators, menuActionCreators, orderActionCreators,accountActionCreators, employeeActionCreators, dashboardActionCreators , messageActionCreators} from './actions'
+import { customerActionCreators, menuActionCreators, orderActionCreators,accountActionCreators, employeeActionCreators, dashboardActionCreators , messageActionCreators, categoryActionCreators} from './actions'
 import authHeader from './services/auth-header'
 import jwt_decode from "jwt-decode";
 import { checkAdminStatus , checkRestaurantStatus } from './services/auth.service'
@@ -12,9 +12,11 @@ export default function apiCall(dispatch) {
     var decoded = jwt_decode(token);
     checkAdminStatus()
     checkRestaurantStatus();
+    
     const AccountActionController = bindActionCreators(accountActionCreators,dispatch);
     const CustomerActionController = bindActionCreators(customerActionCreators,dispatch);
     const MenuActionController = bindActionCreators(menuActionCreators,dispatch);
+    const CategoryActionControllers = bindActionCreators(categoryActionCreators, dispatch);
     const OrderActionController = bindActionCreators(orderActionCreators,dispatch);
     const EmployeeActionController = bindActionCreators(employeeActionCreators,dispatch);
      const DashboardActionCreators = bindActionCreators(dashboardActionCreators,dispatch);
@@ -23,7 +25,7 @@ export default function apiCall(dispatch) {
      DashboardActionCreators.getDashboardData();
     AccountActionController.getRestaurantInformationAction();
     AccountActionController.getAdminInformationAction();
-    
+    CategoryActionControllers.getAllCatagoryAction();
     CustomerActionController.getAllCustomersAction();
     MenuActionController.getallmenues();
     OrderActionController.getAllOrdersAction();

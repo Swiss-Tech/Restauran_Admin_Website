@@ -26,7 +26,7 @@ export const getAllCatagoryAction =()=> (dispatch)=>{
 }
 
 export const addCategoryAction=(category)=>(dispatch)=>{
-
+       console.log(category);
     return addCategory(category).then(
         (data)=>{
            

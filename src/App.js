@@ -182,7 +182,8 @@ checkRestaurantStatus();
         <Route path="/restaurantinformation" element={<RestaurantInformation />} />
     <Route path="/login" element={<Login />}></Route>
   <Route path="/signup" element={<Signup />}></Route> 
-   <Route path="/landing" element={<Landing />}></Route>
+   <Route path="/landing" element={<ResponsiveDrawer />}></Route>
+   
   
 
         
